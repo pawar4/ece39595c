@@ -13,7 +13,13 @@ public:
     void addItem(Item& item);
 
 private:
-
+    std::string name;
+    int width;
+    int gameHeight;
+    Room& room;
+    Creature& creature;
+    std::string passageName;
+    Item& item;
 };
 
 #endif
