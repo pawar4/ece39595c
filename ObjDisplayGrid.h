@@ -7,8 +7,8 @@ class ObjDisplayGrid {
 
 public:
     ObjDisplayGrid();
-    ObjDisplayGrid& getObjDisplayGrid(int gameHeight, int width, int topHeight);
-    void setTopMessageHeight(int topHeight);
+    virtual ObjDisplayGrid& getObjDisplayGrid(int gameHeight, int width, int topHeight);
+    virtual void setTopMessageHeight(int topHeight);
 private:
     int gameHeight, width, topHeight;
 };
