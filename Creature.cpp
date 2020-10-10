@@ -28,7 +28,7 @@ void Creature::setHitAction(CreatureAction& ha) {
 	ha = ha;
 	std::cout << "Creature::setHitAction" << std::endl;
 }
-Player::Player() {
+Player::Player() : sword(0),armor(0) {
 	std::cout << "Player Constructor" << std::endl;
 }
 void Player::setWeapon(int sword) {
