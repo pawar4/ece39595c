@@ -3,20 +3,20 @@
 #include <iostream>
 #include "Displayable.h"
 #include "Action.h"
-
+class CreatureAction;
 class Creature : public Displayable { //make inherit from displayable later
 public:
-	Creature(int hp, int hpm, CreatureAction da, CreatureAction ha);
-	//Creature();
+	Creature(int hp, int hpm, CreatureAction& da, CreatureAction& ha);
+	Creature();
 	virtual void setHp(int h);
 	virtual void setHpMoves(int hpm);
-	virtual void setDeathAction(CreatureAction da);
-	virtual void setHitAction(CreatureAction ha);
+	virtual void setDeathAction(CreatureAction& da);
+	virtual void setHitAction(CreatureAction& ha);
 private:
 	int hp;
 	int hpm;
-	CreatureAction da; //change to creatureaction
-	CreatureAction ha;	//change to action
+	CreatureAction& da; //change to creatureaction
+	CreatureAction& ha;	//change to action
 };
 
 

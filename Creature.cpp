@@ -1,9 +1,13 @@
 #include "Creature.h"
 
-Creature::Creature(int hp, int hpm, CreatureAction da, CreatureAction ha) :
-	hp(hp), hpm(hpm), da(da), ha(ha) {
-	std::cout << "Creature::Creature" << std::endl;
+
+
+Creature::Creature(int hp, int hpm, CreatureAction& da, CreatureAction& ha) 
+	: hp(hp),hpm(hpm),da(da),ha(ha)
+{
+
 }
+
 
 void Creature::setHp(int h) {
 	hp = h;
@@ -15,12 +19,12 @@ void Creature::setHpMoves(int hpm) {
 	std::cout << "Creature::setHpMoves" << std::endl;
 }
 
-void Creature::setDeathAction(CreatureAction da) {
+void Creature::setDeathAction(CreatureAction& da) {
 	da = da;
 	std::cout << "Creature::setDeathAction" << std::endl;
 }
 
-void Creature::setHitAction(CreatureAction ha) {
+void Creature::setHitAction(CreatureAction& ha) {
 	ha = ha;
 	std::cout << "Creature::setHitAction" << std::endl;
 }
@@ -39,6 +43,8 @@ void Player::setArmor(int armor) {
 
 Monster::Monster()
 {
+	room = 0;
+	serial = 0;
 	std::cout << "Monster Constructor" << std::endl;
 }
 
