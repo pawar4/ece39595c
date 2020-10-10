@@ -28,12 +28,10 @@ ItemAction::ItemAction(int owner) {
 	std::cout << "ItemAction Constructor" << std::endl;
 }
 
-BlessCurseOwner::BlessCurseOwner(int Owner)
-{
+BlessCurseOwner::BlessCurseOwner(int Owner) : ItemAction(Owner) {
 	std::cout << "BlessCurseOwner Constructor" << std::endl;
 }
 
-Hallucinate::Hallucinate(int Owner)
-{
-	std::cout << "Hallucinate Constructor" << endl
+Hallucinate::Hallucinate(int Owner) :ItemAction(Owner) {
+	std::cout << "Hallucinate Constructor" << std::endl;
 }
