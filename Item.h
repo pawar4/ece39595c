@@ -6,8 +6,8 @@
 
 class Item {
 public:
-    Item ();
-    void virtual setOwner (Creature& owner);
+    Item();
+    void virtual setOwner(Creature& owner);
 
 private:
     Creature& owner;

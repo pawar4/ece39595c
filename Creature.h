@@ -10,8 +10,9 @@ public:
 	Creature();
 	virtual void setHp(int h);
 	virtual void setHpMoves(int hpm);
-	virtual void setDeathAction(CreatureAction& da);
-	virtual void setHitAction(CreatureAction& ha);
+	virtual void setDeathAction(CreatureAction* da);
+	virtual void setHitAction(CreatureAction* ha);
+	virtual void setID(int room, int serial);
 private:
 	int hp;
 	int hpm;
@@ -30,7 +31,8 @@ public:
 private:
 	int sword;
 	int armor;
-
+	int room;
+	int serial;
 };
 
 class Monster : public Creature {

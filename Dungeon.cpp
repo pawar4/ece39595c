@@ -12,7 +12,7 @@ Dungeon& Dungeon::getDungeon(std::string name, int width, int gameHeight) {
     std::cout << "Dungeon::getDungeon" << std::endl;
 }
 
-void Dungeon::addRoom(Room& room) {
+void Dungeon::addRoom(Room* room) {
     std::cout << "Dungeon::addRoom" << std::endl;
 }
 

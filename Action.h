@@ -19,7 +19,7 @@ private:
 
 class CreatureAction : public Action {
 public:
-	CreatureAction(int owner);
+	CreatureAction(std::shared_ptr<Creature> owner);
 
 };
 class ItemAction : public Action {

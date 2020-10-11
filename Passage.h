@@ -7,7 +7,7 @@
 class Passage : public Structure {
 public:
     Passage();
-    virtual void Monstor();
+    virtual void Monster();
     virtual void setName(std::string name);
     virtual void setID(int room1, int room2);
 

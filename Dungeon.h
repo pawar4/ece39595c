@@ -10,7 +10,7 @@ class Dungeon {
 public:
     Dungeon();
     virtual Dungeon& getDungeon(std::string name, int width, int gameHeight);
-    virtual void addRoom(Room& room);
+    virtual void addRoom(Room* room);
     virtual void addCreature(Creature& creature);
     virtual void addPassage(std::string name);
     virtual void addItem(Item& item);

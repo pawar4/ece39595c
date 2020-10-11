@@ -11,20 +11,20 @@
 #include "Structure.h"
 #include "Creature.h"
 #include "Item.h"
-#include "Magic.h"
+//#include "Magic.h" resolve later
 #include "Room.h"
 #include "Passage.h"
-#include "Player.h"
-#include "Monstor.h"
+//#include "Player.h"
+//#include "Monstor.h"
 #include "Scroll.h"
 #include "Armor.h"
 #include "Sword.h"
 #include "Action.h"
-#include "CreatureAction.h"
-#include "ItemAction.h"
+//#include "CreatureAction.h"
+//#include "ItemAction.h"
 #include "Teleport.h"
 #include "Remove.h"
-#include "ChangedDisplayType.h"
+#include "ChangeDisplayedType.h"
 #include "DropPack.h"
 #include "YouWin.h"
 #include "EndGame.h"
@@ -42,21 +42,23 @@ private:
     std::string CLASSID = "XMLHandler";
     std::string data;
     
+    //int creatureCount = 0;
     Dungeon* dungeonBeingParsed;
-    std::vector<Room> rooms;
-    int roomCount = 0;
+    //std::vector<Room> rooms;
+    //int roomCount = 0;
     Room* roomBeingParsed;
-    Player* playerBeingParsed;
+    std::shared_ptr<Player> playerBeingParsed;
     CreatureAction* creatureActionBeingParsed;
-    Monster* monsterBeingParsed;
+    std::shared_ptr<Monster> monsterBeingParsed;
     Scroll* scrollBeingParsed;
     ItemAction* itemActionBeingParsed;
     Armor* armorBeingParsed;
     Sword* swordBeingParsed;
     Passage* passageBeingParsed; //not sure about this. Didnt see an example of this in the xml files
+   
+    std::shared_ptr<Creature> creatureP;
 
-
-    bool bInstructor = false;
+    //Add more bool values
     bool bVisible = false;
     bool bPosX = false;
     bool bPosY = false;
@@ -70,6 +72,16 @@ private:
     bool bActionCharValue = false;
     bool bItemIntValue = false;
     bool bActionIntValue = false;
+    
+    //bool bDungeon = false;
+    //bool bRooms = false;
+    bool bRoom = false;
+    bool bMonster = false;
+    bool bPlayer = false;
+    bool bArmor = false;
+    bool bSword = false;
+    bool bScroll = false;
+    bool bCreatureAction = false;
 
 
 public:

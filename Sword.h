@@ -6,7 +6,7 @@
 
 class Sword : public Item {
 public:
-    Sword(std:string name);
+    Sword(std::string name);
     virtual void setID(int room, int serial);
 
 private:
