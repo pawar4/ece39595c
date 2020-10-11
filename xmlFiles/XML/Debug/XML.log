@@ -1,0 +1,52 @@
+﻿  XMLHandler.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\XMLHandler.h(14,10): fatal error C1083: Cannot open include file: 'Magic.h': No such file or directory
+  Action.cpp
+  Armor.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Armor.cpp(4,8): error C2533: 'Armor::{ctor}': constructors not allowed a return type
+  ChangeDisplayedType.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\ChangeDisplayedType.cpp(4,102): error C2512: 'CreatureAction': no appropriate default constructor available
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Creature.h(6,7): message : see declaration of 'CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\ChangeDisplayedType.cpp(4,102): error C2530: 'ChangeDisplayedType::owner': references must be initialized
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\ChangeDisplayedType.cpp(4,80): error C2614: 'ChangeDisplayedType': illegal member initialization: 'CreatureAcion' is not a base or member
+  Creature.cpp
+  Displayable.cpp
+  DropPack.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\DropPack.cpp(4,81): error C2664: 'CreatureAction::CreatureAction(CreatureAction &&)': cannot convert argument 1 from 'Creature' to 'int'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\DropPack.cpp(4,74): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Action.h(22,2): message : see declaration of 'CreatureAction::CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\DropPack.cpp(4,81): error C2530: 'DropPack::owner': references must be initialized
+  Dungeon.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Dungeon.cpp(7,20): error C2530: 'Dungeon::room': references must be initialized
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Dungeon.cpp(7,20): error C2530: 'Dungeon::creature': references must be initialized
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Dungeon.cpp(7,20): error C2530: 'Dungeon::item': references must be initialized
+  EndGame.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\EndGame.cpp(4,79): error C2664: 'CreatureAction::CreatureAction(CreatureAction &&)': cannot convert argument 1 from 'Creature' to 'int'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\EndGame.cpp(4,72): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Action.h(22,2): message : see declaration of 'CreatureAction::CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\EndGame.cpp(4,79): error C2530: 'EndGame::owner': references must be initialized
+  ObjDisplayGrid.cpp
+  Passage.cpp
+  Scoll.cpp
+  Structure.cpp
+  Sword.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Sword.h(9,10): error C2061: syntax error: identifier 'std'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Sword.cpp(4,33): error C2511: 'Sword::Sword(std::string)': overloaded member function not found in 'Sword'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Sword.h(7): message : see declaration of 'Sword'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Sword.cpp(4,44): error C2550: 'Sword::{ctor}': constructor initializer lists are only allowed on constructor definitions
+  Teleport.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Teleport.cpp(4,80): error C2664: 'CreatureAction::CreatureAction(CreatureAction &&)': cannot convert argument 1 from 'Creature' to 'int'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Teleport.cpp(4,73): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Action.h(22,2): message : see declaration of 'CreatureAction::CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Teleport.cpp(4,80): error C2530: 'Teleport::owner': references must be initialized
+  UpdateDisplay.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\UpdateDisplay.cpp(4,91): error C2664: 'CreatureAction::CreatureAction(CreatureAction &&)': cannot convert argument 1 from 'Creature' to 'int'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\UpdateDisplay.cpp(4,84): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Action.h(22,2): message : see declaration of 'CreatureAction::CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\UpdateDisplay.cpp(4,91): error C2530: 'UpdateDisplay::owner': references must be initialized
+  YouWin.cpp
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\YouWin.cpp(4,77): error C2664: 'CreatureAction::CreatureAction(CreatureAction &&)': cannot convert argument 1 from 'Creature' to 'int'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\YouWin.cpp(4,70): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\Action.h(22,2): message : see declaration of 'CreatureAction::CreatureAction'
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\YouWin.cpp(4,77): error C2530: 'YouWin::owner': references must be initialized
+  Generating Code...
+C:\Users\mjpog\source\repos\rogue\ece39595c\xmlFiles\XML\ObjDisplayGrid.cpp(10): error C4716: 'ObjDisplayGrid::getObjDisplayGrid': must return a value
