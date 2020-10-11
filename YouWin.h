@@ -6,9 +6,8 @@
 
 class YouWin : public CreatureAction {
 public:
-    YouWin(std::string name, Creature& owner);
+    YouWin(std::string _name, std::shared_ptr<Creature> _owner);
 private:
     std::string name;
-    Creature& owner;
 }; 
 #endif

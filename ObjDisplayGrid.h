@@ -7,10 +7,11 @@ class ObjDisplayGrid {
 
 public:
     ObjDisplayGrid();
-    virtual ObjDisplayGrid& getObjDisplayGrid(int gameHeight, int width, int topHeight);
-    virtual void setTopMessageHeight(int topHeight);
+    virtual std::shared_ptr<ObjDisplayGrid> getObjDisplayGrid(int _gameHeight, int _width, int _topHeight);
+    virtual void setTopMessageHeight(int _topHeight);
 private:
     int gameHeight, width, topHeight;
+    static std::shared_ptr<ObjDisplayGrid> instance;
 };
 
 #endif

@@ -5,26 +5,49 @@
 #include "Item.h"
 
 Dungeon::Dungeon() {
-    std::cout << "Dungeon Constructor" << std::endl;
+    instance = nullptr;
+    width = 0;
+    gameHeight = 0;
+    topHeight = 0;
+    std::cout << "Dungeon::Dungeon" << std::endl;
 }
 
-Dungeon& Dungeon::getDungeon(std::string name, int width, int gameHeight) {
+
+std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight) {
+    if (instance == nullptr) {
+        instance = std::shared_ptr<Dungeon>(new Dungeon());
+        instance->name = _name;
+        instance->width = _width;
+        instance->gameHeight = _gameHeight;
+        instance->topHeight = _topHeight;
+    }
     std::cout << "Dungeon::getDungeon" << std::endl;
+
+    return instance;
 }
 
-void Dungeon::addRoom(Room& room) {
+void Dungeon::addRoom(std::shared_ptr<Room> _room) {
+    rooms.resize(rooms.size() + 1);
+    rooms.push_back(_room);
+
     std::cout << "Dungeon::addRoom" << std::endl;
 }
 
-void Dungeon::addCreature(Creature& creature) {
+void Dungeon::addCreature(std::shared_ptr<Creature> _creature) {
+    creatures.resize(creatures.size() + 1);
+    creatures.push_back(_creature);
     std::cout << "Dungeon::addCreature" << std::endl;
 }
 
-void Dungeon::addPassage(std::string name) {
+void Dungeon::addPassage(std::shared_ptr<Passage> _passage) {
+    passages.resize(passages.size() + 1);
+    passages.push_back(_passage);
     std::cout << "Dungeon::addPassage" << std::endl;
 }
 
-void Dungeon::addItem(Item& item) {
+void Dungeon::addItem(std::shared_ptr<Item> _item) {
+    items.resize(items.size() + 1);
+    items.push_back(_item);
     std::cout << "Dungeon::addItem" << std::endl;
 }
 

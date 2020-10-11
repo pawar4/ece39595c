@@ -1,10 +1,15 @@
 #include <iostream>
 #include "Scroll.h"
 
-Scroll::Scroll (std::string name) {
-    std::cout << "Scroll constructor" << std::endl;
+Scroll::Scroll(std::string _name) : Item( ) {
+    name = _name;
+    room = 0;
+    serial = 0;
+    std::cout << "Scroll::Scroll" << std::endl;
 } 
 
-void Scroll::setID (int room, int serial) {
+void Scroll::setID (int _room, int _serial) {
+    room = _room;
+    serial = _serial;
     std::cout << "Scroll::setID" << std::endl;
 }

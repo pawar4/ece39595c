@@ -2,13 +2,26 @@
 #include "ObjDisplayGrid.h"
 
 ObjDisplayGrid::ObjDisplayGrid() {
-    std::cout << "ObjDisplayGrid constructor" << std::endl;
+    gameHeight = 0;
+    width = 0;
+    topHeight = 0;
+    instance = nullptr;
+    std::cout << "ObjDisplayGrid::ObjDisplayGrid" << std::endl;
 }
 
-ObjDisplayGrid& ObjDisplayGrid::getObjDisplayGrid(int gameHeight, int width, int topHeight) {
+std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::getObjDisplayGrid(int _gameHeight, int _width, int _topHeight) {
+    if (instance == nullptr) {
+        instance = std::shared_ptr<ObjDisplayGrid>(new ObjDisplayGrid());
+        instance->gameHeight = _gameHeight;
+        instance->width = _width;
+        instance->topHeight = _topHeight;
+    }
     std::cout << "ObjDisplayGrid::getObjDisplayGrid" << std::endl;
+    
+    return instance;
 }
 
-void ObjDisplayGrid::setTopMessageHeight(int topHeight) {
+void ObjDisplayGrid::setTopMessageHeight(int _topHeight) {
+    instance->topHeight = _topHeight;
     std::cout << "ObjDisplayGrid::setTopMessageHeight" << std::endl;
 }

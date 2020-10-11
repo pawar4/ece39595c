@@ -1,15 +1,21 @@
 #include <iostream>
 #include "Room.h"
 
-Room::Room (std::string name) : Structure() {
+Room::Room (std::string _name) : Structure() {
+    name = "";
+    room = 0;
+    monsters.resize(0);
     std::cout << "Room constructor" << std::endl;
 }
 
-void Room::setID(int room) {
+void Room::setID(int _room) {
+    room = _room;
     std::cout << "Room::setID" << std::endl;
 }
 
-void Room::setCreature (Creature& monstor) {
+void Room::setCreature (std::shared_ptr<Creature> _monster) {
+    monsters.resize(monsters.size() + 1);
+    monsters.push_back(_monster);
     std::cout << "Room::setCreature" << std::endl;
 }
 

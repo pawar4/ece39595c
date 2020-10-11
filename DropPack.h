@@ -6,9 +6,8 @@
 
 class DropPack : public CreatureAction {
 public:
-    DropPack(std::string name, Creature& owner);
+    DropPack(std::string _name, std::shared_ptr<Creature> _owner);
 private:
     std::string name;
-    Creature& owner;
 }; 
 #endif
