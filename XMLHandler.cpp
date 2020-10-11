@@ -49,7 +49,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
 
     if (case_insensitive_match(qNameStr, "Dungeon")) {
         std::string dungeonName = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
-        int  width = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "width")));
+        int width = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "width")));
         int topHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "topHeight")));
         int gameHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "gameHeight")));
         int bottomHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "bottomHeight")));
