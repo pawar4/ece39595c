@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Creature.h"
+#include "Action.h"
 
 class YouWin : public CreatureAction {
 public:

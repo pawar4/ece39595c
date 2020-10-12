@@ -13,5 +13,4 @@ public:
 private:
     std::shared_ptr<Creature> owner;
 };
-
 #endif

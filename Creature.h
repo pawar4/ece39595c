@@ -6,7 +6,8 @@
 
 #include "Displayable.h"
 #include "Item.h"
-
+class Item;
+class Action;
 class CreatureAction;
 class Creature : public Displayable {
 public:

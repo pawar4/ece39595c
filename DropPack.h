@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "Creature.h"
+#include "Item.h"
+#include "Action.h"
 
 class DropPack : public CreatureAction {
 public:
