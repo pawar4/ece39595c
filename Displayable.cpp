@@ -59,7 +59,7 @@ void Displayable::setWidth(int x)
 	std::cout << "Displayable::SetWidth" << std::endl;
 }
 
-void Displayable::setWidth(int y) {
+void Displayable::setHeight(int y) {
 	int height = y;
 	std::cout << "Displayable::SetHeight" << std::endl;
 }

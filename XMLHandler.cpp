@@ -76,7 +76,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         monsterBeingParsed -> setName(name);
         monsterBeingParsed->setID(roomID, serialID);
         dungeonBeingParsed->addCreature(monsterBeingParsed); //Being added later
-        creatureP = monsterBeingParsed;
+        creatureBeingParsed = monsterBeingParsed;
         bMonster = true;
     }
 
@@ -87,7 +87,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         std::shared_ptr<Player> player(new Player);
         playerBeingParsed = player;
         playerBeingParsed->setID(roomID, serialID);
-        creatureP = playerBeingParsed;
+        creatureBeingParsed = playerBeingParsed;
         bPlayer = true;
     }
 
@@ -120,22 +120,24 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
     else if (case_insensitive_match(qNameStr, "CreatureAction")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
-        std::shared_ptr<CreatureAction> creatureAction(new CreatureAction(creatureP));
+        std::shared_ptr<CreatureAction> creatureAction(new CreatureAction(creatureBeingParsed));
         if (type.compare("death") == 0) {
-            creatureP->setDeathAction(creatureAction);
+            creatureBeingParsed->setDeathAction(creatureAction);
         }
-        creatureActionBeingParsed = creatureAction;
-        bCreatureAction = true;
+        else if (type.compare("death") == 0) {
+            creatureBeingParsed->setHitAction(creatureAction);
+        }
+        actionBeingParsed = creatureAction;
     }
-    else if (case_insensitive_match(qNameStr, "CreatureAction")) {
+    else if (case_insensitive_match(qNameStr, "ItemAction")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
-        std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureP));
+        std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureBeingParsed));
         if (type.compare("item") == 0) {
             ->setItemAction(itemAction);
+            bItemAction = true;
         }
-        itemActionBeingParsed = itemAction;
-        bCreatureAction = true;
+        actionBeingParsed = itemAction;
     }
     else if (case_insensitive_match(qNameStr, "visible")) {
         bVisible = true;
@@ -183,205 +185,163 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         return;
 }
 
-void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLCh* qName) {
-     //Displayable* displayable;
+void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLCh* qName){
     if (bVisible) {
         if (std::stoi(data) == 1) { //if one make visible, else make invisible
             if (bScroll) {
-                //displayable = (Displayable*) roomBeingParsed;
                 scrollBeingParsed->setVisible();
                 bVisible = false;
-                bScroll = false;
             }
             else if (bArmor) {
                 armorBeingParsed->setVisible();
                 bVisible = false;
-                bArmor = false;
             }
             else if (bSword) {
                 swordBeingParsed->setVisible();
                 bVisible = false;
-                bSword = false;
             }
             else if (bMonster) {
                 monsterBeingParsed->setVisible();
                 bVisible = false;
-                bMonster = false;
             }
             else if (bPlayer) {
                 playerBeingParsed->setVisible();
                 bVisible = false;
-                bPlayer = false;
             }
             else if (bRoom) {
                 roomBeingParsed->setVisible();
                 bVisible = false;
-                bRoom = false;
             }
         }
         else {
             if (bScroll) {
-                //displayable = (Displayable*) roomBeingParsed;
                 scrollBeingParsed->setInvisible();
                 bVisible = false;
-                bScroll = false;
             }
             else if (bArmor) {
                 armorBeingParsed->setInvisible();
                 bVisible = false;
-                bArmor = false;
             }
             else if (bSword) {
                 swordBeingParsed->setInvisible();
                 bVisible = false;
-                bSword = false;
             }
             else if (bMonster) {
                 monsterBeingParsed->setInvisible();
                 bVisible = false;
-                bMonster = false;
             }
             else if (bPlayer) {
                 playerBeingParsed->setInvisible();
                 bVisible = false;
-                bPlayer = false;
             }
             else if (bRoom) {
                 roomBeingParsed->setInvisible();
                 bVisible = false;
-                bRoom = false;
             }
         }
-       
     }
     else if (bPosX) {   
         if (bScroll) {
             scrollBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bScroll = false;
         }
         else if (bArmor) {
             armorBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bArmor = false;
         }
         else if (bSword) {
             swordBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bSword = false;
         }
         else if (bMonster) {
             monsterBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bMonster = false;
         }
         else if (bPlayer) {
             playerBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bPlayer = false;
         }
         else if (bRoom) {
             roomBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
-            bRoom = false;
         }
     }
     else if (bPosY) {
         if (bScroll) {
             scrollBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bScroll = false;
         }
         else if (bArmor) {
             armorBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bArmor = false;
         }
         else if (bSword) {
             swordBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bSword = false;
         }
         else if (bMonster) {
             monsterBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bMonster = false;
         }
         else if (bPlayer) {
             playerBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bPlayer = false;
         }
         else if (bRoom) {
             roomBeingParsed->setPosY(std::stoi(data));
             bPosY = false;
-            bRoom = false;
         }
     }
     else if (bWidth) {
         if (bScroll) {
-            //displayable = (Displayable*) roomBeingParsed;
             scrollBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bScroll = false;
         }
         else if (bArmor) {
             armorBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bArmor = false;
         }
         else if (bSword) {
             swordBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bSword = false;
         }
         else if (bMonster) {
             monsterBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bMonster = false;
         }
         else if (bPlayer) {
             playerBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bPlayer = false;
         }
         else if (bRoom) {
             roomBeingParsed->setWidth(std::stoi(data));
             bWidth = false;
-            bRoom = false;
         }
     }
     else if (bHeight) {
         if (bScroll) {
-            //displayable = (Displayable*) roomBeingParsed;
-            scrollBeingParsed->setWidth(std::stoi(data));
+            scrollBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bScroll = false;
         }
         else if (bArmor) {
-            armorBeingParsed->setWidth(std::stoi(data));
+            armorBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bArmor = false;
         }
         else if (bSword) {
-            swordBeingParsed->setWidth(std::stoi(data));
+            swordBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bSword = false;
         }
         else if (bMonster) {
-            monsterBeingParsed->setWidth(std::stoi(data));
+            monsterBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bMonster = false;
         }
         else if (bPlayer) {
-            playerBeingParsed->setWidth(std::stoi(data));
+            playerBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bPlayer = false;
         }
         else if (bRoom) {
-            roomBeingParsed->setWidth(std::stoi(data));
+            roomBeingParsed->setHeight(std::stoi(data));
             bHeight = false;
-            bScroll = false;
         }
     }
     else if (bHp) {
@@ -389,12 +349,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         if (bMonster) {
             monsterBeingParsed->setHp(std::stoi(data));
             bHp = false;
-            bMonster = false;
         }
         else if (bPlayer) {
             playerBeingParsed->setHp(std::stoi(data));
             bHp = false;
-            bPlayer = false;
         }
     }
     else if (bMaxHit) {
@@ -412,30 +370,67 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
          bHpMoves = false;
     }
     else if (bActionMessage) {
-        if (bScroll) {
-            //displayable = (Displayable*) roomBeingParsed;
-            scrollBeingParsed->setWidth(std::stoi(data));
-            bHeight = false;
-
-        }
-        else if (bArmor) {
-            armorBeingParsed->setWidth(std::stoi(data));
-            bHeight = false;
-
-        }
-        else if (bSword) {
-            swordBeingParsed->setWidth(std::stoi(data));
-            bHeight = false;
-  
-        }
-        else if (bMonster) {
-            monsterBeingParsed->setWidth(std::stoi(data));
-            bHeight = false;
-
-        }
-        else if (bPlayer) {
-            playerBeingParsed->setWidth(std::stoi(data));
-            bHeight = false;
+        actionBeingParsed->setMessage(data);
+        bActionMessage = false;
+    }
+    else if (bType) {
+        if (bMonster) {
+            monsterBeingParsed->setType(data);
+            bType = false;
         }
     }
+    else if (bActionCharValue) {
+        actionBeingParsed->setCharValue(data);
+        bActionCharValue = false;
+    }
+    else if (bItemIntValue) {
+        if (bScroll) {
+            actionBeingParsed->setIntValue(std::stoi(data))
+        }
+        else if (bArmor) {
+            actionBeingParsed->setIntValue(std::stoi(data))
+        }
+        else if (bSword) {
+            actionBeingParsed->setIntValue(std::stoi(data))
+        }
+        bItemIntValue = false;
+    }
+    else if (bActionIntValue) {
+        actionBeingParsed->setIntValue(std::stoi(data));
+    }
+}
+
+void XMLHandler::characters(const XMLCh* const ch, const XMLSize_t length) {
+    data = xmlChToString(ch, (int)length);
+    if (DEBUG > 1) {
+        std::cout << CLASSID + ".characters: " << data << std::endl;
+        std::cout.flush();
+    }
+}
+
+void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
+    char* message = xercesc::XMLString::transcode(exception.getMessage());
+    std::cout << "Fatal Error: " << message
+        << " at line: " << exception.getLineNumber()
+        << std::endl;
+    xercesc::XMLString::release(&message);
+}
+
+std::string XMLHandler::toString() {
+    std::string str = "StudentsXMLHandler\n";
+    str += "   maxStudents: " + std::to_string(maxStudents) + "\n";
+    str += "   studentCount: " + std::to_string(studentCount) + "\n";
+    for (Student student : students) {
+        str += student.toString() + "\n";
+    }
+    str += "   studentBeingParsed: " + studentBeingParsed->toString() + "\n";
+    str += "   activityBeingParsed: " + activityBeingParsed->toString() + "\n";
+    str += "   bInstructor: " + boolToString(bInstructor) + "\n";
+    str += "   bCredit: " + boolToString(bCredit) + "\n";
+    str += "   bName: " + boolToString(bName) + "\n";
+    str += "   bNumber: " + boolToString(bNumber) + "\n";
+    str += "   bLocation: " + boolToString(bLocation) + "\n";
+    str += "   bMeetingTime: " + boolToString(bMeetingTime) + "\n";
+    str += "   bMeetingDay: " + boolToString(bMeetingDay) + "\n";
+    return str;
 }

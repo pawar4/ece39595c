@@ -1,16 +1,9 @@
 #include "Creature.h"
 
-
-
-Creature::Creature(int hp, int hpm, CreatureAction& da, CreatureAction& ha) 
-	: hp(hp),hpm(hpm),da(da),ha(ha)
+Creature::Creature() : hp(0), hpm(0), da(0), ha(0)
 {
-
-}
-
-Creature::Creature()
-{
-	hp(0), hpm(0), da(0), ha(0)
+	da.resize(0);
+	ha.resize(0);
 }
 
 
@@ -24,30 +17,30 @@ void Creature::setHpMoves(int hpm) {
 	std::cout << "Creature::setHpMoves" << std::endl;
 }
 
-void Creature::setDeathAction(std::shared_ptr<CreatureAction> da) {
-	da = da;
+void Creature::setDeathAction(std::shared_ptr<CreatureAction> _da) {
+	da = _da;
 	std::cout << "Creature::setDeathAction" << std::endl;
 }
 
-void Creature::setHitAction(std::shared_ptr<CreatureAction> ha) {
-	ha = ha;
+void Creature::setHitAction(std::shared_ptr<CreatureAction> _ha) {
+	ha = _ha;
 	std::cout << "Creature::setHitAction" << std::endl;
 }
-void Creature::setID(int room, int serial)
+void Creature::setID(int _room, int _serial)
 {
-	room = room;
-	serial = serial;
+	room = _room;
+	serial = _serial;
 }
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	std::cout << "Player Constructor" << std::endl;
 }
-void Player::setWeapon(int sword) {
-	sword = sword;
+void Player::setWeapon(std::shared_ptr<Item> _sword) {
+	sword = _sword;
 	std::cout << "Player::setWeapon" << std::endl;
 }
 
-void Player::setArmor(int armor) {
-	armor = armor;
+void Player::setArmor(std::shared_ptr<Item> _armor) {
+	armor = _armor;
 	std::cout << "Player::setWeapon" << std::endl;
 }
 
@@ -58,14 +51,14 @@ Monster::Monster()
 	std::cout << "Monster Constructor" << std::endl;
 }
 
-void Monster::setName(std::string name) {
-	name = name;
+void Monster::setName(std::string _name) {
+	name = _name;
 	std::cout << "Monster Constructor" << std::endl;
 }
 
-void Monster::setID(int room, int serial)
+void Monster::setID(int _room, int _serial)
 {
-	room = room;
-	serial = serial;
+	room = _room;
+	serial = _serial;
 }
 }

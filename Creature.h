@@ -1,13 +1,16 @@
 #ifndef CREATURE_H_
 #define CREATURE_H_
+
 #include <iostream>
+#include <vector>
+
 #include "Displayable.h"
-#include "Action.h"
+#include "Item.h"
+
 class CreatureAction;
-class Creature : public Displayable { //make inherit from displayable later
+class Creature : public Displayable {
 public:
-	Creature(int hp, int hpm, CreatureAction& da, CreatureAction& ha);
-	Creature();
+	Creature(); //initialize everything to zero here
 	virtual void setHp(int h);
 	virtual void setHpMoves(int hpm);
 	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
@@ -16,17 +19,16 @@ public:
 private:
 	int hp;
 	int hpm;
-	CreatureAction& da; //change to creatureaction
-	CreatureAction& ha;	//change to action
+	std::vector<std::shared_ptr<CreatureAction>> da; //change to creatureaction
+	std::vector<std::shared_ptr<CreatureAction>> ha; //change to action
 };
-
 
 
 class Player : public Creature {
 public:
 	Player();
-	void setWeapon(int sword); //change to item
-	void setArmor(int armor);  //change to item
+	void setWeapon(std::shared_ptr<Item> sword); //change to item
+	void setArmor(std::shared_ptr<Item> armor);  //change to item
 
 private:
 	int sword;
@@ -45,4 +47,5 @@ private:
 	int room;
 	int serial;
 };
-#endif /* CREATURE_H_*/
+#endif // !CREATURE_H_
+
