@@ -9,7 +9,7 @@ Armor::Armor (std::string _name) : Item ( ) {
 }
 
 void Armor::setName (std::string _name) {
-    name = _name
+    name = _name;
     std::cout << "Armor::setName" << std::endl;
 }
 
