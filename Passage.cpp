@@ -15,10 +15,12 @@ void Passage::Monster() {
 void Passage::setName(std::string _name) {
     name = _name;
     std::cout << "Passage::setName" << std::endl;
+    std::cout << "Name: " << name << std::endl;
 }
 
 void Passage::setID(int _room1, int _room2) {
     room1 = _room1;
     room2 = _room2;
-    std::cout << "Passage::setName" << std::endl;
+    std::cout << "Passage::setID" << std::endl;
+    std::cout << "room1: " << room1 << " " << "room2: " << room2 << std::endl;
 }

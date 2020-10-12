@@ -11,6 +11,7 @@ Room::Room (std::string _name) : Structure() {
 void Room::setID(int _room) {
     room = _room;
     std::cout << "Room::setID" << std::endl;
+    std::cout << "Room: " << std::to_string(room) << std::endl;
 }
 
 void Room::setCreature (std::shared_ptr<Creature> _monster) {

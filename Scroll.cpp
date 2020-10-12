@@ -12,4 +12,5 @@ void Scroll::setID (int _room, int _serial) {
     room = _room;
     serial = _serial;
     std::cout << "Scroll::setID" << std::endl;
+    std::cout << "room: " << std::to_string(room) << " serial: " << std::to_string(serial) << std::endl;
 }

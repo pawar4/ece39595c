@@ -10,11 +10,13 @@ Creature::Creature() : hp(0), hpm(0), da(0), ha(0)
 void Creature::setHp(int h) {
 	hp = h;
 	std::cout << "Creature::setHp" << std::endl;
+	std::cout << "HP: " << std::to_string(hp) << std::endl;
 }
 
 void Creature::setHpMoves(int hpm) {
 	hpm = hpm;
 	std::cout << "Creature::setHpMoves" << std::endl;
+	std::cout << "HPMoves: " << std::to_string(hpm) << std::endl;
 }
 
 void Creature::setDeathAction(std::shared_ptr<CreatureAction> _da) {
@@ -58,7 +60,8 @@ Monster::Monster()
 
 void Monster::setName(std::string _name) {
 	name = _name;
-	std::cout << "Monster Constructor" << std::endl;
+	std::cout << "Monster::setName" << std::endl;
+	std::cout << "Name: " << name << std::endl;
 }
 
 void Monster::setID(int _room, int _serial)

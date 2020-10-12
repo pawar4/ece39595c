@@ -26,4 +26,5 @@ std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::getObjDisplayGrid(int _gameHeigh
 void ObjDisplayGrid::setTopMessageHeight(int _topHeight) {
     instance->topHeight = _topHeight;
     std::cout << "ObjDisplayGrid::setTopMessageHeight" << std::endl;
+    std::cout << "TopMessageHeight: " << std::to_string(instance -> topHeight) << std::endl;
 }

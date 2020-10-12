@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "Structure.h"
-
+#include <string>
 class Passage : public Structure {
 public:
     Passage();

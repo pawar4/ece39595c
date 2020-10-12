@@ -2,7 +2,7 @@
 #define OBJDISPLAYGRID_H_
 
 #include <iostream>
-
+#include <string>
 class ObjDisplayGrid {
 
 public:

@@ -1,6 +1,7 @@
 #ifndef DISPLAYABLE_H_
 #define DISPLAYABLE_H_
 #include <iostream>
+#include <string>
 
 class Displayable {
 public:

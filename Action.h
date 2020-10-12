@@ -4,7 +4,7 @@
 #include "Displayable.h"
 #include <iostream>
 #include "Creature.h"
-
+#include <string>
 class Action {
 public:
 	Action(int v, int c);

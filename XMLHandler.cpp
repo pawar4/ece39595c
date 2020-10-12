@@ -56,6 +56,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int gameHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "gameHeight")));
         int bottomHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "bottomHeight")));
         dungeonBeingParsed = std::shared_ptr<Dungeon> (new Dungeon()); //insert above values here once Dungeon class is written
+        dungeonBeingParsed->getDungeon(dungeonName, width, topHeight, gameHeight);
         //bDungeon = true;
     }
     else if (case_insensitive_match(qNameStr, "Rooms")) {} //not sure what to do here
@@ -65,6 +66,15 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         roomBeingParsed->setID(roomID);
         dungeonBeingParsed->addRoom(roomBeingParsed); //make addRoom take pointer type
         bRoom = true;
+    }
+    else if (case_insensitive_match(qNameStr, "Passages")) {}
+    else if (case_insensitive_match(qNameStr, "Passage")) {
+        int roomID1 = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room1")));
+        int roomID2 = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room2")));
+        passageBeingParsed = std::shared_ptr<Passage>(new Passage());
+        passageBeingParsed->setID(roomID1, roomID2);
+        dungeonBeingParsed->addPassage(passageBeingParsed);
+        bPassage = true;
     }
     else if (case_insensitive_match(qNameStr, "Monster")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
@@ -96,6 +106,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int roomID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room")));
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         armorBeingParsed = std::shared_ptr<Armor>(new Armor(name));
+        armorBeingParsed->setName(name);
         armorBeingParsed->setID(roomID, serialID);
         itemBeingParsed = armorBeingParsed;
         bArmor = true;
@@ -105,6 +116,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int roomID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room")));
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         swordBeingParsed = std::shared_ptr<Sword>(new Sword(name));
+        //swordBeingParsed->setName(name);
         swordBeingParsed->setID(roomID, serialID);
         itemBeingParsed = swordBeingParsed;
         bSword = true;
@@ -114,6 +126,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int roomID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room")));
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         scrollBeingParsed = std::shared_ptr<Scroll>(new Scroll(name));
+        //scrollBeingParsed->setName(name);
         scrollBeingParsed->setID(roomID, serialID);
         itemBeingParsed = scrollBeingParsed;
         bScroll = true;
@@ -400,6 +413,7 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
     }
     else if (bActionIntValue) {
         actionBeingParsed->setIntValue(std::stoi(data));
+        bActionIntValue = false;
     }
 }
 
