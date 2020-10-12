@@ -11,7 +11,7 @@ class Dungeon {
 
 public:
     Dungeon();
-    virtual std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight);
+    static std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight);
     virtual void Dungeon::addRoom(std::shared_ptr<Room> _room);
     virtual void Dungeon::addCreature(std::shared_ptr<Creature> _creature);
     virtual void Dungeon::addPassage(std::shared_ptr<Passage> _passage);

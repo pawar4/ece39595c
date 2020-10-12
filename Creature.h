@@ -5,10 +5,12 @@
 #include <vector>
 
 #include "Displayable.h"
-#include "Item.h"
-class Item;
-class Action;
+
 class CreatureAction;
+class Item;
+class Sword;
+class Armor;
+
 class Creature : public Displayable {
 public:
 	Creature(); //initialize everything to zero here
@@ -16,7 +18,6 @@ public:
 	virtual void setHpMoves(int hpm);
 	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
-	virtual void setID(int room, int serial);
 private:
 	int hp;
 	int hpm;
@@ -24,16 +25,15 @@ private:
 	std::vector<std::shared_ptr<CreatureAction>> ha; //change to action
 };
 
-
 class Player : public Creature {
 public:
 	Player();
 	void setWeapon(std::shared_ptr<Item> sword); //change to item
 	void setArmor(std::shared_ptr<Item> armor);  //change to item
-
+	void setID(int _room, int _serial);
 private:
-	int sword;
-	int armor;
+	std::shared_ptr<Item> sword;
+	std::shared_ptr<Item> armor;
 	int room;
 	int serial;
 };

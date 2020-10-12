@@ -378,23 +378,23 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
     }
     else if (bType) {
         if (bMonster) {
-            monsterBeingParsed->setType(data);
+            monsterBeingParsed->setType(data[0]);
             bType = false;
         }
     }
     else if (bActionCharValue) {
-        actionBeingParsed->setCharValue(data);
+        actionBeingParsed->setCharValue(data[0]);
         bActionCharValue = false;
     }
     else if (bItemIntValue) {
         if (bScroll) {
-            actionBeingParsed->setIntValue(std::stoi(data))
+            actionBeingParsed->setIntValue(std::stoi(data));
         }
         else if (bArmor) {
-            actionBeingParsed->setIntValue(std::stoi(data))
+            actionBeingParsed->setIntValue(std::stoi(data));
         }
         else if (bSword) {
-            actionBeingParsed->setIntValue(std::stoi(data))
+            actionBeingParsed->setIntValue(std::stoi(data));
         }
         bItemIntValue = false;
     }
@@ -417,23 +417,4 @@ void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
         << " at line: " << exception.getLineNumber()
         << std::endl;
     xercesc::XMLString::release(&message);
-}
-
-std::string XMLHandler::toString() {
-    std::string str = "StudentsXMLHandler\n";
-    str += "   maxStudents: " + std::to_string(maxStudents) + "\n";
-    str += "   studentCount: " + std::to_string(studentCount) + "\n";
-    for (Student student : students) {
-        str += student.toString() + "\n";
-    }
-    str += "   studentBeingParsed: " + studentBeingParsed->toString() + "\n";
-    str += "   activityBeingParsed: " + activityBeingParsed->toString() + "\n";
-    str += "   bInstructor: " + boolToString(bInstructor) + "\n";
-    str += "   bCredit: " + boolToString(bCredit) + "\n";
-    str += "   bName: " + boolToString(bName) + "\n";
-    str += "   bNumber: " + boolToString(bNumber) + "\n";
-    str += "   bLocation: " + boolToString(bLocation) + "\n";
-    str += "   bMeetingTime: " + boolToString(bMeetingTime) + "\n";
-    str += "   bMeetingDay: " + boolToString(bMeetingDay) + "\n";
-    return str;
 }

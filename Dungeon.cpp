@@ -4,8 +4,9 @@
 #include "Creature.h"
 #include "Item.h"
 
+std::shared_ptr<Dungeon> Dungeon::instance = nullptr;
+
 Dungeon::Dungeon() {
-    instance = nullptr;
     width = 0;
     gameHeight = 0;
     topHeight = 0;

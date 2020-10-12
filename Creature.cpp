@@ -18,19 +18,18 @@ void Creature::setHpMoves(int hpm) {
 }
 
 void Creature::setDeathAction(std::shared_ptr<CreatureAction> _da) {
-	da = _da;
+	da.resize(da.size() + 1);
+	da.push_back(_da);
 	std::cout << "Creature::setDeathAction" << std::endl;
 }
 
 void Creature::setHitAction(std::shared_ptr<CreatureAction> _ha) {
-	ha = _ha;
+	ha.resize(ha.size() + 1);
+	ha.push_back(_ha);
 	std::cout << "Creature::setHitAction" << std::endl;
 }
-void Creature::setID(int _room, int _serial)
-{
-	room = _room;
-	serial = _serial;
-}
+
+
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	std::cout << "Player Constructor" << std::endl;
 }
@@ -42,6 +41,12 @@ void Player::setWeapon(std::shared_ptr<Item> _sword) {
 void Player::setArmor(std::shared_ptr<Item> _armor) {
 	armor = _armor;
 	std::cout << "Player::setWeapon" << std::endl;
+}
+
+void Player::setID(int _room, int _serial) {
+	room = _room;
+	serial = _serial;
+	std::cout << "Player::setID" << std::endl;
 }
 
 Monster::Monster()

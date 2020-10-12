@@ -72,7 +72,7 @@ private:
     bool bActionCharValue = false;
     bool bItemIntValue = false;
     bool bActionIntValue = false;
-    
+    bool bItemAction = false;
     
     bool bRoom = false;
     bool bMonster = false;

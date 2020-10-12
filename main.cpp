@@ -9,7 +9,7 @@
 #include "XMLHandler.h"
 #include <exception>
 
-int main(int agrc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	
     std::string fileName;
     try {

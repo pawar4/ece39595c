@@ -1,11 +1,13 @@
 #include <iostream>
 #include "ObjDisplayGrid.h"
 
+
+std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::instance = nullptr;
+
 ObjDisplayGrid::ObjDisplayGrid() {
     gameHeight = 0;
     width = 0;
     topHeight = 0;
-    instance = nullptr;
     std::cout << "ObjDisplayGrid::ObjDisplayGrid" << std::endl;
 }
 

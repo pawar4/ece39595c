@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include "Creature.h"
-#include "Item.h"
+#include "Action.h"
+
 class Remove : public CreatureAction {
 public:
     Remove(std::string _name, std::shared_ptr<Creature> _owner);

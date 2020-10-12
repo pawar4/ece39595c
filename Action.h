@@ -1,10 +1,10 @@
 #ifndef ACTION_H_
 #define ACTION_H_
-#include "Creature.h"
+
 #include "Displayable.h"
 #include <iostream>
+#include "Creature.h"
 
-class Creature;
 class Action {
 public:
 	Action(int v, int c);
@@ -14,8 +14,8 @@ public:
 	void setCharValue(char c);
 private:
 	std::string msg;
-	int v = 0;
-	int c = 1;
+	int v;
+	char c;
 };
 
 class CreatureAction : public Action {
