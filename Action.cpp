@@ -20,7 +20,7 @@ void Action::setCharValue(char c) {
 	std::cout << "Action::setCharValue" << std::endl;
 }
 
-CreatureAction::CreatureAction(int owner) {
+CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	std::cout << "CreatureAction Constructor" << std::endl;
 }
 
