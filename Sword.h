@@ -2,12 +2,13 @@
 #define SWORD_H_
 
 #include <iostream>
+#include <string>
 #include "Item.h"
 
 class Sword : public Item {
 public:
-    Sword(std::string name);
-    virtual void setID(int room, int serial);
+    Sword(std::string _name);
+    virtual void setID(int _room, int serial);
 
 private:
     std::string name;

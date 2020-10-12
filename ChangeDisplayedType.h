@@ -6,10 +6,9 @@
 
 class ChangeDisplayedType : public CreatureAction {
 public:
-    ChangeDisplayedType(std::string name, Creature& owner);
+    ChangeDisplayedType(std::string _name, std::shared_ptr<Creature> _owner);
 private:
     std::string name;
-    Creature& owner;
 }; 
 
 #endif

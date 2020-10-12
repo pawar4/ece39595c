@@ -3,7 +3,9 @@
 
 #include <iostream>
 
-class Structure {
+#include "Displayable.h"
+
+class Structure : public Displayable {
 public:
     Structure();
 };

@@ -3,14 +3,15 @@
 
 #include <iostream>
 #include "Creature.h"
+#include "Displayable.h"
 
-class Item {
+class Item : public Displayable {
 public:
-    Item();
-    void virtual setOwner(Creature& owner);
+    Item( );
+    virtual void setOwner (std::shared_ptr<Creature> _owner);
 
 private:
-    Creature& owner;
+    std::shared_ptr<Creature> owner;
 };
 
 #endif

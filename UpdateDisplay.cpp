@@ -1,6 +1,7 @@
 #include <iostream>
 #include "UpdateDisplay.h"
 
-UpdateDisplay::UpdateDisplay (std::string name, Creature& owner) : CreatureAction (owner) {
-    std::cout << "UpdateDisplay constructor" << std::endl;
+UpdateDisplay::UpdateDisplay (std::string _name, std::shared_ptr<Creature> _owner) : CreatureAction (_owner) {
+    name = _name;
+    std::cout << "UpdateDisplay::UpdateDisplay" << std::endl;
 }

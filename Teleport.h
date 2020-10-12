@@ -6,9 +6,8 @@
 
 class Teleport : public CreatureAction {
 public:
-    Teleport(std::string name, Creature& owner);
+    Teleport(std::string _name, std::shared_ptr<Creature> _owner);
 private:
     std::string name;
-    Creature& owner;
 }; 
 #endif

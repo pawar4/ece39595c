@@ -6,9 +6,8 @@
 
 class Remove : public CreatureAction {
 public:
-    Remove(std::string name, Creature& owner);
+    Remove(std::string _name, std::shared_ptr<Creature> _owner);
 private:
     std::string name;
-    Creature& owner;
 }; 
 #endif
