@@ -43,18 +43,18 @@ private:
     std::string data;
     
     //int creatureCount = 0;
-    Dungeon* dungeonBeingParsed;
+    std::shared_ptr<Dungeon> dungeonBeingParsed;
     //std::vector<Room> rooms;
     //int roomCount = 0;
-    Room* roomBeingParsed;
+    std::shared_ptr<Room> roomBeingParsed;
     std::shared_ptr<Player> playerBeingParsed;
-    CreatureAction* creatureActionBeingParsed;
+    std::shared_ptr<CreatureAction> creatureActionBeingParsed;
     std::shared_ptr<Monster> monsterBeingParsed;
-    Scroll* scrollBeingParsed;
-    ItemAction* itemActionBeingParsed;
-    Armor* armorBeingParsed;
-    Sword* swordBeingParsed;
-    Passage* passageBeingParsed; //not sure about this. Didnt see an example of this in the xml files
+    std::shared_ptr<Scroll> scrollBeingParsed;
+    std::shared_ptr<ItemAction> itemActionBeingParsed;
+    std::shared_ptr<Armor> armorBeingParsed;
+    std::shared_ptr<Sword> swordBeingParsed;
+    std::shared_ptr<Passage> passageBeingParsed; //not sure about this. Didnt see an example of this in the xml files
    
     std::shared_ptr<Creature> creatureP;
 
