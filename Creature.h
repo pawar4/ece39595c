@@ -10,8 +10,8 @@ public:
 	Creature();
 	virtual void setHp(int h);
 	virtual void setHpMoves(int hpm);
-	virtual void setDeathAction(CreatureAction* da);
-	virtual void setHitAction(CreatureAction* ha);
+	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
+	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
 	virtual void setID(int room, int serial);
 private:
 	int hp;

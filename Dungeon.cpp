@@ -29,7 +29,7 @@ std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int 
 void Dungeon::addRoom(std::shared_ptr<Room> _room) {
     rooms.resize(rooms.size() + 1);
     rooms.push_back(_room);
-
+}
 void Dungeon::addCreature(std::shared_ptr<Creature> _creature) {
     creatures.resize(creatures.size() + 1);
     creatures.push_back(_creature);

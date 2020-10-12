@@ -6,7 +6,8 @@ Displayable::Displayable(int maxHit, int hpMoves, int Hp,
 {
 	std::cout << "Displayble Constructor" << std::endl;
 }
-Displayable::Displayable() {
+Displayable::Displayable() : maxHit(0), hpMoves(0),
+Hp(0), type(0), v(0), PosX(0), PosY(0), Width(0), Height(0) {
 	std::cout << "Default Displayble Constructor" << std::endl;
 }
 void Displayable::setInvisible() {
@@ -43,7 +44,7 @@ void Displayable::setIntValue(int v)
 	std::cout << "Displayable::setIntValue" << std::endl;
 }
 
-void Displayable::SetPosX(int x) {
+void Displayable::setPosX(int x) {
 	PosX = x;
 	std::cout << "Displayable::SetPosX" << std::endl;
 }
@@ -52,13 +53,13 @@ void Displayable::setPosY(int y) {
 	std::cout << "Displayable::SetPosY" << std::endl;
 }
 
-void Displayable::SetWidth(int x)
+void Displayable::setWidth(int x)
 {
 	int Width = x;
 	std::cout << "Displayable::SetWidth" << std::endl;
 }
 
-void Displayable::setHeight(int y) {
+void Displayable::setWidth(int y) {
 	int height = y;
 	std::cout << "Displayable::SetHeight" << std::endl;
 }

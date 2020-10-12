@@ -24,12 +24,12 @@ void Creature::setHpMoves(int hpm) {
 	std::cout << "Creature::setHpMoves" << std::endl;
 }
 
-void Creature::setDeathAction(CreatureAction* da) {
+void Creature::setDeathAction(std::shared_ptr<CreatureAction> da) {
 	da = da;
 	std::cout << "Creature::setDeathAction" << std::endl;
 }
 
-void Creature::setHitAction(CreatureAction* ha) {
+void Creature::setHitAction(std::shared_ptr<CreatureAction> ha) {
 	ha = ha;
 	std::cout << "Creature::setHitAction" << std::endl;
 }

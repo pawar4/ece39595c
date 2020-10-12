@@ -14,9 +14,9 @@ public:
    virtual void setHp(int Hp);
    virtual void setType(char t);
    virtual void setIntValue(int v);
-   virtual void SetPosX(int x);
+   virtual void setPosX(int x);
    virtual void setPosY(int y);
-   virtual void SetWidth(int x);
+   virtual void setWidth(int x);
    virtual void setHeight(int y);
 private:
     int maxHit;
