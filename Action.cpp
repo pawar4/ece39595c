@@ -24,14 +24,14 @@ CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	std::cout << "CreatureAction Constructor" << std::endl;
 }
 
-ItemAction::ItemAction(int owner) {
+ItemAction::ItemAction(std::shared_ptr<Creature> owner) {
 	std::cout << "ItemAction Constructor" << std::endl;
 }
 
-BlessCurseOwner::BlessCurseOwner(int Owner) : ItemAction(Owner) {
+BlessCurseOwner::BlessCurseOwner(std::shared_ptr<Creature> Owner) : ItemAction(Owner) {
 	std::cout << "BlessCurseOwner Constructor" << std::endl;
 }
 
-Hallucinate::Hallucinate(int Owner) :ItemAction(Owner) {
+Hallucinate::Hallucinate(std::shared_ptr<Creature> Owner) :ItemAction(Owner) {
 	std::cout << "Hallucinate Constructor" << std::endl;
 }

@@ -25,17 +25,17 @@ public:
 };
 class ItemAction : public Action {
 public:
-	ItemAction(int Owner);
+	ItemAction(std::shared_ptr<Creature> Owner);
 };
 
 class BlessCurseOwner : public ItemAction {
 public:	
-	BlessCurseOwner(int Owner);
+	BlessCurseOwner(std::shared_ptr<Creature> Owner);
 };
 
 class Hallucinate : public ItemAction {
 public:
-	Hallucinate(int Owner);
+	Hallucinate(std::shared_ptr<Creature> Owner);
 };
 #endif
 

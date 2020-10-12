@@ -55,6 +55,8 @@ private:
    
     std::shared_ptr<Creature> creatureBeingParsed;
     std::shared_ptr<Action> actionBeingParsed;
+    std::shared_ptr<Item> itemBeingParsed;
+
 
     //Add more bool values
     bool bVisible = false;

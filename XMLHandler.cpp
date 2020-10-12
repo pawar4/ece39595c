@@ -97,6 +97,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         armorBeingParsed = std::shared_ptr<Armor>(new Armor(name));
         armorBeingParsed->setID(roomID, serialID);
+        itemBeingParsed = armorBeingParsed;
         bArmor = true;
     }
     else if (case_insensitive_match(qNameStr, "Sword")) {
@@ -105,6 +106,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         swordBeingParsed = std::shared_ptr<Sword>(new Sword(name));
         swordBeingParsed->setID(roomID, serialID);
+        itemBeingParsed = swordBeingParsed;
         bSword = true;
     }
     else if (case_insensitive_match(qNameStr, "Scroll")) {
@@ -113,6 +115,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         scrollBeingParsed = std::shared_ptr<Scroll>(new Scroll(name));
         scrollBeingParsed->setID(roomID, serialID);
+        itemBeingParsed = scrollBeingParsed;
         bScroll = true;
     }
 
@@ -133,10 +136,10 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
         std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureBeingParsed));
-        if (type.compare("item") == 0) {
-            ->setItemAction(itemAction);
-            bItemAction = true;
-        }
+        //if (type.compare("item") == 0) {
+        //    itemBeingParsed->setItemAction(itemAction);
+        //}
+        bItemAction = true;
         actionBeingParsed = itemAction;
     }
     else if (case_insensitive_match(qNameStr, "visible")) {
