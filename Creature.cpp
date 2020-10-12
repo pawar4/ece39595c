@@ -61,4 +61,3 @@ void Monster::setID(int _room, int _serial)
 	room = _room;
 	serial = _serial;
 }
-}

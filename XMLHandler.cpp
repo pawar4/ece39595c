@@ -134,7 +134,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
         std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureBeingParsed));
         if (type.compare("item") == 0) {
-            ->setItemAction(itemAction);
+            itemBeingParsed->setItemAction(itemAction);
             bItemAction = true;
         }
         actionBeingParsed = itemAction;

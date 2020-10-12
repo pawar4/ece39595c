@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Creature.h"
 #include "Displayable.h"
-
+class Creature;
 class Item : public Displayable {
 public:
     Item( );
