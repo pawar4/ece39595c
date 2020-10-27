@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Creature.h"
 #include "Displayable.h"
+#include <memory>
 
 class Item : public Displayable {
 public:

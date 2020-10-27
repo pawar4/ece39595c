@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Action.h"
+#include <memory>
 
 class ChangeDisplayedType : public CreatureAction {
 public:

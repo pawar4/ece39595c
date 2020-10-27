@@ -8,6 +8,11 @@
 #include <xercesc/util/PlatformUtils.hpp>
 #include "XMLHandler.h"
 #include <exception>
+//added 10/21/20
+#include "GridChar.h"
+#include <atomic>
+#include <thread> //will need to use threads probably for mouse inputs
+
 
 int main(int argc, char* argv[]) {
 	
@@ -71,4 +76,9 @@ int main(int argc, char* argv[]) {
     }
     xercesc::XMLPlatformUtils::Terminate(); //valgrind will say there's memory errors if not included
     return 0;
+
+    //Start of PDcurses calls for dungeon generation
+    std::atomic_bool isRunning(true); //used for atomicity, though not sure exactly why
+    //ObjDisplayGrid grid() start displaying in parser maybe?
+    
 }

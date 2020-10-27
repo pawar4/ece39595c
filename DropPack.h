@@ -5,6 +5,7 @@
 #include "Creature.h"
 #include "Item.h"
 #include "Action.h"
+#include <memory>
 
 class DropPack : public CreatureAction {
 public:

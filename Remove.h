@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Creature.h"
 #include "Action.h"
+#include <memory>
 
 class Remove : public CreatureAction {
 public:

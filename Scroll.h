@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Item.h"
+#include <memory>
 
 class Scroll : public Item {
 public:

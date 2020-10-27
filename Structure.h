@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Displayable.h"
+#include <memory>
 
 class Structure : public Displayable {
 public:

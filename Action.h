@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Creature.h"
 #include <string>
+#include <memory>
+
 class Action {
 public:
 	Action(int v, int c);

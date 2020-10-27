@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "Displayable.h"
+#include <memory>
 
 class CreatureAction;
 class Item;

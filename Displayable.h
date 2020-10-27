@@ -2,6 +2,7 @@
 #define DISPLAYABLE_H_
 #include <iostream>
 #include <string>
+#include <memory>
 
 class Displayable {
 public:

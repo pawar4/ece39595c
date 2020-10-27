@@ -6,16 +6,17 @@
 #include "Creature.h"
 #include "Item.h"
 #include "Passage.h"
+#include <memory>
 
 class Dungeon {
 
 public:
     Dungeon();
-    static std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight);
-    virtual void Dungeon::addRoom(std::shared_ptr<Room> _room);
-    virtual void Dungeon::addCreature(std::shared_ptr<Creature> _creature);
-    virtual void Dungeon::addPassage(std::shared_ptr<Passage> _passage);
-    virtual void Dungeon::addItem(std::shared_ptr<Item> item);
+    static std::shared_ptr<Dungeon> getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight);
+    virtual void addRoom(std::shared_ptr<Room> _room);
+    virtual void addCreature(std::shared_ptr<Creature> _creature);
+    virtual void addPassage(std::shared_ptr<Passage> _passage);
+    virtual void addItem(std::shared_ptr<Item> item);
 
 private:
     std::string name;

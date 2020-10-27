@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Structure.h"
 #include <string>
+#include <memory>
+
 class Passage : public Structure {
 public:
     Passage();

@@ -6,6 +6,7 @@
 #include <string>
 #include "Creature.h"
 #include "Structure.h"
+#include <memory>
 
 class Room : public Structure {
 public:

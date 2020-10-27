@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-
+#include <memory>
 #include "Dungeon.h"
 #include "ObjDisplayGrid.h"
 #include "Structure.h"
