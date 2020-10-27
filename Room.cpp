@@ -15,7 +15,7 @@ void Room::setID(int _room) {
 }
 
 void Room::setCreature (std::shared_ptr<Creature> _monster) {
-    monsters.resize(monsters.size() + 1);
+    //monsters.resize(monsters.size() + 1);
     monsters.push_back(_monster);
     std::cout << "Room::setCreature" << std::endl;
 }

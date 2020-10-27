@@ -35,23 +35,23 @@ std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int 
 }
 
 void Dungeon::addRoom(std::shared_ptr<Room> _room) {
-    rooms.resize(rooms.size() + 1);
+    //rooms.resize(rooms.size() + 1);
     rooms.push_back(_room);
 }
 void Dungeon::addCreature(std::shared_ptr<Creature> _creature) {
-    creatures.resize(creatures.size() + 1);
+    //creatures.resize(creatures.size() + 1);
     creatures.push_back(_creature);
     std::cout << "Dungeon::addCreature" << std::endl;
 }
 
 void Dungeon::addPassage(std::shared_ptr<Passage> _passage) {
-    passages.resize(passages.size() + 1);
+    //passages.resize(passages.size() + 1);
     passages.push_back(_passage);
     std::cout << "Dungeon::addPassage" << std::endl;
 }
 
 void Dungeon::addItem(std::shared_ptr<Item> _item) {
-    items.resize(items.size() + 1);
+    //items.resize(items.size() + 1);
     items.push_back(_item);
     std::cout << "Dungeon::addItem" << std::endl;
 }

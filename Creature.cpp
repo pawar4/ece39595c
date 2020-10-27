@@ -20,13 +20,13 @@ void Creature::setHpMoves(int hpm) {
 }
 
 void Creature::setDeathAction(std::shared_ptr<CreatureAction> _da) {
-	da.resize(da.size() + 1);
+	//da.resize(da.size() + 1);
 	da.push_back(_da);
 	std::cout << "Creature::setDeathAction" << std::endl;
 }
 
 void Creature::setHitAction(std::shared_ptr<CreatureAction> _ha) {
-	ha.resize(ha.size() + 1);
+	//ha.resize(ha.size() + 1);
 	ha.push_back(_ha);
 	std::cout << "Creature::setHitAction" << std::endl;
 }

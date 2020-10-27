@@ -14,8 +14,9 @@ public:
     ~ObjDisplayGrid(); //added 10/21/20
     virtual std::shared_ptr<ObjDisplayGrid> getObjDisplayGrid(int _gameHeight, int _width, int _topHeight);
     virtual void setTopMessageHeight(int _topHeight);
-    void addObjectToDisplay(GridChar* ch, int x, int y);
-    void update();
+    virtual void addObjectToDisplay(GridChar* ch, int x, int y);
+    virtual void update();
+    virtual void writeLine(int line, std::string message);
 private:
     int gameHeight, width, topHeight;
     static std::shared_ptr<ObjDisplayGrid> instance;

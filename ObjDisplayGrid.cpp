@@ -21,25 +21,25 @@ ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight) :
     //std::cout << "ObjDisplayGrid::ObjDisplayGrid" << std::endl;
 
 
-// initialize ncurses
+    // initialize ncurses
 
-// set command window size if running on windows, useful when running in Visual Studio
-// as far as I am aware, no way to do this on linux
-#ifdef _WIN32
-    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD size = { (short)width, (short)(gameHeight + topHeight) };
-    SMALL_RECT DisplayArea = { 0, 0, (short)(size.X - 1), (short)(size.Y - 1) };
-    SetConsoleScreenBufferSize(handle, size);
-    SetConsoleWindowInfo(handle, TRUE, &DisplayArea);
-#endif
-    //initializes ncurses
-    initscr();
-    //makes characters typed immediately available, instead of waiting for enter to be pressed
-    cbreak();
-    //stops typed characters from being shown, makes it easier to get keypresses
-    noecho();
-    // clears the screen to start
-    clear();
+    // set command window size if running on windows, useful when running in Visual Studio
+    // as far as I am aware, no way to do this on linux
+    #ifdef _WIN32
+        HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        COORD size = { (short)width, (short)(gameHeight + topHeight) };
+        SMALL_RECT DisplayArea = { 0, 0, (short)(size.X - 1), (short)(size.Y - 1) };
+        SetConsoleScreenBufferSize(handle, size);
+        SetConsoleWindowInfo(handle, TRUE, &DisplayArea);
+    #endif
+        //initializes ncurses
+        initscr();
+        //makes characters typed immediately available, instead of waiting for enter to be pressed
+        cbreak();
+        //stops typed characters from being shown, makes it easier to get keypresses
+        noecho();
+        // clears the screen to start
+        clear();
 }
 //added destructor 10/21/20
 ObjDisplayGrid::~ObjDisplayGrid()
@@ -101,4 +101,11 @@ void ObjDisplayGrid::addObjectToDisplay(GridChar* ch, int x, int y) {
 void ObjDisplayGrid::update() {
     // refreshes ncurses
     refresh();
+}
+
+void ObjDisplayGrid::writeLine(int line, std::string message) {
+    // messages start from 0, height and go until width,(height + messages)
+    mvaddstr(height + line, 0, message.c_str());
+    // clear after what we wrote to EOL
+    clrtoeol();
 }
