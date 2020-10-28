@@ -88,6 +88,7 @@ public:
     void fatalError(const xercesc::SAXParseException&);
     void characters(const XMLCh* const ch, const XMLSize_t length);
     std::string toString();
+    std::shared_ptr<Dungeon> getDungeon();
 };
 
 #endif

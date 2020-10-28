@@ -10,11 +10,11 @@ std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::instance = nullptr;
 ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight) :
     width(_width), gameHeight(_gameHeight), topHeight(_topHeight) {
     //2D array of GridChars
-    objectGrid = new GridChar * *[width];
-
+    objectGrid = new GridChar **[width]; //make a 2d array that has 1 vectir of GridChar
+    //std::vector<GridChar>** pop character if it leaves
     for (int i = 0; i < width; i++) {
-        objectGrid[i] = new GridChar * [gameHeight];
-        for (int j = 0; j < gameHeight; j++) {
+        objectGrid[i] = new GridChar * [gameHeight + topHeight];
+        for (int j = 0; j < gameHeight + topHeight; j++) { //topHeight bad for some reason
             objectGrid[i][j] = NULL;
         }
     }
@@ -41,6 +41,61 @@ ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight) :
     // clears the screen to start
     clear();
 }
+
+void ObjDisplayGrid::initRoomGrid(std::shared_ptr<Room> room)
+{
+    int width = room->getWidth(); //but attributes not saved from handler for some reason
+    int height = room->getHeight();
+    int posX = room->getPosX(); //if i = posX or i = posX - 1
+    int posY = room->getPosY();
+    for (int i = posX; i < width + posX; i++) {
+        for (int j = posY + topHeight; j < height + posY + topHeight; j++) {
+            char c;
+            if (i % (width + posX - 1) == 0 || j % (height + topHeight + posY - 1) == 0 || i == posX || j == posY + topHeight) {
+                c = 'X';
+            }
+            else {
+                c = '.';
+            }
+            addObjectToDisplay(new GridChar(c), i, j);
+        }
+    }
+    //refreshes ncurses
+    update();
+}
+
+void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
+{
+    int width = 6;//6room->getWidth(); but attributes not saved from handler for some reason
+    int height = 5;//room->getHeight();
+    int posX = 0;//room->getPosX();
+    int posY = 0;//room->getPosY();
+    char c = '#'; //iterate from 1 to end of the list. Current point (i) and (i-1) draw all those points
+    //not done yet. Still need to make modifications
+    for (int i = posX; i < width + posX; i++) {
+        for (int j = posY + topHeight; j < height + posY + topHeight; j++) {
+            addObjectToDisplay(new GridChar(c), i, j);
+        }
+    }
+    //refreshes ncurses
+    update();
+}
+
+void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature)
+{   
+    //make error validation if creature is on our outside dungeon boundries or rooms
+    char c;
+    if (creature->getName() == "player") {
+        c = '@';
+    }
+    else {
+        c = creature->getType();
+    }
+    addObjectToDisplay(new GridChar(c), creature->getPosX(), creature->getPosY() + topHeight);
+
+    update();
+}
+
 //added destructor 10/21/20
 ObjDisplayGrid::~ObjDisplayGrid()
 {
@@ -75,8 +130,8 @@ std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::getObjDisplayGrid(int _gameHeigh
 
 void ObjDisplayGrid::setTopMessageHeight(int _topHeight) {
     instance->topHeight = _topHeight;
-    std::cout << "ObjDisplayGrid::setTopMessageHeight" << std::endl;
-    std::cout << "TopMessageHeight: " << std::to_string(instance -> topHeight) << std::endl;
+    //std::cout << "ObjDisplayGrid::setTopMessageHeight" << std::endl;
+    //std::cout << "TopMessageHeight: " << std::to_string(instance -> topHeight) << std::endl;
 }
 
 void ObjDisplayGrid::addObjectToDisplay(GridChar* ch, int x, int y) {
@@ -102,3 +157,4 @@ void ObjDisplayGrid::update() {
     // refreshes ncurses
     refresh();
 }
+

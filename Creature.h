@@ -19,11 +19,14 @@ public:
 	virtual void setHpMoves(int hpm);
 	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
+	virtual void setName(std::string _name);
+	virtual std::string getName();
 private:
 	int hp;
 	int hpm;
 	std::vector<std::shared_ptr<CreatureAction>> da; //change to creatureaction
 	std::vector<std::shared_ptr<CreatureAction>> ha; //change to action
+	std::string name;
 };
 
 class Player : public Creature {
@@ -42,10 +45,10 @@ private:
 class Monster : public Creature {
 public:
 	Monster();
-	void setName(std::string name);
+	//void setName(std::string name);
 	void setID(int room, int serial);
 private:
-	std::string name;
+	//std::string name;
 	int room;
 	int serial;
 };

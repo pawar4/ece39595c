@@ -20,6 +20,11 @@ public:
    virtual void setPosY(int y);
    virtual void setWidth(int x);
    virtual void setHeight(int y);
+   virtual int getWidth();
+   virtual int getHeight();
+   virtual int getPosX();
+   virtual int getPosY();
+   virtual char getType();
 private:
     int maxHit;
     int hpMoves;

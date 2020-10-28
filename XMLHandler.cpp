@@ -55,8 +55,8 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int topHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "topHeight")));
         int gameHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "gameHeight")));
         int bottomHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "bottomHeight")));
-        dungeonBeingParsed = std::shared_ptr<Dungeon> (new Dungeon()); //insert above values here once Dungeon class is written
-        dungeonBeingParsed->getDungeon(dungeonName, width, topHeight, gameHeight);
+        dungeonBeingParsed = std::shared_ptr<Dungeon> (new Dungeon(dungeonName, width, topHeight, gameHeight, bottomHeight)); //insert above values here once Dungeon class is written
+        dungeonBeingParsed->getDungeon(dungeonName, width, topHeight, gameHeight, bottomHeight);
         //bDungeon = true;
     }
     else if (case_insensitive_match(qNameStr, "Rooms")) {} //not sure what to do here
@@ -83,7 +83,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         //  int posX = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         std::shared_ptr<Monster> monster(new Monster);
         monsterBeingParsed = monster; //make creature reference?
-        monsterBeingParsed -> setName(name);
+        monsterBeingParsed->setName(name);
         monsterBeingParsed->setID(roomID, serialID);
         dungeonBeingParsed->addCreature(monsterBeingParsed); //Being added later
         creatureBeingParsed = monsterBeingParsed;
@@ -256,7 +256,7 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
             }
         }
     }
-    else if (bPosX) {   
+    else if (bPosX) {
         if (bScroll) {
             scrollBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
@@ -279,6 +279,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
         else if (bRoom) {
             roomBeingParsed->setPosX(std::stoi(data));
+            bPosX = false;
+        }
+        else if (bPassage) {
+            passageBeingParsed->pushVecX(std::stoi(data));
             bPosX = false;
         }
     }
@@ -305,6 +309,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
         else if (bRoom) {
             roomBeingParsed->setPosY(std::stoi(data));
+            bPosY = false;
+        }
+        else if (bPassage) {
+            passageBeingParsed->pushVecY(std::stoi(data));
             bPosY = false;
         }
     }
@@ -423,6 +431,11 @@ void XMLHandler::characters(const XMLCh* const ch, const XMLSize_t length) {
         std::cout << CLASSID + ".characters: " << data << std::endl;
         std::cout.flush();
     }
+}
+
+std::shared_ptr<Dungeon> XMLHandler::getDungeon()
+{
+    return dungeonBeingParsed;
 }
 
 void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
