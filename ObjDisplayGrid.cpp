@@ -1,20 +1,22 @@
 #include <iostream>
 #include "ObjDisplayGrid.h"
 #include <curses.h>
+#include <algorithm>
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
 std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::instance = nullptr;
 
-ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight) :
-    width(_width), gameHeight(_gameHeight), topHeight(_topHeight) {
+ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight, int _botHeight) :
+    width(_width), gameHeight(_gameHeight), topHeight(_topHeight), botHeight(_botHeight) {
     //2D array of GridChars
     objectGrid = new GridChar **[width]; //make a 2d array that has 1 vectir of GridChar
     //std::vector<GridChar>** pop character if it leaves
+    int gridHeight = gameHeight + topHeight + botHeight;
     for (int i = 0; i < width; i++) {
-        objectGrid[i] = new GridChar * [gameHeight + topHeight];
-        for (int j = 0; j < gameHeight + topHeight; j++) { //topHeight bad for some reason
+        objectGrid[i] = new GridChar * [gridHeight];
+        for (int j = 0; j < gridHeight; j++) { //topHeight bad for some reason
             objectGrid[i][j] = NULL;
         }
     }
@@ -63,17 +65,19 @@ void ObjDisplayGrid::initRoomGrid(std::shared_ptr<Room> room)
     //refreshes ncurses
     update();
 }
-
+//Not working yet will finish tomorrow on 10/29/2020
 void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
 {
-    int width = 6;//6room->getWidth(); but attributes not saved from handler for some reason
-    int height = 5;//room->getHeight();
-    int posX = 0;//room->getPosX();
-    int posY = 0;//room->getPosY();
+    std::vector<int> xVec = passage->getVecX();
+    std::vector<int> yVec = passage->getVecY();
+    int posX;
+    int posY;
     char c = '#'; //iterate from 1 to end of the list. Current point (i) and (i-1) draw all those points
     //not done yet. Still need to make modifications
-    for (int i = posX; i < width + posX; i++) {
-        for (int j = posY + topHeight; j < height + posY + topHeight; j++) {
+    for (int i = 0; i < width + xVec[i]; i++) {
+        posX = xVec[i];
+        posY = yVec[i];
+        for (int j = yVec[i] + topHeight; j < topHeight + yVec[i] + topHeight; j++) {
             addObjectToDisplay(new GridChar(c), i, j);
         }
     }
@@ -81,17 +85,21 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
     update();
 }
 
-void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature)
+void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::shared_ptr<Room> room)
 {   
     //make error validation if creature is on our outside dungeon boundries or rooms
     char c;
-    if (creature->getName() == "player") {
+    std::string name = creature->getName();
+    std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+    
+    if (name == "player") {
         c = '@';
     }
     else {
         c = creature->getType();
     }
-    addObjectToDisplay(new GridChar(c), creature->getPosX(), creature->getPosY() + topHeight);
+    addObjectToDisplay(new GridChar(c), creature->getPosX() + room->getPosX()
+        , creature->getPosY() + room->getPosY() + topHeight);
 
     update();
 }
@@ -118,7 +126,7 @@ ObjDisplayGrid::~ObjDisplayGrid()
 
 std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::getObjDisplayGrid(int _gameHeight, int _width, int _topHeight) {
     if (instance == nullptr) {
-        instance = std::shared_ptr<ObjDisplayGrid>(new ObjDisplayGrid(_width, _gameHeight, _topHeight));
+        instance = std::shared_ptr<ObjDisplayGrid>(new ObjDisplayGrid(_width, _gameHeight, _topHeight, botHeight));
         instance->gameHeight = _gameHeight;
         instance->width = _width;
         instance->topHeight = _topHeight;

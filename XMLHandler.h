@@ -5,13 +5,13 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-
+#include <memory>
 #include "Dungeon.h"
 #include "ObjDisplayGrid.h"
 #include "Structure.h"
 #include "Creature.h"
 #include "Item.h"
-//#include "Magic.h" resolve later
+#include "Magic.h"
 #include "Room.h"
 #include "Passage.h"
 //#include "Player.h"
@@ -42,21 +42,21 @@ private:
     std::string CLASSID = "XMLHandler";
     std::string data;
     
-    //int creatureCount = 0;
+    
     std::shared_ptr<Dungeon> dungeonBeingParsed;
-    //std::vector<Room> rooms;
-    //int roomCount = 0;
+    
     std::shared_ptr<Room> roomBeingParsed;
     std::shared_ptr<Player> playerBeingParsed;
-    std::shared_ptr<CreatureAction> creatureActionBeingParsed;
     std::shared_ptr<Monster> monsterBeingParsed;
     std::shared_ptr<Scroll> scrollBeingParsed;
-    std::shared_ptr<ItemAction> itemActionBeingParsed;
     std::shared_ptr<Armor> armorBeingParsed;
     std::shared_ptr<Sword> swordBeingParsed;
     std::shared_ptr<Passage> passageBeingParsed; //not sure about this. Didnt see an example of this in the xml files
    
-    std::shared_ptr<Creature> creatureP;
+    std::shared_ptr<Creature> creatureBeingParsed;
+    std::shared_ptr<Action> actionBeingParsed;
+    std::shared_ptr<Item> itemBeingParsed;
+
 
     //Add more bool values
     bool bVisible = false;
@@ -72,17 +72,14 @@ private:
     bool bActionCharValue = false;
     bool bItemIntValue = false;
     bool bActionIntValue = false;
-    
-    //bool bDungeon = false;
-    //bool bRooms = false;
+    bool bItemAction = false;
+    bool bPassage = false;
     bool bRoom = false;
     bool bMonster = false;
     bool bPlayer = false;
     bool bArmor = false;
     bool bSword = false;
     bool bScroll = false;
-    bool bCreatureAction = false;
-
 
 public:
     XMLHandler();
@@ -91,6 +88,7 @@ public:
     void fatalError(const xercesc::SAXParseException&);
     void characters(const XMLCh* const ch, const XMLSize_t length);
     std::string toString();
+    std::shared_ptr<Dungeon> getDungeon();
 };
 
 #endif

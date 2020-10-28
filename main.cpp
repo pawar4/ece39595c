@@ -15,9 +15,9 @@
 #include <vector>
 
 int main(int argc, char* argv[]) {
-   
+
     std::string fileName;
-    std::shared_ptr<Dungeon> dungeon;// = std::shared_ptr<Dungeon>(new Dungeon("unit", 0, 0, 0, 0, 0));
+    std::shared_ptr<Dungeon> dungeon = std::shared_ptr<Dungeon>(new Dungeon("unit", 0, 0, 0, 0));
     try {
         xercesc::XMLPlatformUtils::Initialize();
     }
@@ -51,11 +51,11 @@ int main(int argc, char* argv[]) {
         //should the values be printed out though?
 
         dungeon = handler->getDungeon();
- 
+
         delete parser;
         delete handler;
 
-    } 
+    }
     catch (const xercesc::XMLException& toCatch) {
         char* message = xercesc::XMLString::transcode(toCatch.getMessage());
         std::cout << "Exception message is: \n"
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
     xercesc::XMLPlatformUtils::Terminate(); //valgrind will say there's memory errors if not included
-    
+
 
     //Start of PDcurses calls for dungeon generation
     std::atomic_bool isRunning(true); //used for atomicity, though not sure exactly why
@@ -94,19 +94,26 @@ int main(int argc, char* argv[]) {
     */
     //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();
-    ObjDisplayGrid grid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight());
+    ObjDisplayGrid grid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight());
     ObjDisplayGrid* pgrid = &grid;
+    std::vector<std::shared_ptr<Passage>> passages = dungeon->getPassages();
     //pgrid->initRoomGrid(rooms[0]);
-   
+
     for (int i = 0; i < rooms.size(); i++) {
         pgrid->initRoomGrid(rooms[i]);
+        if (rooms[i]->getCreatures().size() != 0) {
+            for (int j = 0; j < rooms[i]->getCreatures().size(); j++) {
+                pgrid->initCreatureGrid(rooms[i]->getCreatures()[j], rooms[i]);
+            }
+        }
+
     }
-    std::shared_ptr<Creature> player(new Player);
+    for (int i = 0; i < passages.size(); i++) {
+        pgrid->initPassageGrid(passages[i]);
+    }
+
     //Just to test funcitonality it seems like it works, so nice
     //Still have to figure out why all the things dissapear after parser class closes
-    player->setName("player");
-    player->setPosX(2);
-    player->setPosY(2);
-    pgrid->initCreatureGrid(player);
+
     return 0;
 }

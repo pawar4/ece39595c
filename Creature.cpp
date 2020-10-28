@@ -66,7 +66,7 @@ Monster::Monster()
 {
 	room = 0;
 	serial = 0;
-	std::cout << "Monster Constructor" << std::endl;
+	//std::cout << "Monster Constructor" << std::endl;
 }
 //Make this a virtual base function so we can differentiate between monster and troll
 /*void Monster::setName(std::string _name) {

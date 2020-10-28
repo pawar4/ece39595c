@@ -12,17 +12,17 @@ class ObjDisplayGrid {
 
 public:
     //ObjDisplayGrid(); //change to constructor with parameters
-    ObjDisplayGrid(int _width, int _gameHeight, int _topHeight);
+    ObjDisplayGrid(int _width, int _gameHeight, int _topHeight, int _botHeight);
     ~ObjDisplayGrid(); //added 10/21/20
-    virtual std::shared_ptr<ObjDisplayGrid> getObjDisplayGrid(int _gameHeight, int _width, int _topHeight);
+    virtual std::shared_ptr<ObjDisplayGrid> getObjDisplayGrid(int _width, int gameHeight, int _topHeight);
     virtual void setTopMessageHeight(int _topHeight);
     void addObjectToDisplay(GridChar* ch, int x, int y);
     void update();
     void initRoomGrid(std::shared_ptr<Room> room);
     void initPassageGrid(std::shared_ptr<Passage> passage);
-    void initCreatureGrid(std::shared_ptr<Creature> creature);
+    void initCreatureGrid(std::shared_ptr<Creature> creature, std::shared_ptr<Room> room);
 private:
-    int gameHeight, width, topHeight;
+    int gameHeight, width, topHeight, botHeight;
     static std::shared_ptr<ObjDisplayGrid> instance;
     //GridChar*** objectGrid; //don't know if this is necessary yet
     //int messageLines; //new changes #lines of messages

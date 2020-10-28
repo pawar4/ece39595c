@@ -1,8 +1,11 @@
 #ifndef ACTION_H_
 #define ACTION_H_
-#include "Creature.h"
+
 #include "Displayable.h"
 #include <iostream>
+#include "Creature.h"
+#include <string>
+#include <memory>
 
 class Action {
 public:
@@ -13,8 +16,8 @@ public:
 	void setCharValue(char c);
 private:
 	std::string msg;
-	int v = 0;
-	int c = 1;
+	int v;
+	char c;
 };
 
 class CreatureAction : public Action {
@@ -24,17 +27,17 @@ public:
 };
 class ItemAction : public Action {
 public:
-	ItemAction(int Owner);
+	ItemAction(std::shared_ptr<Creature> Owner);
 };
 
 class BlessCurseOwner : public ItemAction {
 public:	
-	BlessCurseOwner(int Owner);
+	BlessCurseOwner(std::shared_ptr<Creature> Owner);
 };
 
 class Hallucinate : public ItemAction {
 public:
-	Hallucinate(int Owner);
+	Hallucinate(std::shared_ptr<Creature> Owner);
 };
 #endif
 
