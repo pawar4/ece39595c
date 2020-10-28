@@ -2,7 +2,8 @@
 #define CHANGEDISPLAYEDTYPE_H_
 
 #include <iostream>
-#include "Creature.h"
+#include "Action.h"
+#include <memory>
 
 class ChangeDisplayedType : public CreatureAction {
 public:

@@ -1,36 +1,43 @@
 #ifndef CREATURE_H_
 #define CREATURE_H_
+
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Displayable.h"
-#include "Action.h"
+#include <memory>
+
 class CreatureAction;
-class Creature : public Displayable { //make inherit from displayable later
+class Item;
+class Sword;
+class Armor;
+
+class Creature : public Displayable {
 public:
-	Creature(int hp, int hpm, CreatureAction& da, CreatureAction& ha);
-	Creature();
+	Creature(); //initialize everything to zero here
 	virtual void setHp(int h);
 	virtual void setHpMoves(int hpm);
 	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
-	virtual void setID(int room, int serial);
+	virtual void setName(std::string _name);
+	virtual std::string getName();
 private:
 	int hp;
 	int hpm;
-	CreatureAction& da; //change to creatureaction
-	CreatureAction& ha;	//change to action
+	std::vector<std::shared_ptr<CreatureAction>> da; //change to creatureaction
+	std::vector<std::shared_ptr<CreatureAction>> ha; //change to action
+	std::string name;
 };
-
-
 
 class Player : public Creature {
 public:
 	Player();
-	void setWeapon(int sword); //change to item
-	void setArmor(int armor);  //change to item
-
+	void setWeapon(std::shared_ptr<Item> sword); //change to item
+	void setArmor(std::shared_ptr<Item> armor);  //change to item
+	void setID(int _room, int _serial);
 private:
-	int sword;
-	int armor;
+	std::shared_ptr<Item> sword;
+	std::shared_ptr<Item> armor;
 	int room;
 	int serial;
 };
@@ -38,11 +45,12 @@ private:
 class Monster : public Creature {
 public:
 	Monster();
-	void setName(std::string name);
+	//void setName(std::string name);
 	void setID(int room, int serial);
 private:
-	std::string name;
+	//std::string name;
 	int room;
 	int serial;
 };
-#endif /* CREATURE_H_*/
+#endif // !CREATURE_H_
+

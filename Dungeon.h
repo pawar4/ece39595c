@@ -6,23 +6,32 @@
 #include "Creature.h"
 #include "Item.h"
 #include "Passage.h"
+#include <memory>
 
 class Dungeon {
 
 public:
-    Dungeon();
-    virtual std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight);
-    virtual void Dungeon::addRoom(std::shared_ptr<Room> _room);
-    virtual void Dungeon::addCreature(std::shared_ptr<Creature> _creature);
-    virtual void Dungeon::addPassage(std::shared_ptr<Passage> _passage);
-    virtual void Dungeon::addItem(std::shared_ptr<Item> item);
-
+    Dungeon(std::string _name, int _width, int _topHeight, int _gameHeight, int _bottomHeight);
+    static std::shared_ptr<Dungeon> getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight, int _bottomHeight);
+    virtual void addRoom(std::shared_ptr<Room> _room);
+    virtual void addCreature(std::shared_ptr<Creature> _creature);
+    virtual void addPassage(std::shared_ptr<Passage> _passage);
+    virtual void addItem(std::shared_ptr<Item> item);
+    virtual std::vector<std::shared_ptr<Room>> getRooms();
+    virtual std::vector<std::shared_ptr<Passage>> getPassages();
+    virtual std::vector<std::shared_ptr<Creature>> getCreatures();
+    virtual std::vector<std::shared_ptr<Item>> getItems();
+    virtual int getWidth();
+    virtual int getGameHeight();
+    virtual int getTopHeight();
+    virtual int getBotHeight();
 private:
     std::string name;
     int width;
     int gameHeight;
     int topHeight;
-    static std::shared_ptr<Dungeon> instance;
+    int bottomHeight;
+    static std::shared_ptr<Dungeon> instance; //must access instance in order to use height and width lol
     std::vector<std::shared_ptr<Room>> rooms;
     std::vector<std::shared_ptr<Creature>> creatures;
     std::vector<std::shared_ptr<Passage>> passages;

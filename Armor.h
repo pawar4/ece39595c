@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "Item.h"
+#include <memory>
 
 class Armor : public Item {
 public:

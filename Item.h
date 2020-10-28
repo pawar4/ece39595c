@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Creature.h"
 #include "Displayable.h"
+#include <memory>
 
 class Item : public Displayable {
 public:
@@ -13,5 +14,4 @@ public:
 private:
     std::shared_ptr<Creature> owner;
 };
-
 #endif
