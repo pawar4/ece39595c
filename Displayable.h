@@ -20,8 +20,13 @@ public:
    virtual void setPosY(int y);
    virtual void setWidth(int x);
    virtual void setHeight(int y);
-
-   //not sure about this
+   virtual int getWidth();
+   virtual int getHeight();
+   virtual int getPosX();
+   virtual int getPosY();
+   virtual char getType();
+   //Displayable HASA ObjGrid
+   friend class ObjDisplayGrid;
 
 private:
     int maxHit;

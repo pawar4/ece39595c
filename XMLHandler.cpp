@@ -55,16 +55,18 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         int topHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "topHeight")));
         int gameHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "gameHeight")));
         int bottomHeight = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "bottomHeight")));
-        dungeonBeingParsed = std::shared_ptr<Dungeon> (new Dungeon()); //insert above values here once Dungeon class is written
-        dungeonBeingParsed->getDungeon(dungeonName, width, topHeight, gameHeight);
+        dungeonBeingParsed = std::shared_ptr<Dungeon> (new Dungeon(dungeonName, width, topHeight, gameHeight, bottomHeight)); //insert above values here once Dungeon class is written
+        dungeonBeingParsed->getDungeon(dungeonName, width, topHeight, gameHeight, bottomHeight);
         //bDungeon = true;
     }
     else if (case_insensitive_match(qNameStr, "Rooms")) {} //not sure what to do here
     else if (case_insensitive_match(qNameStr, "Room")) {
         int roomID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room")));
-        roomBeingParsed = std::shared_ptr<Room>(new Room("l33t")); //room constructor requires a string but xml doesnt give one.
+        roomBeingParsed = std::shared_ptr<Room>(new Room(std::to_string(roomID))); //room constructor requires a string but xml doesnt give one.
         roomBeingParsed->setID(roomID);
         dungeonBeingParsed->addRoom(roomBeingParsed); //make addRoom take pointer type
+        bMonster = false; //want these values to be false when entering new room
+        bPlayer = false;
         bRoom = true;
     }
     else if (case_insensitive_match(qNameStr, "Passages")) {}
@@ -83,9 +85,10 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         //  int posX = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
         std::shared_ptr<Monster> monster(new Monster);
         monsterBeingParsed = monster; //make creature reference?
-        monsterBeingParsed -> setName(name);
+        monsterBeingParsed->setName(name);
         monsterBeingParsed->setID(roomID, serialID);
         dungeonBeingParsed->addCreature(monsterBeingParsed); //Being added later
+        roomBeingParsed->setCreature(monsterBeingParsed); //useful for display generation I think
         creatureBeingParsed = monsterBeingParsed;
         bMonster = true;
     }
@@ -98,7 +101,9 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         playerBeingParsed = player;
         playerBeingParsed->setID(roomID, serialID);
         creatureBeingParsed = playerBeingParsed;
+        roomBeingParsed->setCreature(playerBeingParsed);
         bPlayer = true;
+        bMonster = false;
     }
 
     else if (case_insensitive_match(qNameStr, "Armor")) {
@@ -256,7 +261,7 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
             }
         }
     }
-    else if (bPosX) {   
+    else if (bPosX) {
         if (bScroll) {
             scrollBeingParsed->setPosX(std::stoi(data));
             bPosX = false;
@@ -279,6 +284,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
         else if (bRoom) {
             roomBeingParsed->setPosX(std::stoi(data));
+            bPosX = false;
+        }
+        else if (bPassage) {
+            passageBeingParsed->pushVecX(std::stoi(data));
             bPosX = false;
         }
     }
@@ -305,6 +314,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
         else if (bRoom) {
             roomBeingParsed->setPosY(std::stoi(data));
+            bPosY = false;
+        }
+        else if (bPassage) {
+            passageBeingParsed->pushVecY(std::stoi(data));
             bPosY = false;
         }
     }
@@ -425,6 +438,10 @@ void XMLHandler::characters(const XMLCh* const ch, const XMLSize_t length) {
     }
 }
 
+std::shared_ptr<Dungeon> XMLHandler::getDungeon()
+{
+    return dungeonBeingParsed;
+}
 void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
     char* message = xercesc::XMLString::transcode(exception.getMessage());
     std::cout << "Fatal Error: " << message

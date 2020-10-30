@@ -3,6 +3,6 @@
 
 YouWin::YouWin (std::string _name, std::shared_ptr<Creature> _owner) : CreatureAction (_owner) {
     name = _name;
-    std::cout << "YouWin::YouWin" << std::endl;
-    std::cout << "name: " << name << std::endl;
+    //std::cout << "YouWin::YouWin" << std::endl;
+    //std::cout << "name: " << name << std::endl;
 }

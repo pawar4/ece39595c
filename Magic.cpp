@@ -1,4 +1,4 @@
 #include "Magic.h"
 Magic::Magic() {
-	std::cout << "Magic constructor" << std::endl;
+	//std::cout << "Magic constructor" << std::endl;
 }
