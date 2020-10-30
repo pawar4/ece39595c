@@ -442,7 +442,6 @@ std::shared_ptr<Dungeon> XMLHandler::getDungeon()
 {
     return dungeonBeingParsed;
 }
-
 void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
     char* message = xercesc::XMLString::transcode(exception.getMessage());
     std::cout << "Fatal Error: " << message

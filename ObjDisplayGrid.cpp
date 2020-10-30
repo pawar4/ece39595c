@@ -22,7 +22,6 @@ ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight, int 
     }
     //std::cout << "ObjDisplayGrid::ObjDisplayGrid" << std::endl;
 
-
 // initialize ncurses
 
 // set command window size if running on windows, useful when running in Visual Studio
@@ -120,7 +119,7 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
 
     update();
 }*/
-
+          
 //added destructor 10/21/20
 ObjDisplayGrid::~ObjDisplayGrid()
 {
@@ -166,8 +165,6 @@ void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y) {
         // y between 0 and height
         if ((0 <= y) && (y < gameHeight)) {
             // delete existing character if present
-
-
             // add new character to the internal character list
             objectGrid[x][y]->addChar(ch);
             // draws the character on the screen, note it is relative to 0,0 of the terminal
@@ -192,9 +189,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
     }
 }
 
-
 void ObjDisplayGrid::update() {
     // refreshes ncurses
     refresh();
 }
-

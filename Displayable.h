@@ -27,6 +27,7 @@ public:
    virtual char getType();
    //Displayable HASA ObjGrid
    friend class ObjDisplayGrid;
+
 private:
     int maxHit;
     int hpMoves;

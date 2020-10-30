@@ -5,5 +5,4 @@ Teleport::Teleport (std::string _name, std::shared_ptr<Creature> _owner): Creatu
     name = _name;
     //std::cout << "Teleport::Teleport" << std::endl;
     //std::cout << "name: " << name << std::endl;
-
 }

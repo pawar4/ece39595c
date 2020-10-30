@@ -19,6 +19,7 @@ public:
 	virtual void setHpMoves(int hpm);
 	virtual void setDeathAction(std::shared_ptr<CreatureAction> da);
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
+
 	virtual void setName(std::string _name);
 	virtual std::string getName();
 private:

@@ -79,11 +79,9 @@ int main(int argc, char* argv[]) {
     }
     xercesc::XMLPlatformUtils::Terminate(); //valgrind will say there's memory errors if not included
 
-
     //Start of PDcurses calls for dungeon generation
     std::atomic_bool isRunning(true); //used for atomicity, though not sure exactly why
     //ObjDisplayGrid grid() start displaying in parser maybe?
-
     /*
     * Make 3 objDisplayGrids
     * 1. Room

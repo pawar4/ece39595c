@@ -1,3 +1,4 @@
+
 #include <vector>
 #pragma once
 #ifndef GRIDCHAR_H_
