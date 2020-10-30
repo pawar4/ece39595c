@@ -91,6 +91,7 @@ int main(int argc, char* argv[]) {
     * 2. Passage
     * 3. Creatures/Items
     * Need to fix XMLHandler later
+    * //Separate rooms and creatures to different grids
     */
     //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();

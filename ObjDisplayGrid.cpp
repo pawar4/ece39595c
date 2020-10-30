@@ -11,13 +11,13 @@ std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::instance = nullptr;
 ObjDisplayGrid::ObjDisplayGrid(int _width, int _gameHeight, int _topHeight, int _botHeight) :
     width(_width), gameHeight(_gameHeight), topHeight(_topHeight), botHeight(_botHeight) {
     //2D array of GridChars
-    objectGrid = new GridChar **[width]; //make a 2d array that has 1 vectir of GridChar
+    objectGrid = new GridChar **[width]; //make a 2d array that has 1 vector of GridChar
     //std::vector<GridChar>** pop character if it leaves
     int gridHeight = gameHeight + topHeight + botHeight;
     for (int i = 0; i < width; i++) {
         objectGrid[i] = new GridChar * [gridHeight];
         for (int j = 0; j < gridHeight; j++) { //topHeight bad for some reason
-            objectGrid[i][j] = NULL;
+            objectGrid[i][j] = new GridChar();
         }
     }
     //std::cout << "ObjDisplayGrid::ObjDisplayGrid" << std::endl;
@@ -59,7 +59,7 @@ void ObjDisplayGrid::initRoomGrid(std::shared_ptr<Room> room)
             else {
                 c = '.';
             }
-            addObjectToDisplay(new GridChar(c), i, j);
+            addObjectToDisplay(c, i, j);
         }
     }
     //refreshes ncurses
@@ -74,13 +74,13 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
     int posY;
     char c = '#'; //iterate from 1 to end of the list. Current point (i) and (i-1) draw all those points
     //not done yet. Still need to make modifications
-    for (int i = 0; i < width + xVec[i]; i++) {
+   /* for (int i = 0; i < width + xVec[i]; i++) {
         posX = xVec[i];
         posY = yVec[i];
         for (int j = yVec[i] + topHeight; j < topHeight + yVec[i] + topHeight; j++) {
             addObjectToDisplay(new GridChar(c), i, j);
         }
-    }
+    }*/
     //refreshes ncurses
     update();
 }
@@ -98,11 +98,28 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     else {
         c = creature->getType();
     }
-    addObjectToDisplay(new GridChar(c), creature->getPosX() + room->getPosX()
+    addObjectToDisplay(c, creature->getPosX() + room->getPosX()
         , creature->getPosY() + room->getPosY() + topHeight);
 
     update();
 }
+
+/*void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room) {
+    char c;
+    std::string name = item->getName();
+    std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+
+    if (name == "player") {
+        c = '@';
+    }
+    else {
+        c = creature->getType();
+    }
+    addObjectToDisplay(c, creature->getPosX() + room->getPosX()
+        , creature->getPosY() + room->getPosY() + topHeight);
+
+    update();
+}*/
 
 //added destructor 10/21/20
 ObjDisplayGrid::~ObjDisplayGrid()
@@ -142,24 +159,39 @@ void ObjDisplayGrid::setTopMessageHeight(int _topHeight) {
     //std::cout << "TopMessageHeight: " << std::to_string(instance -> topHeight) << std::endl;
 }
 
-void ObjDisplayGrid::addObjectToDisplay(GridChar* ch, int x, int y) {
+void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y) {
     // note grid objects start from 0,0 and go until width,height
     // x between 0 and width
     if ((0 <= x) && (x < width)) {
         // y between 0 and height
         if ((0 <= y) && (y < gameHeight)) {
             // delete existing character if present
-            if (objectGrid[x][y] != NULL) {
-                delete objectGrid[x][y];
-            }
+
 
             // add new character to the internal character list
-            objectGrid[x][y] = ch;
+            objectGrid[x][y]->addChar(ch);
             // draws the character on the screen, note it is relative to 0,0 of the terminal
-            mvaddch(y, x, ch->getChar());
+            mvaddch(y, x, objectGrid[x][y]->getChar());
         }
     }
 }
+
+void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY) {
+    // note grid objects start from 0,0 and go until width,height
+    // x between 0 and width
+    if ((0 <= newX) && (newX < width)) {
+        // y between 0 and height
+        if ((0 <= newY) && (newY < gameHeight)) {
+            // add new character to the internal character list
+            objectGrid[newX][newY]->addChar(ch);
+            objectGrid[oldX][oldY]->popChar();
+            // draws the character on the screen, note it is relative to 0,0 of the terminal
+            mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
+            mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
+        }
+    }
+}
+
 
 void ObjDisplayGrid::update() {
     // refreshes ncurses
