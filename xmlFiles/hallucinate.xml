@@ -63,7 +63,7 @@
                 <hpMoves>5</hpMoves>
                 <maxhit>6</maxhit>
                 <CreatureAction name="ChangeDisplayedType" type="death">
-                    <actionCharValue>?</actionCharValue>
+                    <actionCharValue>+</actionCharValue>
                 </CreatureAction>
                 <CreatureAction name="UpdateDisplay" type="death">
                 </CreatureAction>
