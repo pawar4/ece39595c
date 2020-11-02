@@ -97,9 +97,9 @@ int main(int argc, char* argv[]) {
     */
     //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();
-    ObjDisplayGrid grid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight());
+    //ObjDisplayGrid ;
     //ObjDisplayGrid* pgrid = &grid;
-    std::shared_ptr<ObjDisplayGrid> pgrid = std::shared_ptr<ObjDisplayGrid>(&grid);
+    std::shared_ptr<ObjDisplayGrid> pgrid = std::shared_ptr<ObjDisplayGrid>(new ObjDisplayGrid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight()));
     std::vector<std::shared_ptr<Passage>> passages = dungeon->getPassages();
     //pgrid->initRoomGrid(rooms[0]);
 
