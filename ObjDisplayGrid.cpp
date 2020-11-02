@@ -105,7 +105,7 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     }
 
     creature->setPosX(creature->getPosX() + room->getPosX());
-    creature->setPosX(creature->getPosY() + room->getPosY() + topHeight);
+    creature->setPosY(creature->getPosY() + room->getPosY() + topHeight);
     addObjectToDisplay(c, creature->getPosX(), creature->getPosY());
     //addObjectToDisplay(c, creature->getPosX() + room->getPosX()
      //   , creature->getPosY() + room->getPosY() + topHeight);
