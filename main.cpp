@@ -14,6 +14,8 @@
 #include <thread> //will need to use threads probably for mouse inputs
 #include <vector>
 
+#include "KeyboardListener.h"
+
 int main(int argc, char* argv[]) {
 
     std::string fileName;
@@ -96,7 +98,8 @@ int main(int argc, char* argv[]) {
     //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();
     ObjDisplayGrid grid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight());
-    ObjDisplayGrid* pgrid = &grid;
+    //ObjDisplayGrid* pgrid = &grid;
+    std::shared_ptr<ObjDisplayGrid> pgrid = std::shared_ptr<ObjDisplayGrid>(&grid);
     std::vector<std::shared_ptr<Passage>> passages = dungeon->getPassages();
     //pgrid->initRoomGrid(rooms[0]);
 
@@ -122,6 +125,7 @@ int main(int argc, char* argv[]) {
     //Still have to figure out why all the things dissapear after parser class closes
     //Dungeon xml bug for bottom room
     //Need to figure out XML parser, to tell when an end element is hit
-
+    KeyboardListener keyListener(pgrid);
+    keyListener.run();
     return 0;
 }

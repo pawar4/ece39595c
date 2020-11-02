@@ -241,13 +241,17 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
     // x between 0 and width
     if ((0 <= newX) && (newX < width)) {
         // y between 0 and height
-        if ((0 <= newY) && (newY < gameHeight + topHeight)) { // only valid in game area
-            // add new character to the internal character list
-            objectGrid[newX][newY]->addChar(ch);
-            objectGrid[oldX][oldY]->popChar();
-            // draws the character on the screen, note it is relative to 0,0 of the terminal
-            mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
-            mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
+        if ((0 <= newY) && (newY < gameHeight)) {
+            if (objectGrid[newX][newY]->getChar() != 'X' && objectGrid[newX][newY]->getChar() != ' ') {
+                // add new character to the internal character list
+                objectGrid[newX][newY]->addChar(ch);
+                objectGrid[oldX][oldY]->popChar();
+                player->setPosX(newX);
+                player->setPosY(newY);
+                // draws the character on the screen, note it is relative to 0,0 of the terminal
+                mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
+                mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
+            }
         }
     }
 }
