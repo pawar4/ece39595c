@@ -1,7 +1,11 @@
 #include <iostream>
 #include "ObjDisplayGrid.h"
+#include "Scroll.h"
+#include "Sword.h"
+#include "Armor.h"
 #include <curses.h>
 #include <algorithm>
+#include <memory>
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -93,33 +97,43 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
     
     if (name == "player") {
+        player = creature; //cast to player eventually
         c = '@';
     }
     else {
         c = creature->getType();
     }
-    addObjectToDisplay(c, creature->getPosX() + room->getPosX()
-        , creature->getPosY() + room->getPosY() + topHeight);
+
+    creature->setPosX(creature->getPosX() + room->getPosX());
+    creature->setPosX(creature->getPosY() + room->getPosY() + topHeight);
+    addObjectToDisplay(c, creature->getPosX(), creature->getPosY());
+    //addObjectToDisplay(c, creature->getPosX() + room->getPosX()
+     //   , creature->getPosY() + room->getPosY() + topHeight);
 
     update();
 }
 
-/*void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room) {
+void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room) {
     char c;
-    std::string name = item->getName();
-    std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-
-    if (name == "player") {
-        c = '@';
+    std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(item);
+    std::shared_ptr<Armor> armor = std::dynamic_pointer_cast<Armor>(item);
+    std::shared_ptr<Sword> sword = std::dynamic_pointer_cast<Sword>(item);
+    if (scroll) {
+        c = '?';
+    }
+    else if (armor) {
+        c = ']';
+    }
+    else if (sword) {
+        c = ')';
     }
     else {
-        c = creature->getType();
+        return;
     }
-    addObjectToDisplay(c, creature->getPosX() + room->getPosX()
-        , creature->getPosY() + room->getPosY() + topHeight);
-
+    addObjectToDisplay(c, item->getPosX() + room->getPosX()
+        , item->getPosY() + room->getPosY() + topHeight);
     update();
-}*/
+}
 
 //added destructor 10/21/20
 ObjDisplayGrid::~ObjDisplayGrid()

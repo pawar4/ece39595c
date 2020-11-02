@@ -107,6 +107,11 @@ int main(int argc, char* argv[]) {
                 pgrid->initCreatureGrid(rooms[i]->getCreatures()[j], rooms[i]);
             }
         }
+        if (rooms[i]->getItems().size() != 0) {
+            for (int j = 0; j < rooms[i]->getItems().size(); j++) {
+                pgrid->initItemGrid(rooms[i]->getItems()[j], rooms[i]);
+            }
+        }
 
     }
     for (int i = 0; i < passages.size(); i++) {
@@ -115,6 +120,8 @@ int main(int argc, char* argv[]) {
 
     //Just to test funcitonality it seems like it works, so nice
     //Still have to figure out why all the things dissapear after parser class closes
+    //Dungeon xml bug for bottom room
+    //Need to figure out XML parser, to tell when an end element is hit
 
     return 0;
 }
