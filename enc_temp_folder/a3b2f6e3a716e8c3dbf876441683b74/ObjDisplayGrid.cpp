@@ -178,7 +178,7 @@ void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y) {
     // x between 0 and width
     if ((0 <= x) && (x < width)) {
         // y between 0 and height
-        if ((0 <= y) && (y < gridHeight)) { //valid on the whole grid
+        if ((0 <= y) && (y < gridHeight)) {
             // delete existing character if present
 
 
@@ -195,7 +195,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
     // x between 0 and width
     if ((0 <= newX) && (newX < width)) {
         // y between 0 and height
-        if ((0 <= newY) && (newY < gameHeight + topHeight)) { // only valid in game area
+        if ((0 <= newY) && (newY < gameHeight)) {
             // add new character to the internal character list
             objectGrid[newX][newY]->addChar(ch);
             objectGrid[oldX][oldY]->popChar();
