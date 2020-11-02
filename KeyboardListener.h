@@ -10,7 +10,7 @@ private:
 
 public:
 	KeyboardListener(std::shared_ptr<ObjDisplayGrid> grid);
-	virtual void run();
+	virtual void run(std::shared_ptr<Player> _player);
 };
 
 

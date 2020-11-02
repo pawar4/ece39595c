@@ -234,7 +234,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         return;
 }
 
-void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLCh* qName){
+void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLCh* qName) {
     if (bVisible) {
         if (std::stoi(data) == 1) { //if one make visible, else make invisible
             if (bScroll) {
@@ -261,6 +261,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
                 roomBeingParsed->setVisible();
                 bVisible = false;
             }
+            else if (bPassage) {
+                passageBeingParsed->setVisible();
+                bVisible = false;
+            }
         }
         else {
             if (bScroll) {
@@ -285,6 +289,10 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
             }
             else if (bRoom) {
                 roomBeingParsed->setInvisible();
+                bVisible = false;
+            }
+            else if (bPassage) {
+                passageBeingParsed->setInvisible();
                 bVisible = false;
             }
         }
@@ -423,8 +431,8 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
     }
     else if (bHpMoves) {
-         playerBeingParsed->setHpMoves(std::stoi(data));
-         bHpMoves = false;
+        playerBeingParsed->setHpMoves(std::stoi(data));
+        bHpMoves = false;
     }
     else if (bActionMessage) {
         actionBeingParsed->setMessage(data);
@@ -456,6 +464,28 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         actionBeingParsed->setIntValue(std::stoi(data));
         bActionIntValue = false;
     }
+    else if (bSword) {
+        bSword = false;
+    }
+    else if (bScroll) {
+        bScroll = false;
+    }
+    else if (bArmor) {
+        bArmor = false;
+    }
+    else if (bPlayer) {
+        bRoom = false;
+    }
+    else if (bMonster) {
+        bRoom = false;
+    }
+    else if (bRoom) {
+        bRoom = false;
+    }
+    else if (bPassage) {
+        bPassage = false;
+    }
+
 }
 
 void XMLHandler::characters(const XMLCh* const ch, const XMLSize_t length) {

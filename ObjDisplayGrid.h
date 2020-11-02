@@ -25,7 +25,7 @@ public:
     void initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room);
     std::shared_ptr<Displayable> player; //change to player type later
 private:
-    int gameHeight, width, topHeight, botHeight;
+    int gameHeight, width, topHeight, botHeight, gridHeight;
     static std::shared_ptr<ObjDisplayGrid> instance;
     //GridChar*** objectGrid; //don't know if this is necessary yet
     //int messageLines; //new changes #lines of messages

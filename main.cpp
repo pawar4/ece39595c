@@ -14,8 +14,6 @@
 #include <thread> //will need to use threads probably for mouse inputs
 #include <vector>
 
-#include "KeyboardListener.h"
-
 int main(int argc, char* argv[]) {
 
     std::string fileName;
@@ -81,9 +79,11 @@ int main(int argc, char* argv[]) {
     }
     xercesc::XMLPlatformUtils::Terminate(); //valgrind will say there's memory errors if not included
 
+
     //Start of PDcurses calls for dungeon generation
     std::atomic_bool isRunning(true); //used for atomicity, though not sure exactly why
     //ObjDisplayGrid grid() start displaying in parser maybe?
+
     /*
     * Make 3 objDisplayGrids
     * 1. Room
@@ -96,8 +96,7 @@ int main(int argc, char* argv[]) {
     //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();
     ObjDisplayGrid grid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight());
-    //ObjDisplayGrid* pgrid = &grid;
-    std::shared_ptr<ObjDisplayGrid> pgrid = std::shared_ptr<ObjDisplayGrid>(&grid);
+    ObjDisplayGrid* pgrid = &grid;
     std::vector<std::shared_ptr<Passage>> passages = dungeon->getPassages();
     //pgrid->initRoomGrid(rooms[0]);
 
@@ -108,6 +107,11 @@ int main(int argc, char* argv[]) {
                 pgrid->initCreatureGrid(rooms[i]->getCreatures()[j], rooms[i]);
             }
         }
+        if (rooms[i]->getItems().size() != 0) {
+            for (int j = 0; j < rooms[i]->getItems().size(); j++) {
+                pgrid->initItemGrid(rooms[i]->getItems()[j], rooms[i]);
+            }
+        }
 
     }
     for (int i = 0; i < passages.size(); i++) {
@@ -116,7 +120,8 @@ int main(int argc, char* argv[]) {
 
     //Just to test funcitonality it seems like it works, so nice
     //Still have to figure out why all the things dissapear after parser class closes
-    KeyboardListener keyListener(pgrid);
-    keyListener.run();
+    //Dungeon xml bug for bottom room
+    //Need to figure out XML parser, to tell when an end element is hit
+
     return 0;
 }
