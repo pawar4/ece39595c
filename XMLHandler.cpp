@@ -65,7 +65,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         roomBeingParsed = std::shared_ptr<Room>(new Room(std::to_string(roomID))); //room constructor requires a string but xml doesnt give one.
         roomBeingParsed->setID(roomID);
         dungeonBeingParsed->addRoom(roomBeingParsed); //make addRoom take pointer type
-        bMonster = false; //want these values to be false when entering new room
+        bMonster = false; //want these values to be false when entering new room hope it's ok
         bPlayer = false;
         bRoom = true;
     }
@@ -91,6 +91,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         roomBeingParsed->setCreature(monsterBeingParsed); //useful for display generation I think
         creatureBeingParsed = monsterBeingParsed;
         bMonster = true;
+        bPlayer = false; //I don't know if this is a good fix
     }
 
     else if (case_insensitive_match(qNameStr, "Player")) {
@@ -104,6 +105,9 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         roomBeingParsed->setCreature(playerBeingParsed);
         bPlayer = true;
         bMonster = false;
+        bScroll = false;
+        bArmor = false;
+        bSword = false;
     }
 
     else if (case_insensitive_match(qNameStr, "Armor")) {
@@ -114,17 +118,34 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         armorBeingParsed->setName(name);
         armorBeingParsed->setID(roomID, serialID);
         itemBeingParsed = armorBeingParsed;
+        if (bPlayer) {
+            playerBeingParsed->setArmor(armorBeingParsed); //change functionality later
+        }
+        else {
+            roomBeingParsed->setItem(armorBeingParsed);
+        }
+        
         bArmor = true;
+        bSword = false;
+        bScroll = false;
     }
     else if (case_insensitive_match(qNameStr, "Sword")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         int roomID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "room")));
         int serialID = std::stoi(xmlChToString(getXMLChAttributeFromString(attributes, "serial")));
-        swordBeingParsed = std::shared_ptr<Sword>(new Sword(name));
+        swordBeingParsed = std::shared_ptr<Sword>(new Sword(name)); //if player hasa item this is weird
         //swordBeingParsed->setName(name);
         swordBeingParsed->setID(roomID, serialID);
         itemBeingParsed = swordBeingParsed;
-        bSword = true;
+        if (bPlayer) {
+            playerBeingParsed->setWeapon(swordBeingParsed); //change functionality later
+        }
+        else {
+            roomBeingParsed->setItem(swordBeingParsed);
+        }
+        bSword = true; 
+        bScroll = false;
+        bArmor = false;
     }
     else if (case_insensitive_match(qNameStr, "Scroll")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
@@ -134,7 +155,11 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         //scrollBeingParsed->setName(name);
         scrollBeingParsed->setID(roomID, serialID);
         itemBeingParsed = scrollBeingParsed;
+        roomBeingParsed->setItem(scrollBeingParsed);
         bScroll = true;
+        bSword = false;
+        bArmor = false;
+        bPlayer = false; //Need better way to fix this
     }
 
     //Not sure about how to do CreatureAction
@@ -198,6 +223,9 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
     }
     else if (case_insensitive_match(qNameStr, "ActionIntValue")) {
         bActionIntValue = true;
+    }
+    else if (case_insensitive_match(qNameStr, "/Player")) {
+        bPlayer = false;
     }
     else {
         std::cout << "Unknown qname: " << qNameStr << std::endl;
@@ -442,6 +470,7 @@ std::shared_ptr<Dungeon> XMLHandler::getDungeon()
 {
     return dungeonBeingParsed;
 }
+
 void XMLHandler::fatalError(const xercesc::SAXParseException& exception) {
     char* message = xercesc::XMLString::transcode(exception.getMessage());
     std::cout << "Fatal Error: " << message

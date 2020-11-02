@@ -17,7 +17,6 @@ public:
     virtual void pushVecY(int posY);
     virtual std::vector<int> getVecX();
     virtual std::vector<int> getVecY();
-
 private:
     std::string name;
     int room1;

@@ -19,10 +19,15 @@ void Room::setCreature (std::shared_ptr<Creature> _creature) {
    creatures.push_back(_creature);
     //std::cout << "Room::setCreature" << std::endl;
 }
-
+void Room::setItem(std::shared_ptr<Item> _item) {
+    items.push_back(_item);
+}
 std::vector<std::shared_ptr<Creature>> Room::getCreatures()
 {
     return creatures;
 }
 
-
+std::vector<std::shared_ptr<Item>> Room::getItems()
+{
+    return items;
+}

@@ -41,6 +41,7 @@ std::string Creature::getName()
 	return name;
 }
 
+
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;
 	setName("Player");
@@ -60,7 +61,6 @@ void Player::setID(int _room, int _serial) {
 	serial = _serial;
 	//std::cout << "Player::setID" << std::endl;
 }
-
 
 Monster::Monster()
 {

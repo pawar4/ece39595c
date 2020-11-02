@@ -15,6 +15,7 @@ Dungeon::Dungeon(std::string _name, int _width, int _topHeight, int _gameHeight,
     //std::cout << "Dungeon::Dungeon" << std::endl;
 }
 
+
 std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int _topHeight, int _gameHeight, int _bottomHeight) {
     if (instance == nullptr) {
         instance = std::shared_ptr<Dungeon>(new Dungeon(_name, _width, _topHeight, _gameHeight, _bottomHeight));
@@ -31,6 +32,8 @@ std::shared_ptr<Dungeon> Dungeon::getDungeon(std::string _name, int _width, int 
     //std::cout << "Width: " << std::to_string(instance->width) << std::endl;
     //std::cout << "topHeight: " << std::to_string(instance->topHeight) << std::endl;
     //std::cout << "gameHeight: " << std::to_string(instance->gameHeight) << std::endl;
+
+
     return instance;
 }
 
