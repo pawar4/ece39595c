@@ -78,13 +78,59 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
     int posY;
     char c = '#'; //iterate from 1 to end of the list. Current point (i) and (i-1) draw all those points
     //not done yet. Still need to make modifications
-   /* for (int i = 0; i < width + xVec[i]; i++) {
+    /*for (int i = 0; i < width + xVec.size(); i++) {
         posX = xVec[i];
         posY = yVec[i];
         for (int j = yVec[i] + topHeight; j < topHeight + yVec[i] + topHeight; j++) {
-            addObjectToDisplay(new GridChar(c), i, j);
+            addObjectToDisplay(c, i, j);
         }
     }*/
+    int posX1;
+    int posX2;
+    int posY1;
+    int posY2;
+
+    for (int i = 1; i < xVec.size(); i++) {
+        if (xVec[i] == xVec[i - 1]) {
+            if (yVec[i] > yVec[i - 1]) {
+                posX1 = xVec[i - 1];
+                posY1 = yVec[i - 1];
+                posX2 = xVec[i];
+                posY2 = yVec[i];
+            }
+            else {
+                posX1 = xVec[i];
+                posY1 = yVec[i];
+                posX2 = xVec[i - 1];
+                posY2 = yVec[i - 1];
+            }
+        }
+        else {
+            if (xVec[i] > xVec[i - 1]) {
+                posX1 = xVec[i - 1];
+                posY1 = yVec[i - 1];
+                posX2 = xVec[i];
+                posY2 = yVec[i];
+            }
+            else {
+                posX1 = xVec[i];
+                posY1 = yVec[i];
+                posX2 = xVec[i - 1];
+                posY2 = yVec[i - 1];
+            }
+        }
+        for (int j = posX1; j <= posX2; j++) {
+            for (int k = posY1; k <= posY2; k++) {
+                if (objectGrid[j][k + topHeight]->getChar() == 'X') {
+                    addObjectToDisplay('+', j, k + topHeight);
+                }
+                else {
+                    addObjectToDisplay(c, j, k + topHeight);
+                }
+            }
+
+        }
+    }
     //refreshes ncurses
     update();
 }
