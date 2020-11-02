@@ -61,11 +61,6 @@ void Player::setID(int _room, int _serial) {
 	//std::cout << "Player::setID" << std::endl;
 }
 
-void Player::setID(int _room, int _serial) {
-	room = _room;
-	serial = _serial;
-	std::cout << "Player::setID" << std::endl;
-}
 
 Monster::Monster()
 {

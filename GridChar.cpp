@@ -2,6 +2,7 @@
 
 GridChar::GridChar()
 {
+	display.reserve(5);
 	display.push_back(' ');
 }
 
