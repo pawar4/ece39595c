@@ -25,8 +25,11 @@ public:
    virtual int getPosX();
    virtual int getPosY();
    virtual char getType();
+   virtual int getMaxHit();
+  //virtual int getHit(std::shared_ptr<Displayable> _hitter);
    //Displayable HASA ObjGrid
    friend class ObjDisplayGrid;
+   //int getHit(std::shared_ptr<Displayable> _hitter);
 private:
     int maxHit;
     int hpMoves;

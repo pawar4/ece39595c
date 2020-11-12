@@ -100,3 +100,17 @@ char Displayable::getType()
 {
 	return type;
 }
+
+int Displayable::getMaxHit()
+{
+	return maxHit;
+}
+
+/*int Displayable::getHit(std::shared_ptr<Displayable> _hitter) {
+	int damage = rand() % _hitter->getMaxHit();
+	this->Hp -= damage;
+
+	if (this->Hp <= 0) return 1;
+
+	return 0;
+}*/

@@ -41,6 +41,14 @@ std::string Creature::getName()
 	return name;
 }
 
+int Creature::getHit(std::shared_ptr<Displayable> _hitter) {
+	int damage = 1;//rand() % _hitter->getMaxHit();
+	this->hp -= damage;
+
+	if (this->hp <= 0) return 1;
+
+	return 0;
+}
 
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;

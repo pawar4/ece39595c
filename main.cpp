@@ -15,6 +15,9 @@
 #include <vector>
 
 #include "KeyboardListener.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char* argv[]) {
 
@@ -85,6 +88,9 @@ int main(int argc, char* argv[]) {
     //Start of PDcurses calls for dungeon generation
     std::atomic_bool isRunning(true); //used for atomicity, though not sure exactly why
     //ObjDisplayGrid grid() start displaying in parser maybe?
+    
+    //Initialize random seed to generate hit value for player and monster
+    srand(time(NULL));
 
     /*
     * Make 3 objDisplayGrids
@@ -95,13 +101,9 @@ int main(int argc, char* argv[]) {
     * Need to fix XMLHandler later
     * //Separate rooms and creatures to different grids
     */
-    //dungeon->getRooms();
     std::vector<std::shared_ptr<Room>> rooms = dungeon->getRooms();
-    //ObjDisplayGrid ;
-    //ObjDisplayGrid* pgrid = &grid;
     std::shared_ptr<ObjDisplayGrid> pgrid = std::shared_ptr<ObjDisplayGrid>(new ObjDisplayGrid(dungeon->getWidth(), dungeon->getGameHeight(), dungeon->getTopHeight(), dungeon->getBotHeight()));
     std::vector<std::shared_ptr<Passage>> passages = dungeon->getPassages();
-    //pgrid->initRoomGrid(rooms[0]);
 
     for (int i = 0; i < rooms.size(); i++) {
         pgrid->initRoomGrid(rooms[i]);

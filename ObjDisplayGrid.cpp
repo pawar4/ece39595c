@@ -6,9 +6,11 @@
 #include <curses.h>
 #include <algorithm>
 #include <memory>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
+
 
 std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::instance = nullptr;
 
@@ -63,7 +65,7 @@ void ObjDisplayGrid::initRoomGrid(std::shared_ptr<Room> room)
             else {
                 c = '.';
             }
-            addObjectToDisplay(c, i, j);
+            addCharToDisplay(c, i, j);
         }
     }
     //refreshes ncurses
@@ -77,14 +79,6 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
     int posX;
     int posY;
     char c = '#'; //iterate from 1 to end of the list. Current point (i) and (i-1) draw all those points
-    //not done yet. Still need to make modifications
-    /*for (int i = 0; i < width + xVec.size(); i++) {
-        posX = xVec[i];
-        posY = yVec[i];
-        for (int j = yVec[i] + topHeight; j < topHeight + yVec[i] + topHeight; j++) {
-            addObjectToDisplay(c, i, j);
-        }
-    }*/
     int posX1;
     int posX2;
     int posY1;
@@ -122,10 +116,10 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
         for (int j = posX1; j <= posX2; j++) {
             for (int k = posY1; k <= posY2; k++) {
                 if (objectGrid[j][k + topHeight]->getChar() == 'X') {
-                    addObjectToDisplay('+', j, k + topHeight);
+                    addCharToDisplay('+', j, k + topHeight);
                 }
                 else {
-                    addObjectToDisplay(c, j, k + topHeight);
+                    addCharToDisplay(c, j, k + topHeight);
                 }
             }
 
@@ -145,16 +139,17 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     if (name == "player") {
         player = creature; //cast to player eventually
         c = '@';
+
+        creature->setPosX(creature->getPosX() + room->getPosX());
+        creature->setPosY(creature->getPosY() + room->getPosY() + topHeight);
+        addCharToDisplay(c, creature->getPosX(), creature->getPosY());
     }
     else {
         c = creature->getType();
+        creature->setPosX(creature->getPosX() + room->getPosX());
+        creature->setPosY(creature->getPosY() + room->getPosY() + topHeight);
+        addObjectToDisplay(c, creature->getPosX(), creature->getPosY(), creature);
     }
-
-    creature->setPosX(creature->getPosX() + room->getPosX());
-    creature->setPosY(creature->getPosY() + room->getPosY() + topHeight);
-    addObjectToDisplay(c, creature->getPosX(), creature->getPosY());
-    //addObjectToDisplay(c, creature->getPosX() + room->getPosX()
-     //   , creature->getPosY() + room->getPosY() + topHeight);
 
     update();
 }
@@ -177,7 +172,7 @@ void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Ro
         return;
     }
     addObjectToDisplay(c, item->getPosX() + room->getPosX()
-        , item->getPosY() + room->getPosY() + topHeight);
+        , item->getPosY() + room->getPosY() + topHeight, item);
     update();
 }
 
@@ -208,18 +203,15 @@ std::shared_ptr<ObjDisplayGrid> ObjDisplayGrid::getObjDisplayGrid(int _gameHeigh
         instance->width = _width;
         instance->topHeight = _topHeight;
     }
-   // std::cout << "ObjDisplayGrid::getObjDisplayGrid" << std::endl;
     
     return instance;
 }
 
 void ObjDisplayGrid::setTopMessageHeight(int _topHeight) {
     instance->topHeight = _topHeight;
-    //std::cout << "ObjDisplayGrid::setTopMessageHeight" << std::endl;
-    //std::cout << "TopMessageHeight: " << std::to_string(instance -> topHeight) << std::endl;
 }
 
-void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y) {
+void ObjDisplayGrid::addCharToDisplay(char ch, int x, int y) {
     // note grid objects start from 0,0 and go until width,height
     // x between 0 and width
     if ((0 <= x) && (x < width)) {
@@ -236,13 +228,62 @@ void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y) {
     }
 }
 
+void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y, std::shared_ptr<Displayable> object) {
+    // note grid objects start from 0,0 and go until width,height
+    // x between 0 and width
+    if ((0 <= x) && (x < width)) {
+        // y between 0 and height
+        if ((0 <= y) && (y < gridHeight)) { //valid on the whole grid
+            // delete existing character if present
+
+
+            // add new character to the internal character list
+            objectGrid[x][y]->addChar(ch);
+            objectGrid[x][y]->addObject(object);
+            // draws the character on the screen, note it is relative to 0,0 of the terminal
+            mvaddch(y, x, objectGrid[x][y]->getChar());
+        }
+    }
+}
+
 void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY) {
     // note grid objects start from 0,0 and go until width,height
     // x between 0 and width
     if ((0 <= newX) && (newX < width)) {
         // y between 0 and height
         if ((0 <= newY) && (newY < gameHeight)) {
-            if (objectGrid[newX][newY]->getChar() != 'X' && objectGrid[newX][newY]->getChar() != ' ') {
+            //Hitting monster case
+            if (objectGrid[newX][newY]->getChar() == 'T' ||
+                objectGrid[newX][newY]->getChar() == 'S' ||
+                objectGrid[newX][newY]->getChar() == 'H')
+            {
+                std::shared_ptr<Creature> monster = std::dynamic_pointer_cast<Monster>(objectGrid[newX][newY]->getObject());
+                /*step1 : player hits monster
+                step2 : check if monster is alive
+                step3a : monster alive, monster hits player
+                step3b : monster dead, drop item, execute YouWin
+                step4 : check if player dead
+                step5 : if player dead, execute EndGame*/
+
+                int monster_dead = monster->getHit(player);
+                if (monster_dead) {
+                    //Assuming dungeon has a copy of every monster so I can freely pop it from grid
+                    objectGrid[newX][newY]->popChar();
+                    objectGrid[newX][newY]->popObject();
+                    //execute YouWin action here
+                    //I think the monsters drop there stuff and should be handled here
+                }
+                else {
+                    int player_dead = player->getHit(monster);
+
+                    if (player_dead) {
+                        //execute EndGame action here
+                        //objectGrid[oldX][oldY]->popChar();
+                    }
+                }
+            }
+            //normal movement case
+            else if (objectGrid[newX][newY]->getChar() != 'X' && objectGrid[newX][newY]->getChar() != ' ') {
                 // add new character to the internal character list
                 objectGrid[newX][newY]->addChar(ch);
                 objectGrid[oldX][oldY]->popChar();
@@ -256,6 +297,18 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
     }
 }
 
+
+void ObjDisplayGrid::pickItem(int _x, int _y) {
+    
+    if (objectGrid[_x][_y] == '?' ||
+        objectGrid[_x][_y] == ']' ||
+        objectGrid[_x][_y] == ')') 
+    {
+        std::shared_ptr<Item> itemPick = std::dynamic_pointer_cast<Item> (objectGrid[_x][_y]->getObject());
+
+        //add item to player inventory
+    }
+}
 
 void ObjDisplayGrid::update() {
     // refreshes ncurses

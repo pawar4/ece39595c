@@ -21,6 +21,7 @@ public:
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
 	virtual void setName(std::string _name);
 	virtual std::string getName();
+	virtual int getHit(std::shared_ptr<Displayable> _hitter);
 private:
 	int hp;
 	int hpm;
