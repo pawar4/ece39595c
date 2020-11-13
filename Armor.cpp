@@ -21,3 +21,8 @@ void Armor::setID (int _room, int _serial) {
     //std::cout << "Room: " << room << std::endl;
     //std::cout << "Serial: " << serial << std::endl;
 }
+
+std::string Armor::getName()
+{
+    return name;
+}

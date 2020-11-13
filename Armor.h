@@ -11,7 +11,7 @@ public:
     Armor(std::string name);
     virtual void setName(std::string _name);
     virtual void setID(int room, int serial);
-
+    virtual std::string getName();
 private:
     std::string name;
     int room, serial;

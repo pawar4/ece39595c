@@ -11,6 +11,7 @@ public:
 	GridChar();
 	GridChar(char display);
 	virtual char getChar();
+	virtual char checkItem();
 	virtual void addChar(char _display);
 	virtual void addObject(std::shared_ptr<Displayable> _object);
 	virtual void popChar();

@@ -8,7 +8,7 @@ KeyboardListener::KeyboardListener(std::shared_ptr<ObjDisplayGrid> _grid) : grid
 void KeyboardListener::run() {
 	running = true;
 	char input;
-
+	int itemPos = 0;
 	do {
 		input = std::tolower(getchar());
 		int oldX = 0;
@@ -52,6 +52,22 @@ void KeyboardListener::run() {
 			break;
 		//case 'i': //updates pack			
 			//grid->setPack(item); //need to find a way to update this with picked up item
+		case 'p': //pick up item
+			oldX = grid->player->getPosX();
+			oldY = grid->player->getPosY();
+			grid->pickItem(oldX, oldY);
+			break;
+		case 'd':
+			oldX = grid->player->getPosX();
+			oldY = grid->player->getPosY();
+			while(itemPos <= 0 || itemPos > 9) itemPos = getchar() - 48;
+			//scanf("%d", &itemPos);
+			grid->dropItem(oldX, oldY, itemPos);
+			break;
+		case 'i':
+			grid->dispPackMsg();
+			break;
+
 		default:
 			break;
 		}

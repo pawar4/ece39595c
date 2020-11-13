@@ -14,6 +14,11 @@ char GridChar::getChar() {
 	return display.back();
 }
 
+char GridChar::checkItem()
+{
+	return display[display.size() - 2];
+}
+
 void GridChar::addChar(char _display)
 {
 	display.push_back(_display);

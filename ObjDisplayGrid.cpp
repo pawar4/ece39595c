@@ -137,7 +137,7 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
     
     if (name == "player") {
-        player = creature; //cast to player eventually
+        player = std::dynamic_pointer_cast<Player>(creature); //cast to player eventually
         c = '@';
         std::string hpVal = std::to_string(creature->getHP());
         setTopMessage(0, "HP: " + hpVal + " Score: ");
@@ -270,24 +270,23 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
                 else if (objectGrid[newX][newY]->getChar() == 'S') { mName = "Snake"; }
                 else if (objectGrid[newX][newY]->getChar() == 'H') { mName = "Hobgoblin"; }
 
-                int monster_dead = monster->getHit(player);
-                std::string mDmgStr = mName + " did " + std::to_string(monster_dead) + " dmg to player. ";
-                //std::string pDmgStr = "Player did " + std::to_string(monster_dead) + " dmg to " + mName;
-                setInfo(mDmgStr); //sets dmg info when attacking
+                monster->getHit(player);
                 
                 setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
-                if (monster_dead) {
+                if (monster->getHP() <= 0) {
                     //Assuming dungeon has a copy of every monster so I can freely pop it from grid
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
-                     // test
-                    //execute YouWin action here
+                    mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
+                    //std::string msg = monster->executeDA("YouWin");
+                    //setInfo(msg);
                     //I think the monsters drop there stuff and should be handled here
                 }
                 else {
-                    int player_dead = player->getHit(monster);
-
-                    if (player_dead) {
+                    int damage_dealt = player->getHit(monster);
+                    std::string mDmgStr = mName + " did " + std::to_string(damage_dealt) + " dmg to player. ";
+                    setInfo(mDmgStr); //sets dmg info when attacking
+                    if (player->getHP() < 0) {
                         //execute EndGame action here
                         //objectGrid[oldX][oldY]->popChar();
                     }
@@ -333,33 +332,86 @@ void ObjDisplayGrid::dispPackMsg()
 {
     //only update when 'i' is pressed
     std::string packMsg = "Pack: ";
-    std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(player);
+
     std::vector<std::shared_ptr<Item>> pPack = player->getPack();
-    std::shared_ptr<Sword> item;
     for (int i = 0; i < pPack.size(); i++) {
-        item = std::dynamic_pointer_cast<Sword>(pPack[i]); //Should work if each item has same VFT
-        //Though probably bad design
-        if (i > 0) {
-            packMsg = packMsg + ",";
+        if (std::shared_ptr<Sword> item = std::dynamic_pointer_cast<Sword>(pPack[i])) 
+        {
+            if (i > 0) {
+                packMsg = packMsg + ", ";
+            }
+            packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
         }
-        packMsg = packMsg + std::to_string(i) + item->getName();
+        else if (std::shared_ptr<Armor> item = std::dynamic_pointer_cast<Armor>(pPack[i]))
+        {
+            if (i > 0) {
+                packMsg = packMsg + ", ";
+            }
+            packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
+        }
+        else if (std::shared_ptr<Scroll> item = std::dynamic_pointer_cast<Scroll>(pPack[i]))
+        {
+            if (i > 0) {
+                packMsg = packMsg + ", ";
+            }
+            packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
+        }
     }
     ObjDisplayGrid::setBotMessage(0, packMsg);
 }
 
 
 void ObjDisplayGrid::pickItem(int _x, int _y) {
-    
-    /*if (objectGrid[_x][_y] == '?' ||
-        objectGrid[_x][_y] == ']' ||
-        objectGrid[_x][_y] == ')') 
+    char temp = objectGrid[_x][_y]->getChar();
+    if (objectGrid[_x][_y]->checkItem() == '?' ||
+        objectGrid[_x][_y]->checkItem() == ']' ||
+        objectGrid[_x][_y]->checkItem() == ')')
     {
         std::shared_ptr<Item> itemPick = std::dynamic_pointer_cast<Item> (objectGrid[_x][_y]->getObject());
 
         //add item to player inventory
-        setPack(itemPick->getName);
-        setInfo("adding " + item->getName() + " to the pack"); //adds item to pack
-    }*/
+        if (objectGrid[_x][_y]->checkItem() == ')') {
+            std::shared_ptr<Sword> addItem = std::dynamic_pointer_cast<Sword> (itemPick);
+            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+        }
+        else if (objectGrid[_x][_y]->checkItem() == ']') {
+            std::shared_ptr<Armor> addItem = std::dynamic_pointer_cast<Armor> (itemPick);
+            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+        }
+        else {
+            std::shared_ptr<Scroll> addItem = std::dynamic_pointer_cast<Scroll> (itemPick);
+            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+        }
+
+        player->addItem(itemPick);
+        objectGrid[_x][_y]->popChar();
+        objectGrid[_x][_y]->popObject();
+    }
+}
+
+void ObjDisplayGrid::dropItem(int _x, int _y, int _itemPos) {
+    if (player->isPackEmpty()) {
+        setInfo("Pack is empty");
+        return;
+    }
+
+    std::shared_ptr<Item> item = player->dropItem(_itemPos);
+    if (item) {
+        char c;
+
+        std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(item);
+        std::shared_ptr<Armor> armor = std::dynamic_pointer_cast<Armor>(item);
+        std::shared_ptr<Sword> sword = std::dynamic_pointer_cast<Sword>(item);
+
+        if (scroll) c = '?';
+        else if (armor) c = ']';
+        else if (sword) c = ')';
+
+        objectGrid[_x][_y]->popChar();
+        addObjectToDisplay(c, _x, _y, item);
+        addCharToDisplay('@', _x, _y);
+    }
+    
 }
 
 void ObjDisplayGrid::update() {

@@ -14,6 +14,7 @@ public:
 	void setMessage(std::string msg);
 	void setIntValue(int v);
 	void setCharValue(char c);
+	virtual std::string getMsg();
 private:
 	std::string msg;
 	int v;

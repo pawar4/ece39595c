@@ -23,14 +23,14 @@ public:
     virtual void setBotMessage(int line, std::string _message);
     virtual void setInfo(std::string _message);
     virtual void dispPackMsg();
-    //virtual void dropItem();
+    virtual void dropItem(int _x, int _y, int itemPos);
     virtual void pickItem(int _x, int _y);
     virtual void update();
     virtual void initRoomGrid(std::shared_ptr<Room> room);
     virtual void initPassageGrid(std::shared_ptr<Passage> passage);
     virtual void initCreatureGrid(std::shared_ptr<Creature> creature, std::shared_ptr<Room> room);
     void initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room);
-    std::shared_ptr<Creature> player; //change to player type later
+    std::shared_ptr<Player> player; //change to player type later
 private:
     int gameHeight, width, topHeight, botHeight, gridHeight;
     static std::shared_ptr<ObjDisplayGrid> instance;

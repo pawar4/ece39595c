@@ -1,4 +1,5 @@
 #include "Creature.h"
+#include "YouWin.h"
 
 Creature::Creature() : hp(0), hpm(0), da(0), ha(0)
 {
@@ -45,9 +46,7 @@ int Creature::getHit(std::shared_ptr<Displayable> _hitter) {
 	int damage = 1;//rand() % _hitter->getMaxHit();
 	this->hp -= damage;
 
-	if (this->hp <= 0) return 1;
-
-	return 0;
+	return damage;
 }
 
 int Creature::getHP()
@@ -55,11 +54,23 @@ int Creature::getHP()
 	return hp;
 }
 
+std::string Creature::executeDA(std::string actionType)
+{
+	if (actionType == "YouWin") {
+		for (std::shared_ptr<CreatureAction> action: da) {
+			if (std::shared_ptr<YouWin>youWin = std::dynamic_pointer_cast<YouWin>(action)) 
+			{
+				return action->getMsg();
+			}
+		}
+	}
+}
+
 
 
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;
-	setName("Player");
+	setName("Player");;
 }
 void Player::setWeapon(std::shared_ptr<Item> _sword) {
 	sword = _sword;
@@ -80,6 +91,26 @@ void Player::setID(int _room, int _serial) {
 std::vector<std::shared_ptr<Item>> Player::getPack()
 {
 	return pack;
+}
+
+void Player::addItem(std::shared_ptr<Item> itemPick)
+{
+	pack.push_back(itemPick);
+}
+
+std::shared_ptr<Item> Player::dropItem(int _itemPos)
+{
+	std::shared_ptr<Item> item = std::shared_ptr<Item>(nullptr);
+	if (_itemPos <= pack.size() && _itemPos > 0) {
+		item = pack[_itemPos - 1];
+		pack.erase(pack.begin() + _itemPos - 1);
+	}
+	return item;
+}
+
+int Player::isPackEmpty()
+{
+	return pack.size() == 0 ? 1 : 0;
 }
 
 Monster::Monster()

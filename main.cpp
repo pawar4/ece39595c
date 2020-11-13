@@ -129,6 +129,6 @@ int main(int argc, char* argv[]) {
     //Need to figure out XML parser, to tell when an end element is hit
     KeyboardListener keyListener(pgrid);
     keyListener.run();
-
+    while (std::tolower(getchar()) != 'x');
     return EXIT_SUCCESS;
 }

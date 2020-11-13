@@ -23,6 +23,11 @@ void Action::setCharValue(char c) {
 	//std::cout << "Char Value: " << c << std::endl;
 }
 
+std::string Action::getMsg()
+{
+	return msg;
+}
+
 CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	//std::cout << "CreatureAction Constructor" << std::endl;
 }

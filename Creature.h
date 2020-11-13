@@ -23,7 +23,7 @@ public:
 	virtual std::string getName();
 	virtual int getHit(std::shared_ptr<Displayable> _hitter);
 	virtual int getHP();
-	
+	virtual std::string executeDA(std::string actionType);
 private:
 	int hp;
 	int hpm;
@@ -39,6 +39,9 @@ public:
 	void setArmor(std::shared_ptr<Item> armor);  //change to item
 	void setID(int _room, int _serial);
 	virtual std::vector<std::shared_ptr<Item>> getPack();
+	virtual void addItem(std::shared_ptr<Item> itemPick);
+	virtual std::shared_ptr<Item> dropItem(int _itemPos);
+	virtual int isPackEmpty();
 private:
 	std::shared_ptr<Item> sword;
 	std::shared_ptr<Item> armor;
