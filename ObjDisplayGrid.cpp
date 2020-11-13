@@ -247,7 +247,7 @@ void ObjDisplayGrid::addObjectToDisplay(char ch, int x, int y, std::shared_ptr<D
     }
 }
 
-void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY) {
+void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY, bool * _run) {
     // note grid objects start from 0,0 and go until width,height
     // x between 0 and width
     if ((0 <= newX) && (newX < width)) {
@@ -278,8 +278,8 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
                     mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
-                    //std::string msg = monster->executeDA("YouWin");
-                    //setInfo(msg);
+                    std::string msg = monster->executeDA("YouWin");
+                    setInfo(msg);
                     //I think the monsters drop there stuff and should be handled here
                 }
                 else {
@@ -288,7 +288,11 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
                     setInfo(mDmgStr); //sets dmg info when attacking
                     if (player->getHP() < 0) {
                         //execute EndGame action here
-                        //objectGrid[oldX][oldY]->popChar();
+                        objectGrid[oldX][oldY]->popChar();
+                        mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
+                        setInfo(player->executeDA("EndGame"));
+                        *_run = false;
+
                     }
                 }
             }

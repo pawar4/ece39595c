@@ -168,10 +168,12 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
         std::shared_ptr<CreatureAction> creatureAction(new CreatureAction(creatureBeingParsed));
         if (type.compare("death") == 0) {
-            creatureBeingParsed->setDeathAction(creatureAction);
+            creatureBeingParsed->setDeathAction(creatureAction);  
+            creatureAction->setName(name);
         }
-        else if (type.compare("death") == 0) {
+        else if (type.compare("death") != 0) {
             creatureBeingParsed->setHitAction(creatureAction);
+            creatureAction->setName(" "); //don't kow what to put for name here
         }
         actionBeingParsed = creatureAction;
     }

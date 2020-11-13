@@ -3,10 +3,18 @@
 #include <iostream>
 #include <stdio.h>
 
-KeyboardListener::KeyboardListener(std::shared_ptr<ObjDisplayGrid> _grid) : grid(_grid) {}
+KeyboardListener::KeyboardListener(std::shared_ptr<ObjDisplayGrid> _grid) : grid(_grid) {
+	running = new bool;
+	*running = false;
+}
+
+KeyboardListener::~KeyboardListener()
+{
+	delete running;
+}
 
 void KeyboardListener::run() {
-	running = true;
+	*running = true;
 	char input;
 	int itemPos = 0;
 	do {
@@ -17,14 +25,14 @@ void KeyboardListener::run() {
 		int newY = 0;
 		switch (input) {
 		case 'x': //exit the game
-			running = false;
+			*running = false;
 			break;
 		case 'k': //move up
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newY = oldY - 1;
 			newX = oldX;
-			grid->moveObject('@', oldX, newY, oldX, oldY);
+			grid->moveObject('@', oldX, newY, oldX, oldY, running);
 			break;
 
 		case 'j': //move down
@@ -32,7 +40,7 @@ void KeyboardListener::run() {
 			oldY = grid->player->getPosY();
 			newY = oldY + 1;
 			newX = oldX;
-			grid->moveObject('@', oldX, newY, oldX, oldY);
+			grid->moveObject('@', oldX, newY, oldX, oldY, running);
 			break;
 
 		case 'h': //move left
@@ -40,7 +48,7 @@ void KeyboardListener::run() {
 			oldY = grid->player->getPosY();
 			newX = oldX - 1;
 			newY = oldY;
-			grid->moveObject('@', newX, oldY, oldX, oldY);
+			grid->moveObject('@', newX, oldY, oldX, oldY, running);
 			break;
 
 		case 'l': //move right
@@ -48,7 +56,7 @@ void KeyboardListener::run() {
 			oldY = grid->player->getPosY();
 			newX = oldX + 1;
 			newY = oldY;
-			grid->moveObject('@', newX, oldY, oldX, oldY);
+			grid->moveObject('@', newX, oldY, oldX, oldY, running);
 			break;
 		//case 'i': //updates pack			
 			//grid->setPack(item); //need to find a way to update this with picked up item
@@ -73,5 +81,5 @@ void KeyboardListener::run() {
 		}
 		grid->update();
 
-	} while (running);
+	} while (*running);
 }

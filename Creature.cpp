@@ -43,7 +43,7 @@ std::string Creature::getName()
 }
 
 int Creature::getHit(std::shared_ptr<Displayable> _hitter) {
-	int damage = 1;//rand() % _hitter->getMaxHit();
+	int damage = (rand() % _hitter->getMaxHit()) + 1;
 	this->hp -= damage;
 
 	return damage;
@@ -56,17 +56,11 @@ int Creature::getHP()
 
 std::string Creature::executeDA(std::string actionType)
 {
-	if (actionType == "YouWin") {
-		for (std::shared_ptr<CreatureAction> action: da) {
-			if (std::shared_ptr<YouWin>youWin = std::dynamic_pointer_cast<YouWin>(action)) 
-			{
-				return action->getMsg();
-			}
-		}
+	for (std::shared_ptr<CreatureAction> action: da) {
+		if (action->getName() == actionType) return action->getMsg();
 	}
+	return " ";
 }
-
-
 
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;

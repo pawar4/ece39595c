@@ -1,8 +1,8 @@
 #include "Displayable.h"
 
-Displayable::Displayable(int maxHit, int hpMoves, int Hp, 
-	char t, int v, int PosX, int PosY, int x, int y) : maxHit(maxHit), hpMoves(hpMoves),
-	Hp(Hp), type(t), v(v), PosX(PosX), PosY(PosY), Width(x), Height(y)
+Displayable::Displayable(int _maxHit, int _hpMoves, int _Hp,
+	char _t, int _v, int _PosX, int _PosY, int _x, int _y) : maxHit(_maxHit), hpMoves(_hpMoves),
+	Hp(_Hp), type(_t), v(_v), PosX(_PosX), PosY(_PosY), Width(_x), Height(_y)
 {
 	//std::cout << "Displayble Constructor" << std::endl;
 }
@@ -18,59 +18,59 @@ void Displayable::setVisible() {
 	//std::cout << "Displayable::setVisible" << std::endl;
 }
 
-void Displayable::setMaxHit(int maxHit) {
-	maxHit = maxHit;
+void Displayable::setMaxHit(int _maxHit) {
+	maxHit = _maxHit;
 	//std::cout << "Displayable::setMaxHit" << std::endl;
 	//std::cout << "MaxHit: " << std::to_string(maxHit) << std::endl;
 }
 
-void Displayable::setHpMove(int hpMoves) {
-	hpMoves = hpMoves;
+void Displayable::setHpMove(int _hpMoves) {
+	hpMoves = _hpMoves;
 	//std::cout << "Displayable::setHpMove" << std::endl;
 	//std::cout << "HpMoves: " << std::to_string(hpMoves) << std::endl;
 }
 
-void Displayable::setHp(int Hp) {
-	Hp = Hp;
+void Displayable::setHp(int _Hp) {
+	Hp = _Hp;
 	//std::cout << "Displayable::setHp" << std::endl;
 	//std::cout << "Hp: " << std::to_string(Hp) << std::endl;
 }
 
-void Displayable::setType(char t) {
-	type = t;
+void Displayable::setType(char _t) {
+	type = _t;
 	//std::cout << "Displayable::setType" << std::endl;
 	//std::cout << "type: " << t << std::endl;
 }
 
-void Displayable::setIntValue(int v)
+void Displayable::setIntValue(int _v)
 {
-	v = v;
+	v = _v;
 	//std::cout << "Displayable::setIntValue" << std::endl;
 	//std::cout << "Value: " << std::to_string(v) << std::endl;
 }
 
-void Displayable::setPosX(int x) {
-	PosX = x;
+void Displayable::setPosX(int _x) {
+	PosX = _x;
 	//std::cout << "Displayable::SetPosX" << std::endl;
 	//std::cout << "PosX: " << std::to_string(PosX) << std::endl;
 }
-void Displayable::setPosY(int y) {
-	PosY = y;
+void Displayable::setPosY(int _y) {
+	PosY = _y;
 	//std::cout << "Displayable::SetPosY" << std::endl;
 	//std::cout << "PosY: " << std::to_string(PosY) << std::endl;
 
 }
 
-void Displayable::setWidth(int x)
+void Displayable::setWidth(int _x)
 {
-	 Width = x;
+	 Width = _x;
 	//std::cout << "Displayable::SetWidth" << std::endl;
 	//std::cout << "Width: " << std::to_string(Width) << std::endl;
 
 }
 
-void Displayable::setHeight(int y) {
-	Height = y;
+void Displayable::setHeight(int _y) {
+	Height = _y;
 	//std::cout << "Displayable::SetHeight" << std::endl;
 	//std::cout << "Height: " << std::to_string(height) << std::endl;
 

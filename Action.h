@@ -24,6 +24,10 @@ private:
 class CreatureAction : public Action {
 public:
 	CreatureAction(std::shared_ptr<Creature> owner);
+	virtual void setName(std::string _name);
+	virtual std::string getName();
+private:
+	std::string name;
 
 };
 class ItemAction : public Action {

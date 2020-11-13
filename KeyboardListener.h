@@ -6,10 +6,11 @@
 class KeyboardListener {
 private:
 	std::shared_ptr<ObjDisplayGrid> grid;
-	bool running = false;
+	bool * running = nullptr;
 
 public:
 	KeyboardListener(std::shared_ptr<ObjDisplayGrid> grid);
+	~KeyboardListener();
 	virtual void run();
 };
 

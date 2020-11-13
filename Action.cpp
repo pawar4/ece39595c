@@ -1,24 +1,24 @@
 #include "Action.h"
-Action::Action(int v, int c) : v(v), c(c) {
+Action::Action(int _v, int _c) : v(_v), c(_c) {
 	//std::cout << "Action Constructor" << std::endl;
 }
 Action::Action() : v(0), c(0) {
 	//std::cout << "Action Constructor" << std::endl;
 }
-void Action::setMessage(std::string msg) {
-	msg = msg;
+void Action::setMessage(std::string _msg) {
+	msg = _msg;
 	//std::cout << "Action::setMessage" << std::endl;
 	//std::cout << msg << std::endl;
 }
 
-void Action::setIntValue(int v) {
-	v = v;
+void Action::setIntValue(int _v) {
+	v = _v;
 	//std::cout << "Action::setIntValue" << std::endl;
 	//std::cout << "Int Value: "<< std::to_string(v) << std::endl;
 }
 
-void Action::setCharValue(char c) {
-	c = c;
+void Action::setCharValue(char _c) {
+	c = _c;
 	//std::cout << "Action::setCharValue" << std::endl;
 	//std::cout << "Char Value: " << c << std::endl;
 }
@@ -30,6 +30,16 @@ std::string Action::getMsg()
 
 CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	//std::cout << "CreatureAction Constructor" << std::endl;
+}
+
+void CreatureAction::setName(std::string _name)
+{
+	name = _name;
+}
+
+std::string CreatureAction::getName()
+{
+	return name;
 }
 
 ItemAction::ItemAction(std::shared_ptr<Creature> owner) {

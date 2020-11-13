@@ -18,7 +18,7 @@ public:
     virtual void setTopMessageHeight(int _topHeight);
     virtual void addObjectToDisplay(char ch, int x, int y, std::shared_ptr<Displayable> object);
     virtual void addCharToDisplay(char ch, int x, int y);
-    virtual void moveObject(char ch, int newX, int newY, int oldX, int oldY);
+    virtual void moveObject(char ch, int newX, int newY, int oldX, int oldY, bool * _run);
     virtual void setTopMessage(int line, std::string _message);
     virtual void setBotMessage(int line, std::string _message);
     virtual void setInfo(std::string _message);
