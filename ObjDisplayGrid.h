@@ -19,6 +19,10 @@ public:
     virtual void addObjectToDisplay(char ch, int x, int y, std::shared_ptr<Displayable> object);
     virtual void addCharToDisplay(char ch, int x, int y);
     virtual void moveObject(char ch, int newX, int newY, int oldX, int oldY);
+    virtual void setTopMessage(int line, std::string _message);
+    virtual void setBotMessage(int line, std::string _message);
+    virtual void setInfo(std::string _message);
+    virtual void dispPackMsg();
     //virtual void dropItem();
     virtual void pickItem(int _x, int _y);
     virtual void update();

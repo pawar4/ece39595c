@@ -139,7 +139,8 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     if (name == "player") {
         player = creature; //cast to player eventually
         c = '@';
-
+        std::string hpVal = std::to_string(creature->getHP());
+        setTopMessage(0, "HP: " + hpVal + " Score: ");
         creature->setPosX(creature->getPosX() + room->getPosX());
         creature->setPosY(creature->getPosY() + room->getPosY() + topHeight);
         addCharToDisplay(c, creature->getPosX(), creature->getPosY());
@@ -264,12 +265,22 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
                 step3b : monster dead, drop item, execute YouWin
                 step4 : check if player dead
                 step5 : if player dead, execute EndGame*/
+                std::string mName;
+                if (objectGrid[newX][newY]->getChar() == 'T') { mName = "Troll"; }
+                else if (objectGrid[newX][newY]->getChar() == 'S') { mName = "Snake"; }
+                else if (objectGrid[newX][newY]->getChar() == 'H') { mName = "Hobgoblin"; }
 
                 int monster_dead = monster->getHit(player);
+                std::string mDmgStr = mName + " did " + std::to_string(monster_dead) + " dmg to player. ";
+                //std::string pDmgStr = "Player did " + std::to_string(monster_dead) + " dmg to " + mName;
+                setInfo(mDmgStr); //sets dmg info when attacking
+                
+                setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
                 if (monster_dead) {
                     //Assuming dungeon has a copy of every monster so I can freely pop it from grid
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
+                     // test
                     //execute YouWin action here
                     //I think the monsters drop there stuff and should be handled here
                 }
@@ -297,6 +308,45 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
     }
 }
 
+void ObjDisplayGrid::setTopMessage(int line, std::string _message)
+{
+    // messages start from 0, height and go until width,(height + messages)
+    mvaddstr(line, 0, _message.c_str());
+    // clear after what we wrote to EOL
+    clrtoeol();
+}
+
+void ObjDisplayGrid::setBotMessage(int line, std::string _message)
+{
+    // messages start from 0, height and go until width,(height + messages)
+    mvaddstr(gridHeight - botHeight + line , 0, _message.c_str());
+    // clear after what we wrote to EOL
+    clrtoeol();
+}
+
+void ObjDisplayGrid::setInfo(std::string _message)
+{
+    ObjDisplayGrid::setBotMessage(3, "Info: " + _message);
+}
+
+void ObjDisplayGrid::dispPackMsg()
+{
+    //only update when 'i' is pressed
+    std::string packMsg = "Pack: ";
+    std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(player);
+    std::vector<std::shared_ptr<Item>> pPack = player->getPack();
+    std::shared_ptr<Sword> item;
+    for (int i = 0; i < pPack.size(); i++) {
+        item = std::dynamic_pointer_cast<Sword>(pPack[i]); //Should work if each item has same VFT
+        //Though probably bad design
+        if (i > 0) {
+            packMsg = packMsg + ",";
+        }
+        packMsg = packMsg + std::to_string(i) + item->getName();
+    }
+    ObjDisplayGrid::setBotMessage(0, packMsg);
+}
+
 
 void ObjDisplayGrid::pickItem(int _x, int _y) {
     
@@ -307,6 +357,8 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
         std::shared_ptr<Item> itemPick = std::dynamic_pointer_cast<Item> (objectGrid[_x][_y]->getObject());
 
         //add item to player inventory
+        setPack(itemPick->getName);
+        setInfo("adding " + item->getName() + " to the pack"); //adds item to pack
     }*/
 }
 

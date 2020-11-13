@@ -22,6 +22,8 @@ public:
 	virtual void setName(std::string _name);
 	virtual std::string getName();
 	virtual int getHit(std::shared_ptr<Displayable> _hitter);
+	virtual int getHP();
+	
 private:
 	int hp;
 	int hpm;
@@ -36,11 +38,13 @@ public:
 	void setWeapon(std::shared_ptr<Item> sword); //change to item
 	void setArmor(std::shared_ptr<Item> armor);  //change to item
 	void setID(int _room, int _serial);
+	virtual std::vector<std::shared_ptr<Item>> getPack();
 private:
 	std::shared_ptr<Item> sword;
 	std::shared_ptr<Item> armor;
 	int room;
 	int serial;
+	std::vector<std::shared_ptr<Item>> pack; // used for the item pack
 };
 
 class Monster : public Creature {

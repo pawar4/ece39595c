@@ -50,6 +50,13 @@ int Creature::getHit(std::shared_ptr<Displayable> _hitter) {
 	return 0;
 }
 
+int Creature::getHP()
+{
+	return hp;
+}
+
+
+
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;
 	setName("Player");
@@ -68,6 +75,11 @@ void Player::setID(int _room, int _serial) {
 	room = _room;
 	serial = _serial;
 	//std::cout << "Player::setID" << std::endl;
+}
+
+std::vector<std::shared_ptr<Item>> Player::getPack()
+{
+	return pack;
 }
 
 Monster::Monster()
