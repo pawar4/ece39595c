@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < passages.size(); i++) {
         pgrid->initPassageGrid(passages[i]);
     }
-
+    
     //Just to test funcitonality it seems like it works, so nice
     //Still have to figure out why all the things dissapear after parser class closes
     //Dungeon xml bug for bottom room

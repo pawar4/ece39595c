@@ -10,7 +10,7 @@ class Sword : public Item {
 public:
     Sword(std::string _name);
     virtual void setID(int _room, int serial);
-
+    virtual std::string getName();
 private:
     std::string name;
     int room, serial;

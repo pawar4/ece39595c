@@ -50,7 +50,8 @@ void KeyboardListener::run() {
 			newY = oldY;
 			grid->moveObject('@', newX, oldY, oldX, oldY);
 			break;
-
+		//case 'i': //updates pack			
+			//grid->setPack(item); //need to find a way to update this with picked up item
 		default:
 			break;
 		}
