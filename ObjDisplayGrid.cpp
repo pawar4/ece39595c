@@ -300,14 +300,14 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY)
 
 void ObjDisplayGrid::pickItem(int _x, int _y) {
     
-    if (objectGrid[_x][_y] == '?' ||
+    /*if (objectGrid[_x][_y] == '?' ||
         objectGrid[_x][_y] == ']' ||
         objectGrid[_x][_y] == ')') 
     {
         std::shared_ptr<Item> itemPick = std::dynamic_pointer_cast<Item> (objectGrid[_x][_y]->getObject());
 
         //add item to player inventory
-    }
+    }*/
 }
 
 void ObjDisplayGrid::update() {
