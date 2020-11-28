@@ -272,7 +272,6 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
 
                 monster->getHit(player);
                 
-                setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
                 if (monster->getHP() <= 0) {
                     //Assuming dungeon has a copy of every monster so I can freely pop it from grid
                     objectGrid[newX][newY]->popChar();
@@ -287,6 +286,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                     int damage_dealt = player->getHit(monster);
                     std::string mDmgStr = mName + " did " + std::to_string(damage_dealt) + " dmg to player. ";
                     setInfo(mDmgStr); //sets dmg info when attacking
+                    setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337");
                     if (player->getHP() < 0) {
                         //execute EndGame action here
                         objectGrid[oldX][oldY]->popChar();
@@ -297,7 +297,6 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                             mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
                         }
                         *_run = false;
-                        setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337");
 
                     }
                 }
