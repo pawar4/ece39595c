@@ -1,6 +1,6 @@
 #include "Creature.h"
 #include "YouWin.h"
-
+#include "ObjDisplayGrid.h"
 Creature::Creature() : hp(0), hpm(0), da(0), ha(0)
 {
 	da.resize(0);
@@ -54,12 +54,32 @@ int Creature::getHP()
 	return hp;
 }
 
-std::string Creature::executeDA(std::string actionType)
+std::string Creature::executeDAmsg(std::string actionType)
 {
 	for (std::shared_ptr<CreatureAction> action: da) {
 		if (action->getName() == actionType) return action->getMsg();
 	}
 	return " ";
+}
+
+char Creature::executeDA(ObjDisplayGrid* objGrid)
+{
+	char c = NULL;
+	for (std::shared_ptr<CreatureAction> action : da) {
+		if (action->getName() == "EndGame" || action->getName() == "YouWin") {
+			objGrid->setInfo(action->getMsg());
+		}
+		else if (action->getName() == "EndGame") {
+
+		}
+		else if (action->getName() == "Remove") {
+			//ObjDisplayGrid::moveObject takes care of this functionality
+		}
+		else if (action->getName() == "ChangeDisplayedType") {
+			c = action->getCharVal();
+		}
+	}
+	return c;
 }
 
 Player::Player() : sword(0),armor(0), room(0), serial(0) {

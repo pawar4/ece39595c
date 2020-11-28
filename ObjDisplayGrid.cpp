@@ -278,8 +278,9 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
                     mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
-                    std::string msg = monster->executeDA("YouWin");
-                    setInfo(msg);
+                    monster->executeDA(this);
+                    //std::string msg = monster->executeDAmsg("YouWin");
+                    //setInfo(msg);
                     //I think the monsters drop there stuff and should be handled here
                 }
                 else {
@@ -290,8 +291,13 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                         //execute EndGame action here
                         objectGrid[oldX][oldY]->popChar();
                         mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
-                        setInfo(player->executeDA("EndGame"));
+                        char deathChar = player->executeDA(this);
+                        if (deathChar != NULL) {
+                            objectGrid[oldX][oldY]->addChar(deathChar);
+                            mvaddch(oldY, oldX, objectGrid[oldX][oldY]->getChar());
+                        }
                         *_run = false;
+                        setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337");
 
                     }
                 }
@@ -407,10 +413,10 @@ void ObjDisplayGrid::dropItem(int _x, int _y, int _itemPos) {
         std::shared_ptr<Armor> armor = std::dynamic_pointer_cast<Armor>(item);
         std::shared_ptr<Sword> sword = std::dynamic_pointer_cast<Sword>(item);
 
-        if (scroll) c = '?';
-        else if (armor) c = ']';
-        else if (sword) c = ')';
-
+        if (scroll) { c = '?'; setInfo("Dropping " + scroll->getName()); }
+        else if (armor) { c = ']'; setInfo("Dropping " + armor->getName()); }
+        else if (sword) { c = ')'; setInfo("Dropping " + sword->getName()); }
+        
         objectGrid[_x][_y]->popChar();
         addObjectToDisplay(c, _x, _y, item);
         addCharToDisplay('@', _x, _y);

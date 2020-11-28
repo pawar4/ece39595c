@@ -6,6 +6,7 @@
 #include <string>
 #include "Displayable.h"
 #include <memory>
+//#include "ObjDisplayGrid.h"
 
 class CreatureAction;
 class Item;
@@ -23,7 +24,8 @@ public:
 	virtual std::string getName();
 	virtual int getHit(std::shared_ptr<Displayable> _hitter);
 	virtual int getHP();
-	virtual std::string executeDA(std::string actionType);
+	virtual std::string executeDAmsg(std::string actionType);
+	virtual char executeDA(ObjDisplayGrid* objGrid);
 private:
 	int hp;
 	int hpm;

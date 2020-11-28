@@ -15,6 +15,7 @@ public:
 	void setIntValue(int v);
 	void setCharValue(char c);
 	virtual std::string getMsg();
+	virtual char getCharVal();
 private:
 	std::string msg;
 	int v;
