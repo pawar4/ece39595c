@@ -26,6 +26,7 @@ public:
 	virtual int getHP();
 	virtual std::string executeDAmsg(std::string actionType);
 	virtual char executeDA(ObjDisplayGrid* objGrid);
+	virtual char executeHA(ObjDisplayGrid* objGrid);
 private:
 	int hp;
 	int hpm;

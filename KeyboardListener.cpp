@@ -58,8 +58,6 @@ void KeyboardListener::run() {
 			newY = oldY;
 			grid->moveObject('@', newX, oldY, oldX, oldY, running);
 			break;
-		//case 'i': //updates pack			
-			//grid->setPack(item); //need to find a way to update this with picked up item
 		case 'p': //pick up item
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();

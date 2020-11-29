@@ -271,14 +271,15 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                 else if (objectGrid[newX][newY]->getChar() == 'H') { mName = "Hobgoblin"; }
 
                 monster->getHit(player);
-                
+                monster->executeHA(this);
                 setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
                 if (monster->getHP() <= 0) {
+                    monster->executeDA(this);
                     //Assuming dungeon has a copy of every monster so I can freely pop it from grid
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
                     mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
-                    monster->executeDA(this);
+                    
                     //std::string msg = monster->executeDAmsg("YouWin");
                     //setInfo(msg);
                     //I think the monsters drop there stuff and should be handled here
@@ -286,7 +287,8 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                 else {
                     int damage_dealt = player->getHit(monster);
                     std::string mDmgStr = mName + " did " + std::to_string(damage_dealt) + " dmg to player. ";
-                    setInfo(mDmgStr); //sets dmg info when attacking
+                    setInfo(mDmgStr, ""); //sets dmg info when attacking
+                    player->executeHA(this);
                     if (player->getHP() < 0) {
                         //execute EndGame action here
                         objectGrid[oldX][oldY]->popChar();
@@ -325,17 +327,23 @@ void ObjDisplayGrid::setTopMessage(int line, std::string _message)
     clrtoeol();
 }
 
-void ObjDisplayGrid::setBotMessage(int line, std::string _message)
+void ObjDisplayGrid::setBotMessage(int line, std::string _topMessage, std::string _botMessage)
 {
     // messages start from 0, height and go until width,(height + messages)
-    mvaddstr(gridHeight - botHeight + line , 0, _message.c_str());
+    if (!_topMessage.empty())
+    mvaddstr(gridHeight - botHeight + line - 1, 0, _topMessage.c_str());
+    if (!_botMessage.empty()) {
+        std::string btMsg = "      " + _botMessage;
+        mvaddstr(gridHeight - botHeight + line, 0, btMsg.c_str());
+    }
+    
     // clear after what we wrote to EOL
     clrtoeol();
 }
 
-void ObjDisplayGrid::setInfo(std::string _message)
+void ObjDisplayGrid::setInfo(std::string _topMessage, std::string _botMessage)
 {
-    ObjDisplayGrid::setBotMessage(3, "Info: " + _message);
+    ObjDisplayGrid::setBotMessage(3, "Info: " + _topMessage, _botMessage);
 }
 
 void ObjDisplayGrid::dispPackMsg()
@@ -367,7 +375,7 @@ void ObjDisplayGrid::dispPackMsg()
             packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
         }
     }
-    ObjDisplayGrid::setBotMessage(0, packMsg);
+    ObjDisplayGrid::setBotMessage(0, packMsg, "");
 }
 
 
@@ -382,15 +390,15 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
         //add item to player inventory
         if (objectGrid[_x][_y]->checkItem() == ')') {
             std::shared_ptr<Sword> addItem = std::dynamic_pointer_cast<Sword> (itemPick);
-            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+            setInfo("adding " + addItem->getName() + " to the pack", ""); //adds item to pack
         }
         else if (objectGrid[_x][_y]->checkItem() == ']') {
             std::shared_ptr<Armor> addItem = std::dynamic_pointer_cast<Armor> (itemPick);
-            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+            setInfo("adding " + addItem->getName() + " to the pack", ""); //adds item to pack
         }
         else {
             std::shared_ptr<Scroll> addItem = std::dynamic_pointer_cast<Scroll> (itemPick);
-            setInfo("adding " + addItem->getName() + " to the pack"); //adds item to pack
+            setInfo("adding " + addItem->getName() + " to the pack", ""); //adds item to pack
         }
 
         player->addItem(itemPick);
@@ -401,7 +409,7 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
 
 void ObjDisplayGrid::dropItem(int _x, int _y, int _itemPos) {
     if (player->isPackEmpty()) {
-        setInfo("Pack is empty");
+        setInfo("Pack is empty", "");
         return;
     }
 
@@ -413,9 +421,9 @@ void ObjDisplayGrid::dropItem(int _x, int _y, int _itemPos) {
         std::shared_ptr<Armor> armor = std::dynamic_pointer_cast<Armor>(item);
         std::shared_ptr<Sword> sword = std::dynamic_pointer_cast<Sword>(item);
 
-        if (scroll) { c = '?'; setInfo("Dropping " + scroll->getName()); }
-        else if (armor) { c = ']'; setInfo("Dropping " + armor->getName()); }
-        else if (sword) { c = ')'; setInfo("Dropping " + sword->getName()); }
+        if (scroll) { c = '?'; setInfo("Dropping " + scroll->getName(), ""); }
+        else if (armor) { c = ']'; setInfo("Dropping " + armor->getName(), ""); }
+        else if (sword) { c = ')'; setInfo("Dropping " + sword->getName(), ""); }
         
         objectGrid[_x][_y]->popChar();
         addObjectToDisplay(c, _x, _y, item);

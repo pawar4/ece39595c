@@ -173,7 +173,7 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         }
         else if (type.compare("death") != 0) {
             creatureBeingParsed->setHitAction(creatureAction);
-            creatureAction->setName(" "); //don't kow what to put for name here
+            creatureAction->setName(name); //don't kow what to put for name here
         }
         actionBeingParsed = creatureAction;
     }
