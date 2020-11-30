@@ -18,7 +18,8 @@ void KeyboardListener::run() {
 	char input;
 	int itemPos = 0;
 	do {
-		input = std::tolower(getchar());
+		//input = std::tolower(getchar());
+		input = getchar();
 		int oldX = 0;
 		int oldY = 0;
 		int newX = 0;
@@ -27,12 +28,14 @@ void KeyboardListener::run() {
 		case 'x': //exit the game
 			*running = false;
 			break;
+
 		case 'k': //move up
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newY = oldY - 1;
 			newX = oldX;
 			grid->moveObject('@', oldX, newY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'j': //move down
@@ -41,6 +44,7 @@ void KeyboardListener::run() {
 			newY = oldY + 1;
 			newX = oldX;
 			grid->moveObject('@', oldX, newY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'h': //move left
@@ -49,6 +53,7 @@ void KeyboardListener::run() {
 			newX = oldX - 1;
 			newY = oldY;
 			grid->moveObject('@', newX, oldY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'l': //move right
@@ -57,28 +62,52 @@ void KeyboardListener::run() {
 			newX = oldX + 1;
 			newY = oldY;
 			grid->moveObject('@', newX, oldY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
-		//case 'i': //updates pack			
-			//grid->setPack(item); //need to find a way to update this with picked up item
+
 		case 'p': //pick up item
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			grid->pickItem(oldX, oldY);
 			break;
+
 		case 'd':
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			while(itemPos <= 0 || itemPos > 9) itemPos = getchar() - 48;
-			//scanf("%d", &itemPos);
 			grid->dropItem(oldX, oldY, itemPos);
 			break;
+
 		case 'i':
 			grid->dispPackMsg();
+			break;
+
+		case 'c':
+			//grid->player->takeOffArmor();
+			break;
+
+		case 'E':
+			break;
+
+		case '?':
+			break;
+
+		case 'H':
+			break;
+
+		case 'r':
+			break;
+
+		case 'T':
+			break;
+
+		case 'w':
 			break;
 
 		default:
 			break;
 		}
+		
 		grid->update();
 
 	} while (*running);

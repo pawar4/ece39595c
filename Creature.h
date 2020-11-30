@@ -22,7 +22,7 @@ public:
 	virtual void setHitAction(std::shared_ptr<CreatureAction> ha);
 	virtual void setName(std::string _name);
 	virtual std::string getName();
-	virtual int getHit(std::shared_ptr<Displayable> _hitter);
+	virtual int getHit(std::shared_ptr<Displayable> _hitter, int _dmgBuff, int _dmgDebuff);
 	virtual int getHP();
 	virtual std::string executeDAmsg(std::string actionType);
 	virtual char executeDA(ObjDisplayGrid* objGrid);
@@ -44,6 +44,12 @@ public:
 	virtual void addItem(std::shared_ptr<Item> itemPick);
 	virtual std::shared_ptr<Item> dropItem(int _itemPos);
 	virtual int isPackEmpty();
+	virtual std::shared_ptr<Item> getSword();
+	virtual std::shared_ptr<Item> getArmor();
+	/*virtual int takeOffArmor();
+	virtual int takeOutSword(int itemPos);
+	virtual int wearArmor(int itemPos);*/
+	bool hallucinate;
 private:
 	std::shared_ptr<Item> sword;
 	std::shared_ptr<Item> armor;
