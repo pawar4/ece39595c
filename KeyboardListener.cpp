@@ -21,6 +21,7 @@ void KeyboardListener::run() {
 	do {
 		//Might need to change this later if messages get cleared that we don't want cleared
 		grid->clrBotMsg(); 
+		//input = std::tolower(getchar());
 		input = getchar();
 		int oldX = 0;
 		int oldY = 0;
@@ -30,6 +31,7 @@ void KeyboardListener::run() {
 		case 'x': //exit the game
 			*running = false;
 			break;
+
 		case 'k': //move up
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
@@ -37,6 +39,7 @@ void KeyboardListener::run() {
 			newX = oldX;
 			grid->setInfo("", " ");
 			grid->moveObject('@', oldX, newY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'j': //move down
@@ -46,6 +49,7 @@ void KeyboardListener::run() {
 			newX = oldX;
 			grid->setInfo("", " ");
 			grid->moveObject('@', oldX, newY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'h': //move left
@@ -55,6 +59,7 @@ void KeyboardListener::run() {
 			newY = oldY;
 			grid->setInfo("", " ");
 			grid->moveObject('@', newX, oldY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
 
 		case 'l': //move right
@@ -64,19 +69,22 @@ void KeyboardListener::run() {
 			newY = oldY;
 			grid->setInfo("", " ");
 			grid->moveObject('@', newX, oldY, oldX, oldY, running);
+			grid->hallucinate();
 			break;
+
 		case 'p': //pick up item
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			grid->pickItem(oldX, oldY);
 			break;
+
 		case 'd':
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			while(itemPos <= 0 || itemPos > 9) itemPos = getchar() - 48;
-			//scanf("%d", &itemPos);
 			grid->dropItem(oldX, oldY, itemPos);
 			break;
+
 		case 'i':
 			grid->clrBotMsg();
 			grid->dispPackMsg();
@@ -129,7 +137,6 @@ void KeyboardListener::run() {
 			case 'p':
 				grid->setBotMessage(0, "Help: Pick up an item from the dungeon floor 'p': pick up the item on the       dungeon floor location that the player is standing on and adds it to the pack.", "");
 				grid->setInfo("", " ");
-
 				break;
 			case 'r':
 				grid->setBotMessage(0, "Read an item 'r' <integer>: Read a scroll specified by <integer>... iF y0u DAaaAaRrReEE!!!!!!!!", "");

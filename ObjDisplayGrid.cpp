@@ -455,4 +455,3 @@ void ObjDisplayGrid::update() {
     // refreshes ncurses
     refresh();
 }
-

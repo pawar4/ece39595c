@@ -42,9 +42,9 @@ std::string Creature::getName()
 	return name;
 }
 
-int Creature::getHit(std::shared_ptr<Displayable> _hitter) {
-	int damage = (rand() % _hitter->getMaxHit()) + 1;
-	this->hp -= damage;
+int Creature::getHit(std::shared_ptr<Displayable> _hitter, int _dmgBuff, int _dmgDebuff) {
+	int damage = (rand() % _hitter->getMaxHit()) + 1 + _dmgBuff;
+	if (damage > _dmgDebuff) this->hp -= (damage - _dmgDebuff);
 
 	return damage;
 }
@@ -117,7 +117,7 @@ char Player::executeIA(ObjDisplayGrid* objGrid, int item)
 	return c;
 }
 
-Player::Player() : sword(0),armor(0), room(0), serial(0) {
+Player::Player() : sword(0),armor(0), room(0), serial(0), hallucinate(false) {
 	//std::cout << "Player Constructor" << std::endl;
 	setName("Player");;
 }
@@ -161,6 +161,50 @@ int Player::isPackEmpty()
 {
 	return pack.size() == 0 ? 1 : 0;
 }
+
+std::shared_ptr<Item> Player::getSword()
+{
+	return this->sword;
+}
+
+std::shared_ptr<Item> Player::getArmor()
+{
+	return this->armor;
+}
+
+/*int Player::takeOffArmor()
+{
+	if (armor) {
+		armor = std::shared_ptr<Item>(nullptr);
+		return 1;
+	}
+	return 0;
+	//need to update inventory to remove a next to the armor
+}
+
+int Player::takeOutSword(int _itemPos)
+{
+	std::shared_ptr<Sword> equipSword = std::dynamic_pointer_cast<Sword>(pack[_itemPos - 1]);
+
+	if (equipSword) {
+		sword = equipSword;
+		return 1;
+	}
+	return 0;
+	//need to update inventory to add w next to the sword
+}
+
+int Player::wearArmor(int _itemPos)
+{
+	std::shared_ptr<Armor> equipArmor = std::dynamic_pointer_cast<Armor>(pack[_itemPos - 1]);
+
+	if (equipArmor) {
+		armor = equipArmor;
+		return 1;
+	}
+	return 0;
+	//need to update inventory to add a next to the armor
+}*/
 
 Monster::Monster()
 {
