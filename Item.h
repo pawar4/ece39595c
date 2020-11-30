@@ -9,7 +9,7 @@
 class Item : public Displayable {
 public:
     Item( );
-    virtual void setOwner (std::shared_ptr<Creature> _owner);
+    virtual void setOwner(std::shared_ptr<Creature> _owner);
 
 private:
     std::shared_ptr<Creature> owner;

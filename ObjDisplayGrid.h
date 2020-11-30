@@ -20,9 +20,10 @@ public:
     virtual void addCharToDisplay(char ch, int x, int y);
     virtual void moveObject(char ch, int newX, int newY, int oldX, int oldY, bool * _run);
     virtual void setTopMessage(int line, std::string _message);
-    virtual void setBotMessage(int line, std::string _message);
-    virtual void setInfo(std::string _message);
+    virtual void setBotMessage(int line, std::string _topMessage, std::string _botMessage);
+    virtual void setInfo(std::string _topMessage, std::string _botMessage);
     virtual void dispPackMsg();
+    virtual void clrBotMsg();
     virtual void dropItem(int _x, int _y, int itemPos);
     virtual void pickItem(int _x, int _y);
     virtual void update();

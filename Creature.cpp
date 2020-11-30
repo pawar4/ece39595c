@@ -67,7 +67,7 @@ char Creature::executeDA(ObjDisplayGrid* objGrid)
 	char c = NULL;
 	for (std::shared_ptr<CreatureAction> action : da) {
 		if (action->getName() == "EndGame" || action->getName() == "YouWin") {
-			objGrid->setInfo(action->getMsg());
+			objGrid->setInfo(action->getMsg(),"");
 		}
 		else if (action->getName() == "EndGame") {
 
@@ -79,6 +79,41 @@ char Creature::executeDA(ObjDisplayGrid* objGrid)
 			c = action->getCharVal();
 		}
 	}
+	return c;
+}
+
+char Creature::executeHA(ObjDisplayGrid* objGrid)
+{
+	char c = NULL;
+	for (std::shared_ptr<CreatureAction> action : ha) {
+		if (action->getName() == "DropPack") {
+			//objGrid->setInfo(action->getMsg());
+			//implement droppack functionality
+		}
+		else if (action->getName() == "Teleport") {
+			//objGrid->setInfo(action->getMsg());
+			//implement teleport functionality
+		}
+		else if (action->getName() == "Remove") {
+			//ObjDisplayGrid::moveObject takes care of this functionality
+		}
+		else if (action->getName() == "ChangeDisplayedType") {
+			//c = action->getCharVal();
+		}
+		if (!action->getMsg().empty()) {
+			objGrid->setInfo("", action->getMsg());
+		}
+	}
+	return c;
+}
+
+char Player::executeIA(ObjDisplayGrid* objGrid, int item)
+{	//getitem 
+	char c;
+	/*std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(pack[item]);
+	if (scroll) {
+		//scroll->
+	}*/
 	return c;
 }
 
