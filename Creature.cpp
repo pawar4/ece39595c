@@ -14,8 +14,8 @@ void Creature::setHp(int h) {
 	//std::cout << "Creature::setHp" << std::endl;
 }
 
-void Creature::setHpMoves(int hpm) {
-	hpm = hpm;
+void Creature::setHpMoves(int _hpm) {
+	hpm = _hpm;
 	//std::cout << "Creature::setHpMoves" << std::endl;
 	//std::cout << "HPMoves: " << std::to_string(hpm) << std::endl;
 }
@@ -89,6 +89,9 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 		if (action->getName() == "DropPack") {
 			//objGrid->setInfo(action->getMsg());
 			//implement droppack functionality
+
+			objGrid->dropItem(objGrid->player->getPosX(), 
+				objGrid->player->getPosY(), 1);
 		}
 		else if (action->getName() == "Teleport") {
 			//objGrid->setInfo(action->getMsg());

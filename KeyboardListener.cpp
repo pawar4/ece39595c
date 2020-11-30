@@ -68,12 +68,15 @@ void KeyboardListener::run() {
 		case 'p': //pick up item
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
-			grid->pickItem(oldX, oldY);
+			grid->pickItem(oldX, oldY);			
 			break;
 		case 'd':
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
-			while(itemPos <= 0 || itemPos > 9) itemPos = getchar() - 48;
+			grid->dispPackMsg();
+			grid->update();
+			/*while(itemPos <= 0 || itemPos > 9)*/ 
+			itemPos = getchar() - 48;
 			//scanf("%d", &itemPos);
 			grid->dropItem(oldX, oldY, itemPos);
 			break;

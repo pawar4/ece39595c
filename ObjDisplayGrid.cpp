@@ -93,7 +93,7 @@ void ObjDisplayGrid::initPassageGrid(std::shared_ptr<Passage> passage)
                 posY2 = yVec[i];
             }
             else {
-                posX1 = xVec[i];
+                posX1  = xVec[i];
                 posY1 = yVec[i];
                 posX2 = xVec[i - 1];
                 posY2 = yVec[i - 1];
@@ -419,10 +419,13 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
             std::shared_ptr<Scroll> addItem = std::dynamic_pointer_cast<Scroll> (itemPick);
             setInfo("adding " + addItem->getName() + " to the pack", ""); //adds item to pack
         }
+             
         setInfo(" ","");
         player->addItem(itemPick);
+        dispPackMsg();
         objectGrid[_x][_y]->popChar();
         objectGrid[_x][_y]->popObject();
+        update();
     }
 }
 
