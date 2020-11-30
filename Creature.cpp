@@ -94,6 +94,9 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 		if (action->getName() == "DropPack") {
 			//objGrid->setInfo(action->getMsg());
 			//implement droppack functionality
+
+			objGrid->dropItem(objGrid->player->getPosX(),
+				objGrid->player->getPosY(), 1);
 		}
 		else if (action->getName() == "Teleport") {
 			//objGrid->setInfo(action->getMsg());
