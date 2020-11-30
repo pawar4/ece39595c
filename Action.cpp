@@ -38,6 +38,11 @@ int Action::getIntValue()
 	return v;
 }
 
+std::string Action::getMessage()
+{
+	return msg;
+}
+
 CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	//std::cout << "CreatureAction Constructor" << std::endl;
 }

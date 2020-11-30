@@ -220,6 +220,7 @@ void ObjDisplayGrid::readScroll(int _itemPos) {
         if (scroll->getAction()->getName() == "Hallucinate") {
             player->hallucinate = true;
             player->setScrollEffect(scroll->getAction()->getIntValue());
+            
         }
         else if (scroll->getName() == "Bless") {}
         else if (scroll->getName() == "Curse") {}

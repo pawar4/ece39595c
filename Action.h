@@ -19,6 +19,7 @@ public:
 	virtual std::string getMsg();
 	virtual char getCharVal();
 	virtual int getIntValue();
+	virtual std::string getMessage();
 private:
 	std::string msg;
 	int v;

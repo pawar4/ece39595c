@@ -194,7 +194,12 @@ void KeyboardListener::run() {
 
 		case 'r':
 			itemPos = getchar() - 48;
-			grid->readScroll(itemPos);
+			if (itemPos < grid->player->getPack().size() && itemPos > 0) {
+				grid->readScroll(itemPos);
+			}
+			else {
+				grid->setInfo("Not an item in pack!", "");
+			}
 			break;
 		
 		case 'T':
