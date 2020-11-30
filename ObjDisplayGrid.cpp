@@ -507,8 +507,10 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
         }
         setInfo(" ","");
         player->addItem(itemPick);
+        dispPackMsg();
         objectGrid[_x][_y]->popChar();
         objectGrid[_x][_y]->popObject();
+        update();
     }
 }
 

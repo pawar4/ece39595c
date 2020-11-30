@@ -92,13 +92,11 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 	char c = NULL;
 	for (std::shared_ptr<CreatureAction> action : ha) {
 		if (action->getName() == "DropPack") {
-			if (action->getName() == "DropPack") {
-				//objGrid->setInfo(action->getMsg());
-				//implement droppack functionality
+			//objGrid->setInfo(action->getMsg());
+			//implement droppack functionality
 
-				objGrid->dropItem(objGrid->player->getPosX(),
-					objGrid->player->getPosY(), 1);
-			}
+			objGrid->dropItem(objGrid->player->getPosX(),
+				objGrid->player->getPosY(), 1);
 		}
 		else if (action->getName() == "Teleport") {
 			//objGrid->setInfo(action->getMsg());
