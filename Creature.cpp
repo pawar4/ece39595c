@@ -107,6 +107,16 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 	return c;
 }
 
+char Player::executeIA(ObjDisplayGrid* objGrid, int item)
+{	//getitem 
+	char c;
+	/*std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(pack[item]);
+	if (scroll) {
+		//scroll->
+	}*/
+	return c;
+}
+
 Player::Player() : sword(0),armor(0), room(0), serial(0) {
 	//std::cout << "Player Constructor" << std::endl;
 	setName("Player");;

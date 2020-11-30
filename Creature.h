@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "Displayable.h"
+//#include "scroll.h"
 #include <memory>
 //#include "ObjDisplayGrid.h"
 
@@ -27,6 +28,7 @@ public:
 	virtual std::string executeDAmsg(std::string actionType);
 	virtual char executeDA(ObjDisplayGrid* objGrid);
 	virtual char executeHA(ObjDisplayGrid* objGrid);
+	
 private:
 	int hp;
 	int hpm;
@@ -45,6 +47,7 @@ public:
 	virtual void addItem(std::shared_ptr<Item> itemPick);
 	virtual std::shared_ptr<Item> dropItem(int _itemPos);
 	virtual int isPackEmpty();
+	virtual char executeIA(ObjDisplayGrid* objGrid, int item);
 private:
 	std::shared_ptr<Item> sword;
 	std::shared_ptr<Item> armor;

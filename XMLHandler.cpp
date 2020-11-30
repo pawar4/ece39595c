@@ -177,13 +177,14 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         }
         actionBeingParsed = creatureAction;
     }
+    //Gotta fix this later Circular Dependancy!!!
     else if (case_insensitive_match(qNameStr, "ItemAction")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
         std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureBeingParsed));
-        //if (type.compare("item") == 0) {
-        //    itemBeingParsed->setItemAction(itemAction);
-        //}
+        /*if (type.compare("item") == 0) {
+            itemBeingParsed->setItemAction(itemAction);
+        }*/
         bItemAction = true;
         actionBeingParsed = itemAction;
     }

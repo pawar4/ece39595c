@@ -279,7 +279,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                     objectGrid[newX][newY]->popChar();
                     objectGrid[newX][newY]->popObject();
                     mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
-                    
+                    //setInfo("", " ");
                     //std::string msg = monster->executeDAmsg("YouWin");
                     //setInfo(msg);
                     //I think the monsters drop there stuff and should be handled here
@@ -330,8 +330,10 @@ void ObjDisplayGrid::setTopMessage(int line, std::string _message)
 void ObjDisplayGrid::setBotMessage(int line, std::string _topMessage, std::string _botMessage)
 {
     // messages start from 0, height and go until width,(height + messages)
-    if (!_topMessage.empty())
-    mvaddstr(gridHeight - botHeight + line - 1, 0, _topMessage.c_str());
+    if (!_topMessage.empty()) {
+        mvaddstr(gridHeight - botHeight + line - 1, 0, _topMessage.c_str());
+        clrtoeol();
+    }
     if (!_botMessage.empty()) {
         std::string btMsg = "      " + _botMessage;
         mvaddstr(gridHeight - botHeight + line, 0, btMsg.c_str());
@@ -378,6 +380,23 @@ void ObjDisplayGrid::dispPackMsg()
     ObjDisplayGrid::setBotMessage(0, packMsg, "");
 }
 
+void ObjDisplayGrid::clrBotMsg()
+{
+    std::string blank = "";
+    mvaddstr(gridHeight - botHeight - 1, 0, blank.c_str());
+    clrtoeol();
+    mvaddstr(gridHeight - botHeight, 0, blank.c_str());
+    clrtoeol();
+    mvaddstr(gridHeight - botHeight + 1, 0, blank.c_str());
+    clrtoeol();
+    //mvaddstr(gridHeight - botHeight + 2, 0, blank.c_str());
+    //clrtoeol();
+    //mvaddstr(gridHeight - botHeight + 3, 0, blank.c_str());
+    //clrtoeol();
+    //mvaddstr(gridHeight - botHeight + 4, 0, blank.c_str());
+    //clrtoeol();
+}
+
 
 void ObjDisplayGrid::pickItem(int _x, int _y) {
     char temp = objectGrid[_x][_y]->getChar();
@@ -400,7 +419,7 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
             std::shared_ptr<Scroll> addItem = std::dynamic_pointer_cast<Scroll> (itemPick);
             setInfo("adding " + addItem->getName() + " to the pack", ""); //adds item to pack
         }
-
+        setInfo(" ","");
         player->addItem(itemPick);
         objectGrid[_x][_y]->popChar();
         objectGrid[_x][_y]->popObject();
