@@ -13,6 +13,7 @@ class CreatureAction;
 class Item;
 class Sword;
 class Armor;
+class Scroll;
 
 class Creature : public Displayable {
 public:
@@ -25,10 +26,11 @@ public:
 	virtual std::string getName();
 	virtual int getHit(std::shared_ptr<Displayable> _hitter, int _dmgBuff, int _dmgDebuff);
 	virtual int getHP();
+	virtual void regenHP(int _amount);
 	virtual std::string executeDAmsg(std::string actionType);
 	virtual char executeDA(ObjDisplayGrid* objGrid);
 	virtual char executeHA(ObjDisplayGrid* objGrid);
-	
+	virtual int getHpMoves();
 private:
 	int hp;
 	int hpm;
@@ -50,11 +52,14 @@ public:
 	virtual char executeIA(ObjDisplayGrid* objGrid, int item);
 	virtual std::shared_ptr<Item> getSword();
 	virtual std::shared_ptr<Item> getArmor();
-	/*virtual int takeOffArmor();
-	virtual int takeOutSword(int itemPos);
-	virtual int wearArmor(int itemPos);*/
+	virtual int takeOffArmor();
+	virtual void setScrollEffect(int _effect);
+	virtual int getScrollEffect();
 	bool hallucinate;
+	int movesCounter;
+	int hallucinateCounter;
 private:
+	int scrollEffect;
 	std::shared_ptr<Item> sword;
 	std::shared_ptr<Item> armor;
 	int room;

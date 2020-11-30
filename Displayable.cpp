@@ -106,6 +106,11 @@ int Displayable::getMaxHit()
 	return maxHit;
 }
 
+int Displayable::getIntVal()
+{
+	return v;
+}
+
 /*int Displayable::getHit(std::shared_ptr<Displayable> _hitter) {
 	int damage = rand() % _hitter->getMaxHit();
 	this->Hp -= damage;

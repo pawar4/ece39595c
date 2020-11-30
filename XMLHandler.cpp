@@ -177,16 +177,15 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         }
         actionBeingParsed = creatureAction;
     }
-    //Gotta fix this later Circular Dependancy!!!
     else if (case_insensitive_match(qNameStr, "ItemAction")) {
         std::string name = xmlChToString(getXMLChAttributeFromString(attributes, "name"));
         std::string type = xmlChToString(getXMLChAttributeFromString(attributes, "type"));
-        std::shared_ptr<CreatureAction> itemAction(new CreatureAction(creatureBeingParsed));
-        /*if (type.compare("item") == 0) {
-            itemBeingParsed->setItemAction(itemAction);
-        }*/
+        std::shared_ptr<ItemAction> itemAction(new ItemAction());
+        itemAction->setName(name);
+        itemBeingParsed->setAction(itemAction);
         bItemAction = true;
         actionBeingParsed = itemAction;
+       
     }
     else if (case_insensitive_match(qNameStr, "visible")) {
         bVisible = true;
@@ -452,7 +451,7 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         bActionCharValue = false;
     }
     else if (bItemIntValue) {
-        if (bScroll) {
+        /*if (bScroll) {
             actionBeingParsed->setIntValue(std::stoi(data));
         }
         else if (bArmor) {
@@ -460,6 +459,12 @@ void XMLHandler::endElement(const XMLCh* uri, const XMLCh* localName, const XMLC
         }
         else if (bSword) {
             actionBeingParsed->setIntValue(std::stoi(data));
+        }*/
+        if (bArmor) {
+            armorBeingParsed->setIntValue(std::stoi(data));
+        }
+        else if (bSword) {
+            swordBeingParsed->setIntValue(std::stoi(data));
         }
         bItemIntValue = false;
     }

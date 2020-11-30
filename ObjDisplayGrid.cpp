@@ -155,6 +155,79 @@ void ObjDisplayGrid::initCreatureGrid(std::shared_ptr<Creature> creature, std::s
     update();
 }
 
+void ObjDisplayGrid::hallucinate() {
+    char dispChar = 0;
+    if (!(player->hallucinate) && !(player->hallucinateCounter)) {
+        for (int i = 0; i < width; i++) {
+            for (int j = topHeight; j < gameHeight; j++) {
+                if (objectGrid[i][j]->getChar() != ' ') {
+                    mvaddch(j, i, objectGrid[i][j]->getChar());
+                }
+            }
+        }
+    }
+    if (player->hallucinate) {
+        for (int i = 0; i < width; i++) {
+            for (int j = topHeight; j < gameHeight; j++) {
+                if (objectGrid[i][j]->getChar() != ' ') {
+                    dispChar = rand() % 177;
+                    mvaddch(j, i, dispChar);
+                }
+            }
+        }
+        player->hallucinateCounter = (player->hallucinateCounter + 1) % player->getScrollEffect();
+        if (player->hallucinateCounter == 0) { 
+            player->hallucinate = false; 
+        }
+    }
+}
+
+void ObjDisplayGrid::equipSword(int _itemPos) {
+    std::vector<std::shared_ptr<Item>> pPack = player->getPack();
+
+    std::shared_ptr<Sword> weapon = std::dynamic_pointer_cast<Sword>(pPack[_itemPos - 1]);
+
+    if (weapon) {
+        player->setWeapon(weapon);
+        return;
+    }
+    else {
+        setInfo("Not a sword!", "");
+    }
+
+}
+
+void ObjDisplayGrid::equipArmor(int _itemPos) {
+    std::vector<std::shared_ptr<Item>> pPack = player->getPack();
+
+    std::shared_ptr<Armor> armor = std::dynamic_pointer_cast<Armor>(pPack[_itemPos - 1]);
+
+    if (armor) {
+        player->setArmor(armor);
+        return;
+    }
+    else {
+        setInfo("Not an armor!", "");
+    }
+}
+
+void ObjDisplayGrid::readScroll(int _itemPos) {
+    std::vector<std::shared_ptr<Item>> pPack = player->getPack();
+
+    std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(pPack[_itemPos - 1]);
+    
+    if (scroll) {
+        if (scroll->getAction()->getName() == "Hallucinate") {
+            player->hallucinate = true;
+            player->setScrollEffect(scroll->getAction()->getIntValue());
+        }
+        else if (scroll->getName() == "Bless") {}
+        else if (scroll->getName() == "Curse") {}
+        return;
+    }
+    setInfo("Not a scroll!", "");
+}
+
 void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room) {
     char c;
     std::shared_ptr<Scroll> scroll = std::dynamic_pointer_cast<Scroll>(item);
@@ -270,7 +343,19 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                 else if (objectGrid[newX][newY]->getChar() == 'S') { mName = "Snake"; }
                 else if (objectGrid[newX][newY]->getChar() == 'H') { mName = "Hobgoblin"; }
 
-                monster->getHit(player);
+
+                int buff = 0;
+                int debuff = 0;
+
+                std::shared_ptr<Sword> _weapon = std::dynamic_pointer_cast<Sword>(player->getSword());
+                std::shared_ptr<Armor> _armor = std::dynamic_pointer_cast<Armor>(player->getArmor());
+                if (_weapon) {
+                    buff = _weapon->getIntVal();
+                }
+                if (_armor) {
+                    debuff = _armor->getIntVal();
+                }
+                monster->getHit(player, buff, 0);
                 monster->executeHA(this);
                 setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
                 if (monster->getHP() <= 0) {
@@ -285,7 +370,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                     //I think the monsters drop there stuff and should be handled here
                 }
                 else {
-                    int damage_dealt = player->getHit(monster);
+                    int damage_dealt = player->getHit(monster, 0, debuff);
                     std::string mDmgStr = mName + " did " + std::to_string(damage_dealt) + " dmg to player. ";
                     setInfo(mDmgStr, ""); //sets dmg info when attacking
                     player->executeHA(this);

@@ -31,6 +31,9 @@ public:
     virtual void initPassageGrid(std::shared_ptr<Passage> passage);
     virtual void initCreatureGrid(std::shared_ptr<Creature> creature, std::shared_ptr<Room> room);
     virtual void hallucinate();
+    virtual void equipSword(int _itemPos);
+    virtual void equipArmor(int _itemPos);
+    virtual void readScroll(int _itemPos);
     void initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room);
     std::shared_ptr<Player> player; //change to player type later
 private:

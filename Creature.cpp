@@ -8,14 +8,14 @@ Creature::Creature() : hp(0), hpm(0), da(0), ha(0)
 }
 
 
-void Creature::setHp(int h) {
-	hp = h;
+void Creature::setHp(int _h) {
+	hp = _h;
 	//std::cout << "HP: " << std::to_string(hp) << std::endl;
 	//std::cout << "Creature::setHp" << std::endl;
 }
 
-void Creature::setHpMoves(int hpm) {
-	hpm = hpm;
+void Creature::setHpMoves(int _hpm) {
+	hpm = _hpm;
 	//std::cout << "Creature::setHpMoves" << std::endl;
 	//std::cout << "HPMoves: " << std::to_string(hpm) << std::endl;
 }
@@ -52,6 +52,11 @@ int Creature::getHit(std::shared_ptr<Displayable> _hitter, int _dmgBuff, int _dm
 int Creature::getHP()
 {
 	return hp;
+}
+
+void Creature::regenHP(int _amount)
+{
+	hp += _amount;
 }
 
 std::string Creature::executeDAmsg(std::string actionType)
@@ -107,6 +112,11 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 	return c;
 }
 
+int Creature::getHpMoves()
+{
+	return hpm;
+}
+
 char Player::executeIA(ObjDisplayGrid* objGrid, int item)
 {	//getitem 
 	char c;
@@ -117,9 +127,10 @@ char Player::executeIA(ObjDisplayGrid* objGrid, int item)
 	return c;
 }
 
-Player::Player() : sword(0),armor(0), room(0), serial(0), hallucinate(false) {
+Player::Player() : sword(0),armor(0), room(0), serial(0), hallucinate(false), movesCounter(0), hallucinateCounter(0), scrollEffect(0) {
 	//std::cout << "Player Constructor" << std::endl;
-	setName("Player");;
+	setName("Player");
+	pack.resize(0);
 }
 void Player::setWeapon(std::shared_ptr<Item> _sword) {
 	sword = _sword;
@@ -172,7 +183,7 @@ std::shared_ptr<Item> Player::getArmor()
 	return this->armor;
 }
 
-/*int Player::takeOffArmor()
+int Player::takeOffArmor()
 {
 	if (armor) {
 		armor = std::shared_ptr<Item>(nullptr);
@@ -182,29 +193,15 @@ std::shared_ptr<Item> Player::getArmor()
 	//need to update inventory to remove a next to the armor
 }
 
-int Player::takeOutSword(int _itemPos)
+void Player::setScrollEffect(int _effect)
 {
-	std::shared_ptr<Sword> equipSword = std::dynamic_pointer_cast<Sword>(pack[_itemPos - 1]);
-
-	if (equipSword) {
-		sword = equipSword;
-		return 1;
-	}
-	return 0;
-	//need to update inventory to add w next to the sword
+	scrollEffect = _effect;
 }
 
-int Player::wearArmor(int _itemPos)
+int Player::getScrollEffect()
 {
-	std::shared_ptr<Armor> equipArmor = std::dynamic_pointer_cast<Armor>(pack[_itemPos - 1]);
-
-	if (equipArmor) {
-		armor = equipArmor;
-		return 1;
-	}
-	return 0;
-	//need to update inventory to add a next to the armor
-}*/
+	return scrollEffect;
+}
 
 Monster::Monster()
 {

@@ -33,6 +33,11 @@ char Action::getCharVal()
 	return c;
 }
 
+int Action::getIntValue()
+{
+	return v;
+}
+
 CreatureAction::CreatureAction(std::shared_ptr<Creature> owner) {
 	//std::cout << "CreatureAction Constructor" << std::endl;
 }
@@ -47,14 +52,24 @@ std::string CreatureAction::getName()
 	return name;
 }
 
-ItemAction::ItemAction(std::shared_ptr<Creature> owner) {
+/*ItemAction::ItemAction(std::shared_ptr<Item> owner) {
 	//std::cout << "ItemAction Constructor" << std::endl;
+}*/
+
+void ItemAction::setName(std::string _name)
+{
+	name = _name;
 }
 
-BlessCurseOwner::BlessCurseOwner(std::shared_ptr<Creature> Owner) : ItemAction(Owner) {
+std::string ItemAction::getName()
+{
+	return name;
+}
+
+/*BlessCurseOwner::BlessCurseOwner(std::shared_ptr<Item> Owner) : ItemAction(Owner) {
 	//std::cout << "BlessCurseOwner Constructor" << std::endl;
 }
 
-Hallucinate::Hallucinate(std::shared_ptr<Creature> Owner) :ItemAction(Owner) {
+Hallucinate::Hallucinate(std::shared_ptr<Item> Owner) :ItemAction(Owner) {
 	//std::cout << "Hallucinate Constructor" << std::endl;
-}
+}*/

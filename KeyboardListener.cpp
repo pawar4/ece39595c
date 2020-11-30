@@ -27,12 +27,19 @@ void KeyboardListener::run() {
 		int oldY = 0;
 		int newX = 0;
 		int newY = 0;
+		int success = 0;
 		switch (input) {
 		case 'x': //exit the game
 			*running = false;
 			break;
 
 		case 'k': //move up
+			grid->player->movesCounter = (grid->player->movesCounter + 1) % grid->player->getHpMoves();
+			if (grid->player->movesCounter == 0 && grid->player->getHP() < 99) {
+				grid->player->regenHP(1);
+				grid->setTopMessage(0, "HP: " + std::to_string(grid->player->getHP()) + " Score: 1337");
+			}
+			
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newY = oldY - 1;
@@ -43,6 +50,12 @@ void KeyboardListener::run() {
 			break;
 
 		case 'j': //move down
+			grid->player->movesCounter = (grid->player->movesCounter + 1) % grid->player->getHpMoves();
+			if (grid->player->movesCounter == 0 && grid->player->getHP() < 99) {
+				grid->player->regenHP(1);
+				grid->setTopMessage(0, "HP: " + std::to_string(grid->player->getHP()) + " Score: 1337");
+			}
+
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newY = oldY + 1;
@@ -53,6 +66,12 @@ void KeyboardListener::run() {
 			break;
 
 		case 'h': //move left
+			grid->player->movesCounter = (grid->player->movesCounter + 1) % grid->player->getHpMoves();
+			if (grid->player->movesCounter == 0 && grid->player->getHP() < 99) {
+				grid->player->regenHP(1);
+				grid->setTopMessage(0, "HP: " + std::to_string(grid->player->getHP()) + " Score: 1337");
+			}
+
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newX = oldX - 1;
@@ -63,6 +82,12 @@ void KeyboardListener::run() {
 			break;
 
 		case 'l': //move right
+			grid->player->movesCounter = (grid->player->movesCounter + 1) % grid->player->getHpMoves();
+			if (grid->player->movesCounter == 0 && grid->player->getHP() < 99) {
+				grid->player->regenHP(1);
+				grid->setTopMessage(0, "HP: " + std::to_string(grid->player->getHP()) + " Score: 1337");
+			}
+
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
 			newX = oldX + 1;
@@ -81,7 +106,7 @@ void KeyboardListener::run() {
 		case 'd':
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
-			while(itemPos <= 0 || itemPos > 9) itemPos = getchar() - 48;
+			itemPos = getchar() - 48;
 			grid->dropItem(oldX, oldY, itemPos);
 			break;
 
@@ -90,8 +115,16 @@ void KeyboardListener::run() {
 			grid->dispPackMsg();
 			break;
 		case 'c': //Change, or take off armor
-			grid->dispPackMsg();
+			 success = grid->player->takeOffArmor();
+
+			if (success) {
+				grid->setInfo("Removed Armor", "");
+			}
+			else {
+				grid->setInfo("Not wearing Armor", "");
+			}
 			break;
+
 		case 'E': //End game
 			grid->setInfo("Press Y | y to exit the game.", "");
 			input2 = getchar();
@@ -101,6 +134,7 @@ void KeyboardListener::run() {
 				break;
 			}	
 			break;
+
 		case '?': //Shows different Commands to the info seciton of the display
 			grid->clrBotMsg();
 			grid->setBotMessage(0, "Info: Change, or take off armor: 'c', Drop: 'd' <integer>, End Game: 'E' <Y|y>, Help: '?', Detailed Help: 'H' <command>, Show inventory: 'i', Pick up an item   from the dungeon floor: 'p' Read an item: 'r' <integer>, Take out a weapon: 'T',Wear Item: 'w' <integer>",  "");			
@@ -157,9 +191,22 @@ void KeyboardListener::run() {
 				break;
 			}
 			break;
+
 		case 'r':
-			//do item actions
+			itemPos = getchar() - 48;
+			grid->readScroll(itemPos);
 			break;
+		
+		case 'T':
+			itemPos = getchar() - 48;
+			grid->equipSword(itemPos);
+			break;
+
+		case 'w':
+			itemPos = getchar() - 48;
+			grid->equipArmor(itemPos);
+			break;
+
 		default:
 			break;
 		}	

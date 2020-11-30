@@ -9,3 +9,13 @@ void Item::setOwner (std::shared_ptr<Creature> _owner) {
     owner = _owner;
     //std::cout << "Item::setOwner" << std::endl;
 }
+
+void Item::setAction(std::shared_ptr<ItemAction> _action)
+{
+    action = _action;
+}
+
+std::shared_ptr<ItemAction> Item::getAction()
+{
+    return action;
+}
