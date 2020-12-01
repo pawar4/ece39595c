@@ -29,6 +29,7 @@ public:
 	virtual void regenHP(int _amount);
 	virtual std::string executeDAmsg(std::string actionType);
 	virtual char executeDA(ObjDisplayGrid* objGrid);
+	char executeHA(ObjDisplayGrid* objGrid, int newX, int newY);
 	virtual char executeHA(ObjDisplayGrid* objGrid);
 	virtual int getHpMoves();
 private:
@@ -53,8 +54,10 @@ public:
 	virtual std::shared_ptr<Item> getSword();
 	virtual std::shared_ptr<Item> getArmor();
 	virtual int takeOffArmor();
+	virtual int takeOffSword();
 	virtual void setScrollEffect(int _effect);
 	virtual int getScrollEffect();
+	virtual bool isPosVal(int _itemPos);
 	bool hallucinate;
 	int movesCounter;
 	int hallucinateCounter;

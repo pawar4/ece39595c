@@ -15,8 +15,11 @@ public:
     virtual void setOwner(std::shared_ptr<Creature> _owner);
     virtual void setAction(std::shared_ptr<ItemAction> _action);
     virtual std::shared_ptr<ItemAction> getAction();
-private:
+    virtual std::string getName() = 0;
+    virtual void setName(std::string _name);
+    private:
     std::shared_ptr<Creature> owner;
     std::shared_ptr<ItemAction> action;
+    std::string name;
 };
 #endif

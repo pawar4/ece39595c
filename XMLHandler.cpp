@@ -119,7 +119,8 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         armorBeingParsed->setID(roomID, serialID);
         itemBeingParsed = armorBeingParsed;
         if (bPlayer) {
-            playerBeingParsed->setArmor(armorBeingParsed); //change functionality later
+            //playerBeingParsed->setArmor(armorBeingParsed); //change functionality later
+            playerBeingParsed->addItem(armorBeingParsed);
         }
         else {
             roomBeingParsed->setItem(armorBeingParsed);
@@ -138,7 +139,8 @@ void XMLHandler::startElement(const XMLCh* uri, const XMLCh* localName, const XM
         swordBeingParsed->setID(roomID, serialID);
         itemBeingParsed = swordBeingParsed;
         if (bPlayer) {
-            playerBeingParsed->setWeapon(swordBeingParsed); //change functionality later
+            //playerBeingParsed->setWeapon(swordBeingParsed); //change functionality later
+            playerBeingParsed->addItem(swordBeingParsed);
         }
         else {
             roomBeingParsed->setItem(swordBeingParsed);

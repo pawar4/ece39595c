@@ -220,10 +220,34 @@ void ObjDisplayGrid::readScroll(int _itemPos) {
         if (scroll->getAction()->getName() == "Hallucinate") {
             player->hallucinate = true;
             player->setScrollEffect(scroll->getAction()->getIntValue());
+            setInfo(scroll->getAction()->getMessage(), "");
             
+        }
+        else if (scroll->getAction()->getCharVal() == 'w') {
+            if (player->getSword() == nullptr) {
+                setInfo("scroll of cursing does nothing because " + scroll->getAction()->getName() + " not being used when the object is not worn or wielded", "");
+            }
+            else {
+                setInfo(player->getSword()->getName() + " cursed! " + std::to_string(scroll->getAction()->getIntValue()) + " taken from its effectiveness, ", "");
+                player->getSword()->setIntValue(player->getSword()->getIntVal() + scroll->getAction()->getIntValue());
+                player->getSword()->setName(player->getSword()->getName() + " " + std::to_string(scroll->getAction()->getIntValue()));
+            }
+
+        }
+        else if (scroll->getAction()->getCharVal() == 'a') {
+            if (player->getArmor() == nullptr) {
+                setInfo("scroll of cursing does nothing because " + scroll->getAction()->getName() + " not being used when the object is not worn or wielded", "");
+            }
+            else {
+                setInfo(player->getArmor()->getName() + " cursed! " + std::to_string(scroll->getAction()->getIntValue()) + " taken from its effectiveness, ", "");
+                player->getArmor()->setIntValue(player->getArmor()->getIntVal() + scroll->getAction()->getIntValue());
+                player->getArmor()->setName(player->getArmor()->getName() + " " + std::to_string(scroll->getAction()->getIntValue()));
+            }
+        
         }
         else if (scroll->getName() == "Bless") {}
         else if (scroll->getName() == "Curse") {}
+        player->dropItem(_itemPos);
         return;
     }
     setInfo("Not a scroll!", "");
@@ -249,6 +273,37 @@ void ObjDisplayGrid::initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Ro
     addObjectToDisplay(c, item->getPosX() + room->getPosX()
         , item->getPosY() + room->getPosY() + topHeight, item);
     update();
+}
+
+int ObjDisplayGrid::getGameHeight()
+{
+    return gameHeight;
+}
+
+int ObjDisplayGrid::getTopHeight()
+{
+    return topHeight;
+}
+
+int ObjDisplayGrid::getWidth()
+{
+    return width;
+}
+
+char ObjDisplayGrid::getChar(int _x, int _y)
+{
+    if(_x < width && _y < gameHeight){
+        return objectGrid[_x][_y]->getChar();
+    }
+    return NULL;
+}
+
+void ObjDisplayGrid::teleport(int _x, int _y, int newX,int newY)
+{
+    objectGrid[_x][_y]->addChar(objectGrid[newX][newY]->getChar());
+    objectGrid[newX][newY]->popChar();
+    mvaddch(_y, _x, objectGrid[_x][_y]->getChar());
+    mvaddch(newY, newX, objectGrid[newX][newY]->getChar());
 }
 
 //added destructor 10/21/20
@@ -357,7 +412,7 @@ void ObjDisplayGrid::moveObject(char ch, int newX, int newY, int oldX, int oldY,
                     debuff = _armor->getIntVal();
                 }
                 monster->getHit(player, buff, 0);
-                monster->executeHA(this);
+                monster->executeHA(this, newX, newY);
                 setTopMessage(0, "HP: " + std::to_string(player->getHP()) + " Score: 1337"); //sets score and HP
                 if (monster->getHP() <= 0) {
                     monster->executeDA(this);
@@ -446,14 +501,21 @@ void ObjDisplayGrid::dispPackMsg()
             if (i > 0) {
                 packMsg = packMsg + ", ";
             }
-            packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
+            if (item == player->getSword()) {
+                packMsg = packMsg + std::to_string(i + 1) + ": " + item->getName() + " (w)";
+            }
+            else { packMsg = packMsg + std::to_string(i + 1) + ": " + item->getName(); }
         }
         else if (std::shared_ptr<Armor> item = std::dynamic_pointer_cast<Armor>(pPack[i]))
         {
             if (i > 0) {
                 packMsg = packMsg + ", ";
             }
-            packMsg = packMsg + std::to_string(i+1) + ": " + item->getName();
+            if (item == player->getArmor()) {
+                packMsg = packMsg + std::to_string(i + 1) + ": " + item->getName() + " (a)";
+            }
+            else{ packMsg = packMsg + std::to_string(i + 1) + ": " + item->getName(); }
+            
         }
         else if (std::shared_ptr<Scroll> item = std::dynamic_pointer_cast<Scroll>(pPack[i]))
         {
@@ -510,7 +572,7 @@ void ObjDisplayGrid::pickItem(int _x, int _y) {
         dispPackMsg();
         objectGrid[_x][_y]->popChar();
         objectGrid[_x][_y]->popObject();
-        update();
+        
     }
 }
 
@@ -529,8 +591,18 @@ void ObjDisplayGrid::dropItem(int _x, int _y, int _itemPos) {
         std::shared_ptr<Sword> sword = std::dynamic_pointer_cast<Sword>(item);
 
         if (scroll) { c = '?'; setInfo("Dropping " + scroll->getName(), ""); }
-        else if (armor) { c = ']'; setInfo("Dropping " + armor->getName(), ""); }
-        else if (sword) { c = ')'; setInfo("Dropping " + sword->getName(), ""); }
+        else if (armor) { 
+            c = ']'; setInfo("Dropping " + armor->getName(), ""); 
+            if (armor == player->getArmor()) {
+                player->takeOffArmor();
+            }
+        }
+        else if (sword) { 
+            c = ')'; setInfo("Dropping " + sword->getName(), "");
+            if (sword == player->getSword()) {
+                player->takeOffSword();
+            }
+        }
         
         objectGrid[_x][_y]->popChar();
         addObjectToDisplay(c, _x, _y, item);

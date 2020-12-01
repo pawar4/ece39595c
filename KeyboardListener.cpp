@@ -106,8 +106,17 @@ void KeyboardListener::run() {
 		case 'd':
 			oldX = grid->player->getPosX();
 			oldY = grid->player->getPosY();
+			grid->dispPackMsg();
+			grid->update();
 			itemPos = getchar() - 48;
-			grid->dropItem(oldX, oldY, itemPos);
+			if (grid->player->isPosVal(itemPos)) {
+				grid->dropItem(oldX, oldY, itemPos);
+				grid->dispPackMsg();
+				grid->update();
+			}
+			else {
+				grid->setInfo("Not an item in pack!", "");
+			}
 			break;
 
 		case 'i':
@@ -194,7 +203,7 @@ void KeyboardListener::run() {
 
 		case 'r':
 			itemPos = getchar() - 48;
-			if (itemPos < grid->player->getPack().size() && itemPos > 0) {
+			if (grid->player->isPosVal(itemPos)) {
 				grid->readScroll(itemPos);
 			}
 			else {
@@ -202,14 +211,24 @@ void KeyboardListener::run() {
 			}
 			break;
 		
-		case 'T':
+		case 'T': //Equip Sword
 			itemPos = getchar() - 48;
-			grid->equipSword(itemPos);
+			if (grid->player->isPosVal(itemPos)) {
+				grid->equipSword(itemPos);
+			}
+			else {
+				grid->setInfo("Not an item in pack!", "");
+			}
 			break;
 
 		case 'w':
 			itemPos = getchar() - 48;
+			if (grid->player->isPosVal(itemPos)) {
 			grid->equipArmor(itemPos);
+			}
+			else {
+				grid->setInfo("Not an item in pack!", "");
+			}
 			break;
 
 		default:

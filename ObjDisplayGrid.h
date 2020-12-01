@@ -35,6 +35,11 @@ public:
     virtual void equipArmor(int _itemPos);
     virtual void readScroll(int _itemPos);
     void initItemGrid(std::shared_ptr<Item> item, std::shared_ptr<Room> room);
+    virtual int getGameHeight();
+    virtual int getTopHeight();
+    virtual int getWidth();
+    virtual char getChar(int _x,int _y);
+    virtual void teleport(int _x,int _y, int newX, int newY);
     std::shared_ptr<Player> player; //change to player type later
 private:
     int gameHeight, width, topHeight, botHeight, gridHeight;

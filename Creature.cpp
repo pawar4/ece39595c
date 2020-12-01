@@ -87,9 +87,11 @@ char Creature::executeDA(ObjDisplayGrid* objGrid)
 	return c;
 }
 
-char Creature::executeHA(ObjDisplayGrid* objGrid)
+char Creature::executeHA(ObjDisplayGrid* objGrid, int newX, int newY)
 {
 	char c = NULL;
+	int tX = 0; 
+	int tY = 0;
 	for (std::shared_ptr<CreatureAction> action : ha) {
 		if (action->getName() == "DropPack") {
 			//objGrid->setInfo(action->getMsg());
@@ -99,9 +101,52 @@ char Creature::executeHA(ObjDisplayGrid* objGrid)
 				objGrid->player->getPosY(), 1);
 		}
 		else if (action->getName() == "Teleport") {
+			/*//objGrid->setInfo(action->getMsg());
+			//implement teleport functionality
+			/*Srand, check the creatures new position, if valid ex objgrid has . 
+			 or # move it there*/
+			/*while (objGrid->getChar(tX,tY) != '.' || objGrid->getChar(tX, tY) != '#') {
+				tY = rand() % (objGrid->getGameHeight() - objGrid->getTopHeight() + 1) + objGrid->getTopHeight();
+				tX = rand() % (objGrid->getWidth() + 1);
+			}
+			objGrid->teleport(5, 4, newX, newY);*/
+		}
+		else if (action->getName() == "Remove") {
+			//ObjDisplayGrid::moveObject takes care of this functionality
+		}
+		else if (action->getName() == "ChangeDisplayedType") {
+			//c = action->getCharVal();
+		}
+		if (!action->getMsg().empty()) {
+			objGrid->setInfo("", action->getMsg());
+		}
+	}
+	return c;
+}
+
+char Creature::executeHA(ObjDisplayGrid* objGrid)
+{
+	char c = NULL;
+	int tX, tY;
+	for (std::shared_ptr<CreatureAction> action : ha) {
+		if (action->getName() == "DropPack") {
+			//objGrid->setInfo(action->getMsg());
+			//implement droppack functionality
+
+			objGrid->dropItem(objGrid->player->getPosX(),
+				objGrid->player->getPosY(), 1);
+		}
+		/*else if (action->getName() == "Teleport") {
 			//objGrid->setInfo(action->getMsg());
 			//implement teleport functionality
-		}
+			/*Srand, check the creatures new position, if valid ex objgrid has .
+			 or # move it there
+			while (objGrid->getChar(tX, tY) != '.' || objGrid->getChar(tX, tY) != '#') {
+				tY = rand() % (objGrid->getGameHeight() - objGrid->getTopHeight() + 1) + objGrid->getTopHeight();
+				tX = rand() % (objGrid->getWidth() + 1);
+			}
+			objGrid->teleport(tX, tY);
+		}*/
 		else if (action->getName() == "Remove") {
 			//ObjDisplayGrid::moveObject takes care of this functionality
 		}
@@ -196,6 +241,14 @@ int Player::takeOffArmor()
 	//need to update inventory to remove a next to the armor
 }
 
+int Player::takeOffSword() 
+{
+	if (sword) {
+		sword = std::shared_ptr<Item>(nullptr);
+		return 1;
+	}
+	return 0;
+}
 void Player::setScrollEffect(int _effect)
 {
 	scrollEffect = _effect;
@@ -204,6 +257,12 @@ void Player::setScrollEffect(int _effect)
 int Player::getScrollEffect()
 {
 	return scrollEffect;
+}
+
+bool Player::isPosVal(int _itemPos)
+{
+	if (_itemPos <= getPack().size() && _itemPos > 0) { return true; }
+	return false;
 }
 
 Monster::Monster()

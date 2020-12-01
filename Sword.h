@@ -11,6 +11,7 @@ public:
     Sword(std::string _name);
     virtual void setID(int _room, int serial);
     virtual std::string getName();
+    virtual void setName(std::string _name);
 private:
     std::string name;
     int room, serial;

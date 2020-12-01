@@ -19,3 +19,7 @@ std::shared_ptr<ItemAction> Item::getAction()
 {
     return action;
 }
+
+void Item::setName(std::string _name) {
+    name = _name;
+}

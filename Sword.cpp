@@ -20,3 +20,8 @@ std::string Sword::getName()
 {
     return name;
 }
+
+void Sword::setName(std::string _name)
+{
+    name = _name;
+}
